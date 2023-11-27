@@ -24,7 +24,7 @@ const Dashboard = () => {
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/70759b5a-fc3e-4740-8dc2-1cdb459fbf29?"
                     className="aspect-square object-contain object-center w-3 justify-center items-center overflow-hidden shrink-0 max-w-full my-auto"
                   />
-                  <input type="search" placeholder='search' className='w-full' />
+                  <input type="search" placeholder='search' className='w-full bg-black border-0 text-white focus:outline-0 outline:border-0' />
                   {/* <div className="text-white text-xs leading-5 tracking-wide self-stretch grow whitespace-nowrap">
                     Search
                   </div> */}
@@ -213,12 +213,14 @@ const Dashboard = () => {
 
                 </div>
               </div>
+
               <div className="mt-9 pr-8 max-md:max-w-full max-md:pr-5">
-                <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                  <div className="flex flex-col items-stretch w-[71%] max-md:w-full max-md:ml-0">
-                    <div className="justify-center grow pr-16 max-md:max-w-full max-md:mt-10 max-md:pr-5">
-                      <div className="gap- flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                        <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
+                <div className="gap-5 flex max-md:flex-col max-md:items-center justify-between max-md:gap-0">
+                  <div className="flex flex-col items-stretch gap-5 w-full max-md:ml-0">
+                    <div className="justify-center grow pr-16 max-md:max-w-full max-md:mt-10">
+                      <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+
+                        <div className="flex flex-col items-stretch w- max-md:w-full max-md:ml-0">
                           <div className="border border-[color:var(--color-accent-10900,#244E43)] bg-stone-950 grow w-full mx-auto pl-8 pr-6 pt-9 pb-5 rounded-2xl border-solid max-md:mt-6 max-md:px-5">
                             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                               <div className="flex flex-col items-stretch w-[66%] max-md:w-full max-md:ml-0">
@@ -235,14 +237,15 @@ const Dashboard = () => {
                               <div className="flex flex-col items-stretch w-[34%] ml-5 max-md:w-full max-md:ml-0">
                                 <img
                                   loading="lazy"
-                                  srcSet={fund_bg}
+                                  src={fund_bg}
                                   className="aspect-[1.43] object-contain object-center w-[114px] overflow-hidden shrink-0 max-w-full my-auto max-md:mt-10"
                                 />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
+
+                        <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
                           <div className="border border-[color:var(--color-accent-10900,#244E43)] bg-stone-950 grow w-full mx-auto pl-8 pr-4 pt-9 pb-11 rounded-2xl border-solid max-md:mt-6 max-md:pl-5">
                             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                               <div className="flex flex-col items-stretch w-[65%] max-md:w-full max-md:ml-0">
@@ -266,20 +269,22 @@ const Dashboard = () => {
                             </div>
                           </div>
                         </div>
+
+                        <div className="relative justify-center w-full">
+                          <img
+                            loading="lazy"
+                            src={schedule}
+                            className="object-contain w-full overflow-hidden max-w-full"
+                          />
+                        </div>
                       </div>
+
                     </div>
                   </div>
-                  <div className="">
-                    <div className="relative justify-center w-full px-4">
-                      <img
-                        loading="lazy"
-                        src={schedule}
-                        className="object-contain w-full overflow-hidden max-w-full"
-                      />
-                    </div>
-                  </div>
+
                 </div>
               </div>
+
             </div>
           </div>
         </div>
