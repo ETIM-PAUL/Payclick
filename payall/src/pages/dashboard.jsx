@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import fund_bg from "../assets/withdraw_img.svg"
 import withdraw_bg from "../assets/fund_img.svg"
 import schedule from "../assets/schedule.png"
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
+import { FundModal } from '../components/FundAccountModal';
+import { WithdrawModal } from '../components/WithdrawModal';
 
 const Dashboard = () => {
+  const [showFundModal, setShowFundModal] = useState(false)
+  const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
   return (
     <Layout>
       <div className="bg-stone">
@@ -31,7 +35,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="mt-9 pr-20 max-md:max-w-full max-md:pr-5">
-                <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+                <div className="gap-5 block md:flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                   <div className="flex flex-col items-stretch w-[69%] max-md:w-full max-md:ml-0">
                     <div className="border border-[color:var(--color-secondary-30400,#4A4A4A)] bg-zinc-800 flex grow flex-col items-center w-full mx-auto pt-12 pb-8 px-7 rounded-xl border-solid max-md:max-w-full max-md:mt-10 max-md:px-5">
                       <div className="self-stretch max-md:max-w-full">
@@ -220,7 +224,7 @@ const Dashboard = () => {
                     <div className="justify-center grow pr-16 max-md:max-w-full max-md:mt-10">
                       <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 
-                        <div className="flex flex-col items-stretch w- max-md:w-full max-md:ml-0">
+                        <div onClick={() => setShowFundModal(true)} className="flex flex-col items-center hover:cursor-pointer w- max-md:w-full max-md:ml-0">
                           <div className="border border-[color:var(--color-accent-10900,#244E43)] bg-stone-950 grow w-full mx-auto pl-8 pr-6 pt-9 pb-5 rounded-2xl border-solid max-md:mt-6 max-md:px-5">
                             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                               <div className="flex flex-col items-stretch w-[66%] max-md:w-full max-md:ml-0">
@@ -245,7 +249,7 @@ const Dashboard = () => {
                           </div>
                         </div>
 
-                        <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
+                        <div onClick={() => setShowWithdrawnModal(true)} className="flex flex-col items-stretch hover:cursor-pointer max-md:w-full max-md:ml-0">
                           <div className="border border-[color:var(--color-accent-10900,#244E43)] bg-stone-950 grow w-full mx-auto pl-8 pr-4 pt-9 pb-11 rounded-2xl border-solid max-md:mt-6 max-md:pl-5">
                             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                               <div className="flex flex-col items-stretch w-[65%] max-md:w-full max-md:ml-0">
@@ -288,7 +292,18 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-      </div >
+      </div>
+
+      {/* Fund Modal */}
+      {showFundModal &&
+        <FundModal setShowFundModal={setShowFundModal} showFundModal={showFundModal} />
+      }
+
+      {/* withdraw modal */}
+      {showWithdrawnModal &&
+        <WithdrawModal setShowWithdrawnModal={setShowWithdrawnModal} showWithdrawnModal={showWithdrawnModal} />
+      }
+
     </Layout>
   );
 }
