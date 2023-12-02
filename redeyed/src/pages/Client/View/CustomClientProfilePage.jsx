@@ -286,6 +286,10 @@ const ClientProfilePage = () => {
     // fetchData();
   }, []);
 
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <main>
@@ -410,19 +414,19 @@ const ClientProfilePage = () => {
         </div> */}
         <ClientTopNav />
         <div className="bg-black flex flex-col justify-center items-stretch">
-          <div className="bg-neutral-900 flex w-full flex-col items-stretch pt-8 pb-12 px-20 max-md:max-w-full max-md:px-5">
+          <div className="bg-neutral-900 flex w-full flex-col items-stretch pt-0 md:pt-8 pb-12 px-20 max-md:max-w-full max-md:px-5">
 
-            <div className="bg-neutral-800 self-center flex w-full flex-col mt-8 px-16 py-8 rounded-md items-start max-md:max-w-full max-md:px-5">
+            <div className="bg-neutral-800 self-center flex w-full flex-col mt-8 px-16 py-5 md:py-8 rounded-md items-start max-md:max-w-full max-md:px-5">
               <div className="self-stretch max-md:max-w-full">
                 <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
                   <div className="flex flex-col items-stretch  justify-center w-full max-md:w-full max-md:ml-0">
-                    <div className="flex grow flex-col items-start max-md:max-w-full max-md:mt-10">
-                      <div className="self-stretc mx-auto max-md:max-w-full mb-6">
-                        <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                          <div className="flex flex-col items-stretch w-[27%] max-md:w-full max-md:ml-0">
+                    <div className="flex grow flex-col items-start max-md:max-w-full md:mt-10">
+                      <div className="self-stretc mx-auto max-md:max-w-full">
+                        <div className="gap-5 max-md:flex-col max-md:items-stretch max-md:gap-0">
+                          <div className="flex flex-col items-stretch w-full max-md:w-full max-md:ml-0">
                             {/* <div className="flex-co relative flex aspect-square w-[120px justify-cente items-center text-white max-md:mt-3"> */}
 
-                            <div className="relative mb-4 bg-whi">
+                            <div className="relative mb-4 gap-2 bg-whi flex items-center justify-center">
                               {/* <label
                                 className="mb-2 block text-sm font-bold text-gray-700"
                                 for="photo"
@@ -432,7 +436,7 @@ const ClientProfilePage = () => {
                                   <span>- Click on the image</span>
                                 ) : null}
                               </label> */}
-                              <div className="flex  w-full items-center justify-center bg-slate-30">
+                              <div className="items-center justify-center">
                                 {(fileObj && fileObj["photo"]?.tempURL) || oldPhoto ? (
                                   <img
                                     className="h-full w-full object-cover"
@@ -440,12 +444,13 @@ const ClientProfilePage = () => {
                                     alt=""
                                   />
                                 ) :
-                                  <div className="absolute top-0 right-8">
-                                    <UserCircleIcon className="text-red-800 w-24" />
-                                  </div>}
+                                  <div className="w-full">
+                                    <UserCircleIcon className="text-red-80 w-24" />
+                                  </div>
+                                }
                               </div>
                               {oldPhoto || fileObj["photo"]?.file ? null : (
-                                <div className="flex text-white w-full items-center justify-center bg-slate-3 mt-3 z-100">
+                                <div className=" bg-slate-3 mt-3">
                                   <img
                                     loading="lazy"
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/c556408f-4202-42d1-beb4-715fdc3e79ac?"
@@ -492,9 +497,9 @@ const ClientProfilePage = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="border mx-auto self-stretch mt-7 pt-7 pb-12 px-20 rounded-md border-solid border-white w-fit">
-                        <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                          <div className="flex flex-col items-stretch w-[46%] mx-auto max-md:w-full max-md:ml-0">
+                      <div className="border mx-auto self-stretch mt-7 pt-7 pb-12 px-2 md:px-20 rounded-md border-solid border-white w-fit">
+                        <div className="gap-5 flex justify-between max-md:items-stretch max-md:gap-0">
+                          <div className="flex flex-col items-stretch w-full mx-auto max-md:w-full max-md:ml-0">
                             <div className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap max-md:mt-10">
                               Balance
                             </div>
@@ -511,7 +516,7 @@ const ClientProfilePage = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="flex flex-col items-stretch ml-5 max-md:w-full max-md:ml-0">
+                        <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
                           <div className="flex flex-col items-stretch my-auto max-md:mt-10">
                             <div className="text-zinc-100 text-base font-medium leading-5 mt-2.5">
                               <button onClick={() => setPreStripeModal(true)} className="text-zinc-100 text-base leading-5 whitespace-nowrap bg-red-500 w-full text-center max-w-full justify-center items-center mt-3 px-5 py-4 rounded-md font-bold cursor-pointer hover:bg-red-800">
@@ -524,7 +529,7 @@ const ClientProfilePage = () => {
                           </div>
                         </div>
                       </div>
-                      <Link to="/client/orders" className="text-zinc-100 text-base leading-5 whitespace-nowrap bg-red-500 w-[218px] mx-auto max-w-full justify-center text-center items-center mt-6 px-5 py-4 rounded-md font-bold cursor-pointer hover:bg-red-800">
+                      <Link to="/client/orders" className="text-zinc-100 text-base leading-5 whitespace-nowrap bg-red-500 w-[346px] mx-auto max-w-full justify-center text-center items-center mt-6 px-5 py-4 rounded-md font-bold cursor-pointer hover:bg-red-800">
                         My Orders
                       </Link>
                     </div>
@@ -547,13 +552,11 @@ const ClientProfilePage = () => {
                       </div>
                       <div className="mt-6 max-md:max-w-full">
                         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                          <div className="flex-col flex max:w-[302px] items-center px-">
+                          <div className="flex-col mb-6 md:mb-0 flex max:w-[302px] items-center px-">
                             <div style={{
                               position: 'relative',
                             }}>
-                              <VideoThumbnail
-                                videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                              />
+                              <video controlsList="nodownload" onContextMenu={handleContextMenu} oncontextmenu="return false;" playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}`} />
                               <Link to={`/client/view-video/1`}>
                                 <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                               </Link>
@@ -565,13 +568,11 @@ const ClientProfilePage = () => {
                               <span className="text-xs font-bold">24 minutes ago</span>
                             </div>
                           </div>
-                          <div className="flex-col flex max:w-[302px] items-center px-">
+                          <div className="flex-col mb-6 md:mb-0 flex max:w-[302px] items-center px-">
                             <div style={{
                               position: 'relative',
                             }}>
-                              <VideoThumbnail
-                                videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                              />
+                              <video controlsList="nodownload" onContextMenu={handleContextMenu} oncontextmenu="return false;" playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}`} />
                               <Link to={`/client/view-video/1`}>
                                 <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                               </Link>
@@ -583,13 +584,11 @@ const ClientProfilePage = () => {
                               <span className="text-xs font-bold">24 minutes ago</span>
                             </div>
                           </div>
-                          <div className="flex-col flex max:w-[302px] items-center px-">
+                          <div className="flex-col mb-6 md:mb-0 flex max:w-[302px] items-center px-">
                             <div style={{
                               position: 'relative',
                             }}>
-                              <VideoThumbnail
-                                videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                              />
+                              <video controlsList="nodownload" onContextMenu={handleContextMenu} oncontextmenu="return false;" playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}`} />
                               <Link to={`/client/view-video/1`}>
                                 <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                               </Link>
@@ -601,13 +600,11 @@ const ClientProfilePage = () => {
                               <span className="text-xs font-bold">24 minutes ago</span>
                             </div>
                           </div>
-                          <div className="flex-col flex max:w-[302px] items-center px-">
+                          <div className="flex-col mb-6 md:mb-0 flex max:w-[302px] items-center px-">
                             <div style={{
                               position: 'relative',
                             }}>
-                              <VideoThumbnail
-                                videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                              />
+                              <video controlsList="nodownload" onContextMenu={handleContextMenu} oncontextmenu="return false;" playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}`} />
                               <Link to={`/client/view-video/1`}>
                                 <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                               </Link>

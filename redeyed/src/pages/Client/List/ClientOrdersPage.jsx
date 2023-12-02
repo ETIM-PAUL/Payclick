@@ -42,9 +42,7 @@ const ClientOrdersPage = () => {
                   <div style={{
                     position: 'relative',
                   }}>
-                    <VideoThumbnail
-                      videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                    />
+                    <video playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}`} />
                     <Link to={`/client/view-video/${index + 1}`}>
                       <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                     </Link>
@@ -73,9 +71,7 @@ const ClientOrdersPage = () => {
                   <div style={{
                     position: 'relative',
                   }}>
-                    <VideoThumbnail
-                      videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                    />
+                    <video playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}`} />
                     <Link to={`/client/view-video/${index + 1}`}>
                       <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                     </Link>

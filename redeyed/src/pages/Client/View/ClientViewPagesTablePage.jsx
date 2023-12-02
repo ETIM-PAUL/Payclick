@@ -202,9 +202,7 @@ const ViewPagesPage = () => {
                                         <div style={{
                                             position: 'relative',
                                         }}>
-                                            <VideoThumbnail
-                                                videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                                            />
+                                            <video onContextMenu={handleContextMenu} controlsList="nodownload" oncontextmenu="return false;" playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}`} />
                                             <Link to={`/client/view-video/2`}>
                                                 <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                                             </Link>
@@ -215,9 +213,10 @@ const ViewPagesPage = () => {
                                         <div style={{
                                             position: 'relative',
                                         }}>
-                                            <VideoThumbnail
+                                            <video onContextMenu={handleContextMenu} controlsList="nodownload" oncontextmenu="return false;" playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}#t=1.5`} />
+                                            {/* <VideoThumbnail
                                                 videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                                            />
+                                            /> */}
                                             <Link to={`/client/view-video/2`}>
                                                 <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                                             </Link>
@@ -228,9 +227,7 @@ const ViewPagesPage = () => {
                                         <div style={{
                                             position: 'relative',
                                         }}>
-                                            <VideoThumbnail
-                                                videoUrl="https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"
-                                            />
+                                            <video onContextMenu={handleContextMenu} controlsList="nodownload" oncontextmenu="return false;" playsInline controls src={`${"https://dl.dropboxusercontent.com/s/7b21gtvsvicavoh/statue-of-admiral-yi-no-audio.mp4?dl=1"}#t=1.5`} />
                                             <Link to={`/client/view-video/2`}>
                                                 <PlayCircleIcon className="text-white absolute w-12 top-[35%] bottom-0 left-[40%] cursor-pointer" />
                                             </Link>
@@ -241,161 +238,327 @@ const ViewPagesPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-5 mb-12 max-md:max-w-full max-md:mr-1.5 max-md:mb-10">
-                        <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                            <div className="flex flex-col items-stretch w-[27%] max-md:w-full max-md:ml-0">
-                                <div className="flex flex-col items-stretch max-md:mt-9">
-                                    <div className="flex justify-between  items-start gap-4">
-                                        <div className="">
-                                            <UserCircleIcon className="text-white w-16" />
+                    {!localStorage.getItem('token') ?
+                        <div className="mt-5 mb-12 max-md:max-w-full max-md:mr-1.5 max-md:mb-10">
+                            <div className="gap-5 justify-between w-full flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+                                <div className="flex flex-col md:flex-row items-stretch w-ful max-md:w-full max-md:ml-0">
+                                    <div className="flex flex-col w-[350px] items-stretch max-md:mt-9">
+                                        <div className="flex justify-between  items-start gap-4">
+                                            <div className="">
+                                                <UserCircleIcon className="text-white w-16" />
+                                            </div>
+                                            <div className="flex grow basis-[0%] flex-col items-stretch mt-5">
+                                                <div className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap">
+                                                    BigMadWatch
+                                                </div>
+                                                <div className="text-zinc-100 text-sm leading-4 whitespace-nowrap mt-2.5">
+                                                    Creator
+                                                </div>
+                                                <div className="text-zinc-100 text-base leading-5 mt-8">
+                                                    Bombing in downtown France
+                                                    <br />
+                                                    <span className="mt-4 block">May 23, 2021</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex grow basis-[0%] flex-col items-stretch mt-5">
-                                            <div className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap">
-                                                BigMadWatch
+                                        <div className="ml-20">
+                                            <div className="self-center flex max-w-full flex-c text-start o justify-start mt-9">
+                                                <div className="text-zinc-100 flex gap-1 text-base font-bold leading-5 whitespace-nowrap justify-start">
+                                                    <span>Views</span>
+                                                    <span>:</span>
+                                                    <span>500</span>
+                                                </div>
                                             </div>
-                                            <div className="text-zinc-100 text-sm leading-4 whitespace-nowrap mt-2.5">
-                                                Creator
-                                            </div>
-                                            <div className="text-zinc-100 text-base leading-5 mt-8">
-                                                Bombing in downtown France
-                                                <br />
-                                                <span className="mt-4 block">May 23, 2021</span>
+                                            <div className="self-center flex max-w-full flex-co justify-start mt-2">
+                                                <div className="text-zinc-100 flex gap-1 text-base font-bold leading-5 whitespace-nowrap justify-start">
+                                                    <span>Downloads</span>
+                                                    <span>:</span>
+                                                    <span>50</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="ml-20">
-                                        <div className="self-center flex max-w-full flex-c text-start o justify-start mt-9">
-                                            <div className="text-zinc-100 flex gap-1 text-base font-bold leading-5 whitespace-nowrap justify-start">
-                                                <span>Views</span>
-                                                <span>:</span>
-                                                <span>500</span>
+                                    <div className="flex flex-col items-stretch w-ful ml-5 max-md:w-full max-md:ml-0">
+                                        <div className="border flex grow flex-col px-7 max-md:px-5 items-stretch w-full mt-1.5 mx-auto pt-6 pb-3 rounded-md border-solid border-white max-md:max-w-full max-md:mt-10">
+                                            <div className="flex flex-col max-md:max-w-full">
+                                                <div className="self-stretch flex justify-between gap-5 items-start max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="text-zinc-100 text-lg font-bold leading-6">
+                                                        Video #20AB
+                                                    </div>
+                                                </div>
+                                                <div className="self-stretch flex w-full items-stretch justify-between gap-5 mt-3 pr-0.5 max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="flex items-stretch justify-between gap-3 max-md:justify-center">
+                                                        <div className="">
+                                                            <UserCircleIcon className="text-white w-16" />
+                                                        </div>
+                                                        <div className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
+                                                            <div className="text-zinc-100 text-base font-bold leading-5 whitespace-nowrap">
+                                                                Ryan Wong
+                                                            </div>
+                                                            <div className="text-zinc-100 text-sm leading-4 whitespace-nowrap mt-3">
+                                                                Owner
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="inline-grid md:flex space-x-4">
+                                                    <div className="mt-10">
+                                                        <span className="text-white font-bold">Set asking price</span>
+                                                        <div className="text-stone-300 text-base leading-5 whitespace-nowrap bg-white self-center w-full max-w-full mt-1 rounded-md items-start max-md:pl-0.5">
+                                                            <input type="text" value={orderValue} onChange={(e) => setOrderValue(e.target.value)} className="w-full text-black" placeholder="0.00" />
+                                                        </div>
+                                                        <div onClick={() => offerModal("order")} className="text-zinc-100 cursor-pointer text-lg font-bold leading-6 mt-1 space-x-2 whitespace-nowrap w-full max-w-full items-center">
+                                                            <input type="checkbox" />
+                                                            <span className="text-xs">Not for sale</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mt-10">
+                                                        <span className="text-white font-bold">Set minimum offer</span>
+                                                        <div className="text-stone-300 text-base leading-5 whitespace-nowrap bg-white self-center w-full max-w-full mt-1 rounded-md items-start max-md:pl-0.5">
+                                                            <input type="text" value={orderValue} onChange={(e) => setOrderValue(e.target.value)} className="w-full text-black" placeholder="0.00" />
+                                                        </div>
+                                                        <div onClick={() => offerModal("order")} className="text-zinc-100 cursor-pointer text-lg font-bold leading-6 mt-1 space-x-2 whitespace-nowrap w-full max-w-full items-center">
+                                                            <input type="checkbox" />
+                                                            <span className="text-xs">Not accepting offer</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div onClick={() => offerModal("buy")} className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap bg-red-500 hover:cursor-pointer self-stretch items-center text-center mt-8 px-5 py-4 rounded-md max-md:max-w-full">
+                                                    Update
+                                                </div>
+                                                <div className="text-zinc-100 text-lg font-bold leading-6 self-stretch whitespace-nowrap mt-10 max-md:max-w-full max-md:mt-10">
+                                                    Latest Offers
+                                                </div>
+                                                <div className="self-stretch flex w-full items-center justify-between gap-5 mt-7 pr-0.5 max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="text-zinc-100 text-base leading-5 my-auto">
+                                                        From: John Fresh
+                                                    </div>
+                                                    <div>
+                                                        <div className="self-stretch flex items-stretch justify-between gap-4">
+                                                            <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
+                                                                <span className=" text-white">R</span>
+                                                            </div>
+                                                            <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
+                                                                223.323
+                                                            </div>
+                                                        </div>
+                                                        <button></button>
+                                                    </div>
+                                                </div>
+                                                <div className="self-stretch flex w-full items-center justify-between gap-5 mt-7 pr-0.5 max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="text-zinc-100 text-base leading-5 my-auto">
+                                                        From: Tony Fred
+                                                    </div>
+                                                    <div className="self-stretch flex items-stretch justify-between gap-4">
+                                                        <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
+                                                            <span className=" text-white">R</span>
+                                                        </div>
+                                                        <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
+                                                            223.323
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="self-center flex max-w-full flex-co justify-start mt-2">
-                                            <div className="text-zinc-100 flex gap-1 text-base font-bold leading-5 whitespace-nowrap justify-start">
-                                                <span>Downloads</span>
-                                                <span>:</span>
-                                                <span>50</span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col items-stretch w-[22%] ml-5 max-md:w-full max-md:ml-0">
+                                    <div className="flex flex-col items-stretch mt-5 max-md:mt-10">
+                                        <div className="flex gap-4 pr-5 items-start">
+                                            {/* <img
+                                        loading="lazy"
+                                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6a5f34-aa57-44e1-b784-b4051d224a17?"
+                                        className="aspect-square object-contain object-center w-5 overflow-hidden self-stretch shrink-0 max-w-full"
+                                    /> */}
+                                            <PlusCircleIcon className="text-white w-8" />
+                                            <div className="text-zinc-100 text-2xl font-bold leading-7">
+                                                Confirmed
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white flex items-stretch justify-between gap-5 mt-7 pl-5 pr-14 py-4 rounded-lg max-md:pr-5">
+                                            <div className="text-black text-lg leading-6">Promote to</div>
+                                            <img
+                                                loading="lazy"
+                                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/b33e2d0e-fa6d-4889-b501-3664f78794fd?"
+                                                className="aspect-[1.7] object-contain object-center w-[17px] overflow-hidden shrink-0 max-w-full"
+                                            />
+                                        </div>
+                                        <div className="bg-white flex flex-col mt-2 pl-5 pr-20 py-5 rounded-md items-start max-md:pr-5">
+                                            <div className="text-black text-lg leading-6 whitespace-nowrap">
+                                                Global
+                                            </div>
+                                            <div className="text-black text-lg leading-6 whitespace-nowrap mt-4">
+                                                Asia
+                                            </div>
+                                            <div className="text-black text-lg leading-6 whitespace-nowrap mt-4">
+                                                Europe
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col items-stretch w-[51%] ml-5 max-md:w-full max-md:ml-0">
-                                <div className="border flex grow flex-col px-7 max-md:px-5 items-stretch w-full mt-1.5 mx-auto pt-6 pb-3 rounded-md border-solid border-white max-md:max-w-full max-md:mt-10">
-                                    <div className="flex flex-col max-md:max-w-full">
-                                        <div className="self-stretch flex justify-between gap-5 items-start max-md:max-w-full max-md:flex-wrap">
-                                            <div className="text-zinc-100 text-lg font-bold leading-6">
-                                                Video #20AB
+                        </div>
+                        :
+
+                        <div className="mt-5 mb-12 max-md:max-w-full max-md:mr-1.5 max-md:mb-10">
+                            <div className="gap-5 justify-between w-full flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+                                <div className="flex flex-col md:flex-row items-stretch w-ful max-md:w-full max-md:ml-0">
+                                    <div className="flex flex-col w-[350px] items-stretch max-md:mt-9">
+                                        <div className="flex justify-between  items-start gap-4">
+                                            <div className="">
+                                                <UserCircleIcon className="text-white w-16" />
                                             </div>
-                                            <div className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap">
-                                                Asking Price
-                                            </div>
-                                        </div>
-                                        <div className="self-stretch flex w-full items-stretch justify-between gap-5 mt-3 pr-0.5 max-md:max-w-full max-md:flex-wrap">
-                                            <div className="flex items-stretch justify-between gap-3 max-md:justify-center">
-                                                <div className="">
-                                                    <UserCircleIcon className="text-white w-16" />
+                                            <div className="flex grow basis-[0%] flex-col items-stretch mt-5">
+                                                <div className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap">
+                                                    BigMadWatch
                                                 </div>
-                                                <div className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                                                    <div className="text-zinc-100 text-base font-bold leading-5 whitespace-nowrap">
-                                                        Ryan Wong
-                                                    </div>
-                                                    <div className="text-zinc-100 text-sm leading-4 whitespace-nowrap mt-3">
-                                                        Owner
-                                                    </div>
+                                                <div className="text-zinc-100 text-sm leading-4 whitespace-nowrap mt-2.5">
+                                                    Creator
                                                 </div>
-                                            </div>
-                                            <div className="flex items-stretch gap-4 mt-1.5 self-start">
-                                                <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
-                                                    <span className=" text-white">R</span>
-                                                </div>
-                                                <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
-                                                    200.00 coins
+                                                <div className="text-zinc-100 text-base leading-5 mt-8">
+                                                    Bombing in downtown France
+                                                    <br />
+                                                    <span className="mt-4 block">May 23, 2021</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div onClick={() => offerModal("buy")} className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap bg-red-500 hover:cursor-pointer self-stretch items-center text-center mt-8 px-5 py-4 rounded-md max-md:max-w-full">
-                                            Buy Now
-                                        </div>
-                                        <div className="text-zinc-100 text-lg font-bold leading-6 self-stretch whitespace-nowrap mt-10 max-md:max-w-full max-md:mt-10">
-                                            Latest Offers
-                                        </div>
-                                        <div className="self-stretch flex w-full items-center justify-between gap-5 mt-7 pr-0.5 max-md:max-w-full max-md:flex-wrap">
-                                            <div className="text-zinc-100 text-base leading-5 my-auto">
-                                                From: John Fresh
-                                            </div>
-                                            <div className="self-stretch flex items-stretch justify-between gap-4">
-                                                <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
-                                                    <span className=" text-white">R</span>
-                                                </div>
-                                                <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
-                                                    223.323
+                                        <div className="ml-20">
+                                            <div className="self-center flex max-w-full flex-c text-start o justify-start mt-9">
+                                                <div className="text-zinc-100 flex gap-1 text-base font-bold leading-5 whitespace-nowrap justify-start">
+                                                    <span>Views</span>
+                                                    <span>:</span>
+                                                    <span>500</span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="self-stretch flex w-full items-center justify-between gap-5 mt-7 pr-0.5 max-md:max-w-full max-md:flex-wrap">
-                                            <div className="text-zinc-100 text-base leading-5 my-auto">
-                                                From: Tony Fred
-                                            </div>
-                                            <div className="self-stretch flex items-stretch justify-between gap-4">
-                                                <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
-                                                    <span className=" text-white">R</span>
-                                                </div>
-                                                <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
-                                                    223.323
+                                            <div className="self-center flex max-w-full flex-co justify-start mt-2">
+                                                <div className="text-zinc-100 flex gap-1 text-base font-bold leading-5 whitespace-nowrap justify-start">
+                                                    <span>Downloads</span>
+                                                    <span>:</span>
+                                                    <span>50</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="text-stone-300 text-base leading-5 whitespace-nowrap bg-white self-center w-full max-w-full mt-10 rounded-md items-start max-md:pl-0.5">
-                                        <input type="text" value={orderValue} onChange={(e) => setOrderValue(e.target.value)} className="w-full text-black" placeholder="0.00" />
-                                    </div>
-                                    {errorM !== "" &&
-                                        <p className="pt-1 italic text-red-500">{errorM}</p>
-                                    }
-                                    <div onClick={() => offerModal("order")} className="text-zinc-100 cursor-pointer text-lg font-bold leading-6 text-center whitespace-nowrap bg-black self-center w-full max-w-full items-center mt-5 px-5 py-4 rounded-md">
-                                        Make an offer
+                                    <div className="flex flex-col items-stretch w-ful ml-5 max-md:w-full max-md:ml-0">
+                                        <div className="border flex grow flex-col px-7 max-md:px-5 items-stretch w-full mt-1.5 mx-auto pt-6 pb-3 rounded-md border-solid border-white max-md:max-w-full max-md:mt-10">
+                                            <div className="flex flex-col max-md:max-w-full">
+                                                <div className="self-stretch flex justify-between gap-5 items-start max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="text-zinc-100 text-lg font-bold leading-6">
+                                                        Video #20AB
+                                                    </div>
+                                                    <div className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap">
+                                                        Asking Price
+                                                    </div>
+                                                </div>
+                                                <div className="self-stretch flex w-full items-stretch justify-between gap-5 mt-3 pr-0.5 max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="flex items-stretch justify-between gap-3 max-md:justify-center">
+                                                        <div className="">
+                                                            <UserCircleIcon className="text-white w-16" />
+                                                        </div>
+                                                        <div className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
+                                                            <div className="text-zinc-100 text-base font-bold leading-5 whitespace-nowrap">
+                                                                Ryan Wong
+                                                            </div>
+                                                            <div className="text-zinc-100 text-sm leading-4 whitespace-nowrap mt-3">
+                                                                Owner
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-stretch gap-4 mt-1.5 self-start">
+                                                        <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
+                                                            <span className=" text-white">R</span>
+                                                        </div>
+                                                        <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
+                                                            200.00 coins
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div onClick={() => offerModal("buy")} className="text-zinc-100 text-lg font-bold leading-6 whitespace-nowrap bg-red-500 hover:cursor-pointer self-stretch items-center text-center mt-8 px-5 py-4 rounded-md max-md:max-w-full">
+                                                    Buy Now
+                                                </div>
+                                                <div className="text-zinc-100 text-lg font-bold leading-6 self-stretch whitespace-nowrap mt-10 max-md:max-w-full max-md:mt-10">
+                                                    Latest Offers
+                                                </div>
+                                                <div className="self-stretch flex w-full items-center justify-between gap-5 mt-7 pr-0.5 max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="text-zinc-100 text-base leading-5 my-auto">
+                                                        From: John Fresh
+                                                    </div>
+                                                    <div className="self-stretch flex items-stretch justify-between gap-4">
+                                                        <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
+                                                            <span className=" text-white">R</span>
+                                                        </div>
+                                                        <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
+                                                            223.323
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="self-stretch flex w-full items-center justify-between gap-5 mt-7 pr-0.5 max-md:max-w-full max-md:flex-wrap">
+                                                    <div className="text-zinc-100 text-base leading-5 my-auto">
+                                                        From: Tony Fred
+                                                    </div>
+                                                    <div className="self-stretch flex items-stretch justify-between gap-4">
+                                                        <div className="w-8 h-8 rounded-[50%] bg-red-600 flex justify-center items-center">
+                                                            <span className=" text-white">R</span>
+                                                        </div>
+                                                        <div className="text-zinc-100 text-base font-bold leading-5 self-center grow whitespace-nowrap my-auto">
+                                                            223.323
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="text-stone-300 text-base leading-5 whitespace-nowrap bg-white self-center w-full max-w-full mt-10 rounded-md items-start max-md:pl-0.5">
+                                                <input type="text" value={orderValue} onChange={(e) => setOrderValue(e.target.value)} className="w-full text-black" placeholder="0.00" />
+                                            </div>
+                                            {errorM !== "" &&
+                                                <p className="pt-1 italic text-red-500">{errorM}</p>
+                                            }
+                                            <div onClick={() => offerModal("order")} className="text-zinc-100 cursor-pointer text-lg font-bold leading-6 text-center whitespace-nowrap bg-black self-center w-full max-w-full items-center mt-5 px-5 py-4 rounded-md">
+                                                Make an offer
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="flex flex-col items-stretch w-[22%] ml-5 max-md:w-full max-md:ml-0">
-                                <div className="flex flex-col items-stretch mt-5 max-md:mt-10">
-                                    <div className="flex gap-4 pr-5 items-start">
-                                        {/* <img
+                                <div className="flex flex-col items-stretch w-[22%] ml-5 max-md:w-full max-md:ml-0">
+                                    <div className="flex flex-col items-stretch mt-5 max-md:mt-10">
+                                        <div className="flex gap-4 pr-5 items-start">
+                                            {/* <img
                                             loading="lazy"
                                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6a5f34-aa57-44e1-b784-b4051d224a17?"
                                             className="aspect-square object-contain object-center w-5 overflow-hidden self-stretch shrink-0 max-w-full"
                                         /> */}
-                                        <PlusCircleIcon className="text-white w-8" />
-                                        <div className="text-zinc-100 text-2xl font-bold leading-7">
-                                            Confirmed
+                                            <PlusCircleIcon className="text-white w-8" />
+                                            <div className="text-zinc-100 text-2xl font-bold leading-7">
+                                                Confirmed
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="bg-white flex items-stretch justify-between gap-5 mt-7 pl-5 pr-14 py-4 rounded-lg max-md:pr-5">
-                                        <div className="text-black text-lg leading-6">Promote to</div>
-                                        <img
-                                            loading="lazy"
-                                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/b33e2d0e-fa6d-4889-b501-3664f78794fd?"
-                                            className="aspect-[1.7] object-contain object-center w-[17px] overflow-hidden shrink-0 max-w-full"
-                                        />
-                                    </div>
-                                    <div className="bg-white flex flex-col mt-2 pl-5 pr-20 py-5 rounded-md items-start max-md:pr-5">
-                                        <div className="text-black text-lg leading-6 whitespace-nowrap">
-                                            Global
+                                        <div className="bg-white flex items-stretch justify-between gap-5 mt-7 pl-5 pr-14 py-4 rounded-lg max-md:pr-5">
+                                            <div className="text-black text-lg leading-6">Promote to</div>
+                                            <img
+                                                loading="lazy"
+                                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/b33e2d0e-fa6d-4889-b501-3664f78794fd?"
+                                                className="aspect-[1.7] object-contain object-center w-[17px] overflow-hidden shrink-0 max-w-full"
+                                            />
                                         </div>
-                                        <div className="text-black text-lg leading-6 whitespace-nowrap mt-4">
-                                            Asia
-                                        </div>
-                                        <div className="text-black text-lg leading-6 whitespace-nowrap mt-4">
-                                            Europe
+                                        <div className="bg-white flex flex-col mt-2 pl-5 pr-20 py-5 rounded-md items-start max-md:pr-5">
+                                            <div className="text-black text-lg leading-6 whitespace-nowrap">
+                                                Global
+                                            </div>
+                                            <div className="text-black text-lg leading-6 whitespace-nowrap mt-4">
+                                                Asia
+                                            </div>
+                                            <div className="text-black text-lg leading-6 whitespace-nowrap mt-4">
+                                                Europe
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
 
