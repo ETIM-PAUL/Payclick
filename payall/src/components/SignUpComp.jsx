@@ -1,15 +1,17 @@
 /** @format */
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import imgLogo from "../assets/gallery-import.svg";
 import WalletConnect from "./WalletConnect";
 import main from "../utils/upload.mjs";
 import PayClickABI from "../const/payclickFact.json";
 import { FactoryAddr, TestTokenAddr } from "../const/contract";
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpComp() {
   const { address } = useAccount();
+  const navigate = useNavigate();
   const [next, setNext] = useState(false);
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
@@ -76,7 +78,7 @@ export default function SignUpComp() {
     });
   };
 
-  const { data, isLoading, isSuccess, write } = useContractWrite({
+  const { config } = usePrepareContractWrite({
     address: FactoryAddr,
     abi: PayClickABI,
     functionName: "createAccount",
@@ -90,13 +92,16 @@ export default function SignUpComp() {
     },
   });
 
-  // const { config } = usePrepareContractWrite({
-  //   address: FactoryAddr,
-  //   abi: PayClickABI,
-  //   functionName: 'createAccount',
-  // args: [],
-  // })
-  // const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+  const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+  const { data:readAcct, isError:readError, isLoading:readLoading } = useContractRead({
+    address: FactoryAddr,
+    abi: PayClickABI,
+    functionName: 'showMyAcct',
+    args:[address]
+  })
+
 
   const handleSubmit = () => {
     setErrMsg("");
@@ -106,11 +111,16 @@ export default function SignUpComp() {
     } else {
       setMyLoading(true);
       handleLogoUpload();
-      handleCertUpload();
+      handleCertUpload(); 
       write?.();
       setMyLoading(false);
     }
   };
+  useEffect(()=>{
+    if(readAcct!=='0x0000000000000000000000000000000000000000'){
+     navigate("/dashboard")
+    } 
+  },[readAcct])
 
   return (
     <main>

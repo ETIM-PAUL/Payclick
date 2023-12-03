@@ -6,6 +6,7 @@ import Activity from "./pages/activity";
 import Schedule from "./pages/schedule";
 import Orders from "./pages/orders";
 import '@rainbow-me/rainbowkit/styles.css';
+import { Navigate } from "react-router-dom";
 import {
   getDefaultWallets,
   RainbowKitProvider,
