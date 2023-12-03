@@ -3,35 +3,21 @@ import Layout from '../components/Layout'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { SchedulePaymentModal } from '../components/SchedulePaymentModal';
 import MemberMiniActionModal from '../components/MemberMiniActionModal';
+import { MdMenuOpen } from "react-icons/md";
+import TopNav from '../components/TopNav';
 
 const Schedule = () => {
   const [scheduleModal, setScheduleModal] = useState(false)
   const [miniActionModal, setMiniActionModal] = useState()
   const [selectedMember, setSelectedMember] = useState()
 
+
   return (
     <Layout>
       <div className="bg-stone">
         <div className="gap-5  max-md:items-stretch max-md:gap-0">
           <div className="flex flex-col items-stretch ml- max-md:w-full max-md:ml-0">
-            <div className="flex flex-col items-stretch my-auto max-md:max-w-full max-md:mt-10">
-              <div className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap pr-0 max-md:pr-5">
-                <div className="items-stretch grow basis-[0%] flex-col hidden md:flex">
-                  <div className="text-white text-5xl leading-[52px] whitespace-nowrap mt-6 max-md:text-4xl max-md:leading-[51px]">
-                    Schedule
-                  </div>
-                </div>
-                <div className="items-center w-full md:w-auto border border-[color:var(--White,#FEFEFE)] self-center flex gap-2 my-auto pl-4 pr-2 py-4 rounded-xl border-solid max-md:pr-5">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/70759b5a-fc3e-4740-8dc2-1cdb459fbf29?"
-                    className="aspect-square object-contain object-center w-3 justify-center items-center overflow-hidden shrink-0 max-w-full my-auto"
-                  />
-                  <input type="search" placeholder='search' className='w-full bg-black border-0 text-white focus:outline-0 outline:border-0' />
-                </div>
-              </div>
-            </div>
-
+            <TopNav heading="Schedule" />
             <div>
               <div className='flex w-full items-center justify-between my-10'>
                 <select className='p-2 rounded-md focus:outline-0 w-32'>

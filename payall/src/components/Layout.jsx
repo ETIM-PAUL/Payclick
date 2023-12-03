@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <main className=''>
       <section className="h-screen flex">
         <Sidebar />
-        <div className="w-full min-h-screen max-h-screen my-16 px-3 md:px-6">
+        <div className="w-full min-h-screen max-h-screen my-6 md:my-16 px-3 md:px-6">
           <span className='text-white hidden md:block'>X</span>
           <div className=''>
             {children}
