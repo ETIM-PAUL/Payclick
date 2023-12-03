@@ -3,7 +3,7 @@ import mime from 'mime'
 import fs from 'fs'
 import path from 'path'
 
-const NFT_STORAGE_KEY = 'REPLACE_ME_WITH_YOUR_KEY'
+const NFT_STORAGE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDhjNDE5NjU3RGJkRTdBYzA2YTBBM2IwQjA2RThlNkU3REI3MmU3NTQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4MjI2MTE2MTgwNSwibmFtZSI6Ik1ldGFkYXRhIENyZWF0ZSJ9.Rd-9etvKdQPicKsaT2A6YNonD8f-FItu-_BfHrVM6Gk'
 
 /**
   * Reads an image file from `imagePath` and stores an NFT with the given name and description.
@@ -11,9 +11,7 @@ const NFT_STORAGE_KEY = 'REPLACE_ME_WITH_YOUR_KEY'
   * @param {string} name a name for the NFT
   * @param {string} description a text description for the NFT
   */
-async function storeNFT(imagePath, name, description) {
-        // load the file from disk
-        const image = await fileFromPath(imagePath)
+async function storeNFT(image, name, description) {
     
         // create a new NFTStorage client using our API key
         const nftstorage = new NFTStorage({ token: NFT_STORAGE_KEY })
@@ -27,18 +25,6 @@ async function storeNFT(imagePath, name, description) {
     }
     
 
-/**
-  * A helper to read a file from a location on disk and return a File object.
-  * Note that this reads the entire file into memory and should not be used for
-  * very large files. 
-  * @param {string} filePath the path to a file to store
-  * @returns {File} a File object containing the file content
-  */
-async function fileFromPath(filePath) {
-        const content = await fs.promises.readFile(filePath)
-        const type = mime.getType(filePath)
-        return new File([content], path.basename(filePath), { type })
-    }
 
 
 /**
@@ -48,23 +34,10 @@ async function fileFromPath(filePath) {
  * To simplify the example, we don't do any fancy command line parsing. Just three
  * positional arguments for imagePath, name, and description
  */
-async function main() {
-        const args = process.argv.slice(2)
-        if (args.length !== 3) {
-            console.error(`usage: ${process.argv[0]} ${process.argv[1]} <image-path> <name> <description>`)
-            process.exit(1)
-        }
-    
-        const [imagePath, name, description] = args
-        const result = await storeNFT(imagePath, name, description)
-        console.log(result)
+ async function main(image, name, description) {
+ 
+        const result = await storeNFT(image, name, description)
+       return result
     }
     
-    // Don't forget to actually call the main function!
-    // We can't `await` things at the top level, so this adds
-    // a .catch() to grab any errors and print them to the console.
-    main()
-      .catch(err => {
-          console.error(err)
-          process.exit(1)
-      })
+  export default main;

@@ -4,8 +4,12 @@ import React, { useRef, useState } from "react";
 import imgLogo from "../assets/gallery-import.svg";
 import WalletConnect from "./WalletConnect";
 import main from '../utils/upload.mjs'
+import PayClickABI from '../const/payclickFact.json'
+import { FactoryAddr, TestTokenAddr } from "../const/contract";
+import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
 
 export default function SignUpComp() {
+  const {address} = useAccount()
   const [next, setNext] = useState(false)
   const [orgName, setOrgName]=useState('');
   const [email, setEmail]=useState('');
@@ -65,16 +69,44 @@ export default function SignUpComp() {
  
     await main(selectedFile, orgName, `${orgName} logo`).then((data) => {
       setLogoURI(data.ipnft);
-      console.log(data.ipnft)
   })
   }
   const handleCertUpload = async () =>{
  
     await main(cert, nftName, `${nftName} uri`).then((data) => {
       setCertURI(data.ipnft);
-      console.log(data.ipnft)
+   
   })
   }
+
+  const { data, isLoading, isSuccess, write } = useContractWrite({
+    address:FactoryAddr ,
+    abi: PayClickABI,
+    functionName: 'createAccount',
+    args: [TestTokenAddr,nftName,nftSymbol,logoURI,certURI,email],
+    onError(error) {
+      console.log('Error', error)
+    },
+    onSuccess(data) {
+      console.log('Success', data)
+    },
+  })
+
+  // const { config } = usePrepareContractWrite({
+  //   address: FactoryAddr,
+  //   abi: PayClickABI,
+  //   functionName: 'createAccount',
+  // args: [],
+  // })
+  // const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+  const handleSubmit=()=>{
+console.log(hello);
+    handleLogoUpload();
+    handleCertUpload();
+
+  }
+ 
 
   return (
     <main>
@@ -189,14 +221,14 @@ export default function SignUpComp() {
         <WalletConnect />
         <div className="w-[90%] mx-auto">
           <button onClick={()=>setNext(false)}
-            className="bg-[#63D9B9] w-[100%] h-[52px] rounded-lg text-[16px] font-medium tracking-[0.15px] text-center text-[#010101] mt-[80px]
-"
+            className={` bg-[#63D9B9] w-[100%] h-[52px] rounded-lg text-[16px] font-medium tracking-[0.15px] text-center text-[#010101] mt-[80px]
+`}
           >
             Go Back
           </button>
-          <button
-            className="bg-[#63D9B9] w-[100%] h-[52px] rounded-lg text-[16px] font-medium tracking-[0.15px] text-center text-[#010101] mt-4
-"
+          <button onClick={handleSubmit} disabled={!address}
+            className={`${!address ? 'bg-[#365d53] text-white': "bg-[#63D9B9] text-[#010101] "} w-[100%] h-[52px] rounded-lg text-[16px] font-medium tracking-[0.15px] text-center  mt-4
+`}
           >
             Create Account
           </button>
