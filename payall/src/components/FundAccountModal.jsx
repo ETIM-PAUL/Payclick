@@ -1,9 +1,29 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
+import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import childABI from '../const/childFact.json'
+import { GlobalContext } from '../context/GlobalContext';
 
 export function FundModal({ setShowFundModal, showFundModal }) {
-  let [isOpen, setIsOpen] = useState(true)
+  const {state} =useContext(GlobalContext)
+  const [isOpen, setIsOpen] = useState(true)
+  const [num, setNum] = useState('')
+
+
+
+  const { config } = usePrepareContractWrite({
+    address: state.childAddress,
+    abi: childABI,
+    functionName: 'depositFund',
+    args:[num]
+  })
+  const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    write?.()
+  }
 
   return (
     <Transition
@@ -46,7 +66,7 @@ export function FundModal({ setShowFundModal, showFundModal }) {
                   <p className='text-center block w-full'>
                     Enter amount to add to your account
                   </p>
-                  <input type="number" placeholder="$0.00" className='bg-transparent focus:outline-non border-white mt-4 text-3xl font-bold appearance-none text-center bg-red-500' />
+                  <input type="number" onChange={(e)=>setNum(e.target.value)} placeholder="$0.00" className='bg-transparent focus:outline-non border-white mt-4 text-3xl font-bold appearance-none text-center bg-red-500' />
                 </div>
 
                 <div className='flex justify-between items-center mt-24'>

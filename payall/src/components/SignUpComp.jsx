@@ -237,7 +237,7 @@ export default function SignUpComp() {
               <div className="mt-3">
                 <h2 className="text-[12px] leading-5 text-[#FEFEFE] font-medium text-center ">
                   Already have an account? Proceed to{" "}
-                  <span className="text-[#63D9B9]">
+                  <span className="text-[#63D9B9] cursor-pointer">
                   <WalletButton.Custom wallet="metamask">
         {({ ready, connect }) => {
           return (
@@ -247,8 +247,8 @@ export default function SignUpComp() {
             <button
               type="button"
               disabled={!ready}
-              onClick={()=>{connect(); setMMask(true), setConnected(true)}}
-              className="">
+              onClick={connect}
+              className="cursor-pointer">
                Connect Wallet
             </button>
            
