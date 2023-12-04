@@ -20,7 +20,7 @@ import {
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import Members from "./pages/members";
-import GlobalProvider from "./context/Global/GlobalContext";
+import GlobalProvider from "./context/GlobalContext";
 const { chains, publicClient } = configureChains(
   [polygonZkEvmTestnet],
   [
