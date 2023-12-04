@@ -96,11 +96,11 @@ export default function SignUpComp() {
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config)
 
-  const { data:readAcct, isError:readError, isLoading:readLoading } = useContractRead({
+  const { data: readAcct, isError: readError, isLoading: readLoading } = useContractRead({
     address: FactoryAddr,
     abi: PayClickABI,
     functionName: 'showMyAcct',
-    args:[address]
+    args: [address]
   })
 
 
@@ -112,7 +112,7 @@ export default function SignUpComp() {
     } else {
       setMyLoading(true);
       handleLogoUpload();
-      handleCertUpload(); 
+      handleCertUpload();
       write?.();
       setMyLoading(false);
     }
@@ -131,13 +131,13 @@ export default function SignUpComp() {
       {errMsg !== "" && <h2 className=" w-[36%] bg-[red] text-white text-center text-[16px]  h-[30px] ml-20 mt-10 ">{errMsg}</h2>}
       {myLoading ||
         isLoading && (
-        <div className="flex justify-center items-center w-[36%] mt-[300px] absolute ">
+          <div className="flex justify-center items-center w-[36%] mt-[300px] absolute ">
 
-    <span className="relative flex h-20 w-20">
-  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-  <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
-</span>
-        </div>
+            <span className="relative flex h-20 w-20">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
+            </span>
+          </div>
         )}
       {!next ? (
         <div className="bg-[black] formBackground w-[36%] ml-20 mt-10 rounded-lg pb-10">
@@ -276,9 +276,8 @@ export default function SignUpComp() {
             <button
               onClick={handleSubmit}
               disabled={!address}
-              className={`${
-                !address ? "bg-[#365d53]" : "bg-[#63D9B9] "
-              }  text-[#010101] w-[100%] h-[52px] rounded-lg text-[16px] font-medium tracking-[0.15px] text-center  mt-4
+              className={`${!address ? "bg-[#365d53]" : "bg-[#63D9B9] "
+                }  text-[#010101] w-[100%] h-[52px] rounded-lg text-[16px] font-medium tracking-[0.15px] text-center  mt-4
 `}
             >
               Create Account

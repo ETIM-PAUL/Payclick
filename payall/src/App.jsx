@@ -19,6 +19,8 @@ import {
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import Members from "./pages/members";
+import GlobalProvider from "./context/GlobalContext";
 const { chains, publicClient } = configureChains(
   [polygonZkEvmTestnet],
   [
@@ -42,18 +44,21 @@ const wagmiConfig = createConfig({
 function App() {
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-    <RainbowKitProvider chains={chains}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/activity" element={<Activity />} />
-        <Route path="/schedule" element={<Schedule />} />
-        <Route path="/signin" element={<Signin />} />
-      </Routes>
-    </BrowserRouter>
-    </RainbowKitProvider>
-    </WagmiConfig>
+    <GlobalProvider>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/activity" element={<Activity />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/members" element={<Members />} />
+              <Route path="/signin" element={<Signin />} />
+            </Routes>
+          </BrowserRouter>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </GlobalProvider>
   );
 }
 export default App
