@@ -5,11 +5,14 @@ import { SchedulePaymentModal } from '../components/SchedulePaymentModal';
 import MemberMiniActionModal from '../components/MemberMiniActionModal';
 import { MdMenuOpen } from "react-icons/md";
 import TopNav from '../components/TopNav';
+import { RemoveModalPage } from '../components/RemoveModalPage';
 
 const Schedule = () => {
   const [scheduleModal, setScheduleModal] = useState(false)
   const [miniActionModal, setMiniActionModal] = useState()
   const [selectedMember, setSelectedMember] = useState()
+  const [removeModal, setRemoveModal] = useState(false)
+  const [removeType, setRemoveType] = useState("")
 
 
   return (
@@ -20,7 +23,7 @@ const Schedule = () => {
             <TopNav heading="Schedule" />
             <div className=''>
               <div className='flex w-full items-center justify-between my-10'>
-                <select className='p-2 rounded-md focus:outline-0 w-32'>
+                <select className='p-2 border-0 bg-transparent text-white rounded-md focus:outline-0 w-24'>
                   <option disabled>Sort By</option>
                   <option>Salary</option>
                   <option>Date</option>
@@ -42,9 +45,9 @@ const Schedule = () => {
 
 
 
-              <div className="relative overflow-x-aut">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <div class="relative overflow-x-auto sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3">
                         Name
@@ -67,10 +70,10 @@ const Schedule = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="relative bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         Adebisi
-                      </td>
+                      </th>
                       <td className="px-6 py-4 hidden md:inline-block">
                         HS9NNS77383GHJ
                       </td>
@@ -91,7 +94,7 @@ const Schedule = () => {
                   {/* member action */}
                   {miniActionModal &&
                     <div className="inline-grid px-6 pt-2 pb-4 rounded-md absolute right-0 md:right-16 top-20 md:top-10  text-white">
-                      <MemberMiniActionModal setMiniActionModal={setMiniActionModal} miniActionModal={miniActionModal} />
+                      <MemberMiniActionModal setMiniActionModal={setMiniActionModal} miniActionModal={miniActionModal} setRemoveModal={setRemoveModal} setRemoveType={setRemoveType} />
                     </div>
                   }
                 </table>
@@ -107,6 +110,10 @@ const Schedule = () => {
       {/* Schedule Payment Modal */}
       {scheduleModal &&
         <SchedulePaymentModal setScheduleModal={setScheduleModal} scheduleModal={scheduleModal} selectedMember={selectedMember} />
+      }
+
+      {removeModal &&
+        <RemoveModalPage setRemoveModal={setRemoveModal} removeModal={removeModal} selectedMember={selectedMember} removeType={removeType} />
       }
 
     </Layout>
