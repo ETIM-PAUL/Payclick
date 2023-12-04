@@ -1,6 +1,7 @@
 /** @format */
 
 import React, { useEffect, useRef, useState } from "react";
+import { WalletButton } from '@rainbow-me/rainbowkit';
 import imgLogo from "../assets/gallery-import.svg";
 import WalletConnect from "./WalletConnect";
 import main from "../utils/upload.mjs";
@@ -117,10 +118,13 @@ export default function SignUpComp() {
     }
   };
   useEffect(()=>{
-    if(readAcct!=='0x0000000000000000000000000000000000000000'){
-     navigate("/dashboard")
-    } 
-  },[readAcct])
+    if(address){
+
+      if(readAcct!=='0x0000000000000000000000000000000000000000'){
+       navigate("/dashboard")
+      } 
+    }
+  },[address, readAcct])
 
   return (
     <main>
@@ -233,7 +237,26 @@ export default function SignUpComp() {
               <div className="mt-3">
                 <h2 className="text-[12px] leading-5 text-[#FEFEFE] font-medium text-center ">
                   Already have an account? Proceed to{" "}
-                  <span className="text-[#63D9B9]">Connect Wallet</span>{" "}
+                  <span className="text-[#63D9B9]">
+                  <WalletButton.Custom wallet="metamask">
+        {({ ready, connect }) => {
+          return (
+            <>
+        
+
+            <button
+              type="button"
+              disabled={!ready}
+              onClick={()=>{connect(); setMMask(true), setConnected(true)}}
+              className="">
+               Connect Wallet
+            </button>
+           
+            </>
+          );
+        }}
+      </WalletButton.Custom>
+                   </span>{" "}
                 </h2>
               </div>
             </form>

@@ -6,10 +6,14 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { FundModal } from '../components/FundAccountModal';
 import { WithdrawModal } from '../components/WithdrawModal';
+import {useContractReads} from 'wagmi';
 
-const Dashboard = () => {
+const Dashboard = ({addr}) => {
   const [showFundModal, setShowFundModal] = useState(false)
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
+  console.log(addr)
+
+
   return (
     <Layout>
       <div className="bg-stone">
