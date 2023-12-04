@@ -15,10 +15,10 @@ const Schedule = () => {
   return (
     <Layout>
       <div className="bg-stone">
-        <div className="gap-5  max-md:items-stretch max-md:gap-0">
+        <div className="gap-5 max-md:items-stretch max-md:gap-0">
           <div className="flex flex-col items-stretch ml- max-md:w-full max-md:ml-0">
             <TopNav heading="Schedule" />
-            <div>
+            <div className=''>
               <div className='flex w-full items-center justify-between my-10'>
                 <select className='p-2 rounded-md focus:outline-0 w-32'>
                   <option disabled>Sort By</option>
@@ -28,7 +28,7 @@ const Schedule = () => {
                   <option>Position</option>
                 </select>
 
-                <div className='absolute md:relative bottom-24 md:bottom-0 flex justify-center md:justify-end w-full'>
+                <div className='absolute md:relative bottom-32 md:bottom-0 flex justify-center md:justify-end w-full'>
                   <button
                     onClick={() => setScheduleModal(true)}
                     className="bg-emerald-300 hover:cursor-pointer items-stretch self-center flex w-60 max-w-full gap-2 mt-2 py-3.5 text-black rounded-lg"

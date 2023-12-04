@@ -1,0 +1,2 @@
+export const FactoryAddr='0x55AB9da672143F1637Be8072C3042F42ffE3cc03'
+export const TestTokenAddr='0xfc0bc66653d892534df9c2c4eb289e15b90b49cf'
