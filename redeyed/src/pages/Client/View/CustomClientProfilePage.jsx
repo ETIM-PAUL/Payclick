@@ -450,7 +450,7 @@ const ClientProfilePage = () => {
                                 }
                               </div>
                               {oldPhoto || fileObj["photo"]?.file ? null : (
-                                <div className=" bg-slate-3 mt-3">
+                                <div className=" bg-slate-3 mt-3 z-50">
                                   <img
                                     loading="lazy"
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/c556408f-4202-42d1-beb4-715fdc3e79ac?"

@@ -752,6 +752,12 @@ export default () => {
         />
 
         <Route
+          path="/login/oauth"
+          exact
+          element={<OauthRedirect />}
+        />
+
+        <Route
           path="/client/sign-up"
           element={
             <PublicRoute

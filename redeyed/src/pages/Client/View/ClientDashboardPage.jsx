@@ -10,6 +10,7 @@ import ReactPlayer from 'react-player';
 import VideoThumbnail from 'react-video-thumbnail';
 import VideoCover from 'react-video-cover';
 import { Link } from "react-router-dom";
+import { ClientTopNav } from "Components/ClientHeader";
 
 const ClientDashboardPage = () => {
   const videoRef = useRef(null);
@@ -29,6 +30,7 @@ const ClientDashboardPage = () => {
   }, []);
   return (
     <>
+      <ClientTopNav />
       <div className="bg-black flex flex-col items-stretch">
         <div className="bg-neutral-900 flex w-full flex-col pt-8 pb-12 px-20 max-md:max-w-full max-md:px-5">
           <div className="self-stretc flex items-center justify-between gap-5 max-md:max-w-full max-md:flex-wrap max-md:mr-1.5">
