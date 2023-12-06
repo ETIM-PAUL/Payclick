@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <main className=''>
       <section className="h-screen flex">
         <Sidebar />
-        <div className="w-full min-h-screen max-h-screen overflow-scroll my-6 md:my-16 md:px-6">
+        <div className="w-full min-h-screen max-h-screen overflow-scroll my-6 md:my-16 md:px-10">
           <span className='text-white hidden md:block'>X</span>
           <div className=''>
             {children}

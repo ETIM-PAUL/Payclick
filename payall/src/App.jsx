@@ -21,6 +21,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import Members from "./pages/members";
 import GlobalProvider from "./context/GlobalContext";
+import MonthMember from "./pages/monthmember";
 const { chains, publicClient } = configureChains(
   [polygonZkEvmTestnet],
   [
@@ -53,6 +54,7 @@ function App() {
               <Route path="/activity" element={<Activity />} />
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/members" element={<Members />} />
+              <Route path="/members/monthly_winner" element={<MonthMember />} />
               <Route path="/signin" element={<Signin />} />
             </Routes>
           </BrowserRouter>

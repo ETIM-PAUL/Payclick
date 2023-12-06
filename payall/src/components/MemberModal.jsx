@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
 
 export function MemberModal({ setMemberAdd, memberAdd }) {
+  const [lastStep, setLastStep] = useState(false)
 
   return (
     <Transition
@@ -44,42 +45,55 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                   Members added can be scheduled to get their salary paid on a set date and time
                 </Dialog.Description>
 
-                <form className='my-10 block text-start w-full'>
-                  <div className='mb-2 w-full'>
-                    <p className=''>
-                      Full Name
-                    </p>
-                    <input type="text" placeholder="Member Name" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
-                  </div>
-                  <div className='mb-2 mt-4 w-full'>
-                    <p className=''>
-                      Email Address
-                    </p>
-                    <input type="email" placeholder="Member Email" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
-                  </div>
-                  <div className='mb-2 mt-4 w-full'>
-                    <p className=''>
-                      Wallet Address
-                    </p>
-                    <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
-                  </div>
-                  <div className='mb-2 mt-4 w-full'>
-                    <p className=''>
-                      Position
-                    </p>
-                    <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
-                  </div>
-                  <div className='mb-2 mt-4 w-full'>
-                    <p className=''>
-                      Salary
-                    </p>
-                    <input type="number" placeholder="Salary in Dollars($)" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
-                  </div>
-                </form>
+                <div className='my-10 block text-start w-full'>
+                  {!lastStep ?
+                    <div>
+                      <div className='mb-2 w-full'>
+                        <p className=''>
+                          Full Name
+                        </p>
+                        <input type="text" placeholder="Member Name" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                      </div>
+                      <div className='mb-2 mt-4 w-full'>
+                        <p className=''>
+                          Email Address
+                        </p>
+                        <input type="email" placeholder="Member Email" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                      </div>
+                      <div className='mb-2 mt-4 w-full'>
+                        <p className=''>
+                          Wallet Address
+                        </p>
+                        <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                      </div>
+                    </div>
+                    :
+                    <div>
+                      <div className='mb-2 mt-4 w-full'>
+                        <p className=''>
+                          Position
+                        </p>
+                        <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                      </div>
+                      <div className='mb-2 mt-4 w-full'>
+                        <p className=''>
+                          Salary
+                        </p>
+                        <input type="number" placeholder="Salary in Dollars($)" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                      </div>
 
-                <div className='flex w-full items-center gap-3 mt-16'>
-                  <button onClick={() => setMemberAdd(false)} className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Add Member</button>
+                    </div>
+                  }
+
+                  <div className='flex w-full items-center gap-3 mt-16'>
+                    {!lastStep ?
+                      <button onClick={() => setLastStep(true)} type='button' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Next Step</button>
+                      :
+                      <button onClick={() => setMemberAdd(false)} type='submit' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Add Member</button>
+                    }
+                  </div>
                 </div>
+
               </Dialog.Panel>
             </Transition.Child>
           </div>
