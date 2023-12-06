@@ -1,0 +1,8 @@
+{
+  "polygon-zkevm-testnet": {
+    "paybox": {
+      "address": "0x55AB9da672143F1637Be8072C3042F42ffE3cc03",
+      "startBlock": 0
+    }
+  }
+}

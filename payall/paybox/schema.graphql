@@ -1,0 +1,8 @@
+type AccountCreated @entity(immutable: true) {
+  id: Bytes!
+  caller: Bytes! # address
+  _factory: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
