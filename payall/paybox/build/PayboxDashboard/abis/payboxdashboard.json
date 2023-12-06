@@ -152,6 +152,37 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_staff",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_time",
+        "type": "uint256"
+      }
+    ],
+    "name": "AllAttendance",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "uint256",
         "name": "amount",
@@ -278,6 +309,12 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "string",
         "name": "name",
@@ -303,6 +340,12 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "string",
         "name": "name",
@@ -315,6 +358,12 @@
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      },
       {
         "indexed": true,
         "internalType": "uint256",
@@ -334,6 +383,12 @@
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      },
       {
         "indexed": true,
         "internalType": "uint256",
@@ -793,6 +848,19 @@
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalPayment",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

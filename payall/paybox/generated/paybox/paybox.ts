@@ -27,7 +27,7 @@ export class AccountCreated__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get _factory(): Address {
+  get _child(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 }
@@ -45,10 +45,10 @@ export class paybox extends ethereum.SmartContract {
     _companyName: string,
     _companyLogo: string,
     _email: string
-  ): boolean {
+  ): Address {
     let result = super.call(
       "createAccount",
-      "createAccount(address,string,string,string,string,string,string):(bool)",
+      "createAccount(address,string,string,string,string,string,string):(address)",
       [
         ethereum.Value.fromAddress(_tokenAddress),
         ethereum.Value.fromString(_nftName),
@@ -60,7 +60,7 @@ export class paybox extends ethereum.SmartContract {
       ]
     );
 
-    return result[0].toBoolean();
+    return result[0].toAddress();
   }
 
   try_createAccount(
@@ -71,10 +71,10 @@ export class paybox extends ethereum.SmartContract {
     _companyName: string,
     _companyLogo: string,
     _email: string
-  ): ethereum.CallResult<boolean> {
+  ): ethereum.CallResult<Address> {
     let result = super.tryCall(
       "createAccount",
-      "createAccount(address,string,string,string,string,string,string):(bool)",
+      "createAccount(address,string,string,string,string,string,string):(address)",
       [
         ethereum.Value.fromAddress(_tokenAddress),
         ethereum.Value.fromString(_nftName),
@@ -89,7 +89,7 @@ export class paybox extends ethereum.SmartContract {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
+    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   showMyAcct(_owner: Address): Address {
@@ -165,7 +165,7 @@ export class CreateAccountCall__Outputs {
     this._call = call;
   }
 
-  get value0(): boolean {
-    return this._call.outputValues[0].value.toBoolean();
+  get value0(): Address {
+    return this._call.outputValues[0].value.toAddress();
   }
 }

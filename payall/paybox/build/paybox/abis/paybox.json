@@ -11,7 +11,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "_factory",
+        "name": "_child",
         "type": "address"
       }
     ],
@@ -59,9 +59,9 @@
     "name": "createAccount",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "address",
         "name": "",
-        "type": "bool"
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",

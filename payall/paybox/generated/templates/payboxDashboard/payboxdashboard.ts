@@ -10,6 +10,32 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class AllAttendance extends ethereum.Event {
+  get params(): AllAttendance__Params {
+    return new AllAttendance__Params(this);
+  }
+}
+
+export class AllAttendance__Params {
+  _event: AllAttendance;
+
+  constructor(event: AllAttendance) {
+    this._event = event;
+  }
+
+  get _contract(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _staff(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get _time(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
 export class AmountPaidout extends ethereum.Event {
   get params(): AmountPaidout__Params {
     return new AmountPaidout__Params(this);
@@ -23,12 +49,16 @@ export class AmountPaidout__Params {
     this._event = event;
   }
 
+  get _contract(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
   get amount(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+    return this._event.parameters[1].value.toBigInt();
   }
 
   get timePaid(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
@@ -163,16 +193,20 @@ export class bestStaff__Params {
     this._event = event;
   }
 
+  get _contract(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
   get name(): Bytes {
-    return this._event.parameters[0].value.toBytes();
+    return this._event.parameters[1].value.toBytes();
   }
 
   get bestStaff(): Address {
-    return this._event.parameters[1].value.toAddress();
+    return this._event.parameters[2].value.toAddress();
   }
 
   get nftId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -189,8 +223,12 @@ export class staffRemove__Params {
     this._event = event;
   }
 
+  get _contract(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
   get name(): Bytes {
-    return this._event.parameters[0].value.toBytes();
+    return this._event.parameters[1].value.toBytes();
   }
 }
 
@@ -207,12 +245,16 @@ export class tokenDeposit__Params {
     this._event = event;
   }
 
+  get _contract(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
   get _amount(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+    return this._event.parameters[1].value.toBigInt();
   }
 
   get time(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
@@ -229,16 +271,20 @@ export class withdrawToken__Params {
     this._event = event;
   }
 
+  get _contract(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
   get _amount(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+    return this._event.parameters[1].value.toBigInt();
   }
 
   get receiver(): Address {
-    return this._event.parameters[1].value.toAddress();
+    return this._event.parameters[2].value.toAddress();
   }
 
   get time(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -723,6 +769,21 @@ export class payboxdashboard extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  totalPayment(): BigInt {
+    let result = super.call("totalPayment", "totalPayment():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_totalPayment(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("totalPayment", "totalPayment():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   withdrawFund(to: Address, _amount: BigInt): boolean {
