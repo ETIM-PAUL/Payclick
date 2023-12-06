@@ -64,7 +64,7 @@ const Dashboard = () => {
                   <div className="flex flex-col items-stretch w-[69%] max-md:w-full max-md:ml-0">
                     <div className="md:border border-[color:var(--color-secondary-30400,#4A4A4A)] md:bg-zinc-800 flex grow flex-col items-center w-full mx-auto md:pt-12 pb-8 px-7 rounded-xl border-solid max-md:max-w-full mt-0 max-md:px-5">
                       <div className="self-stretch max-md:max-w-full">
-                        <div className="gap-5 flex md:flex-wrap overflow-scroll space-x-8 md:space-x-0 md:flex-col w-full max-md:items-stretch max-md:gap-0">
+                        <div className="gap-5 flex md:flex-wrap overflow-scroll space-x-8 md:space-x-0 w-full max-md:items-stretch max-md:gap-0">
 
                           <div className="flex flex-col items-stretch grow max-md:w-full max-md:ml-0">
                             <div className="bg-orange-600 flex grow justify-between gap-5 w-full mx-auto pl-6 pb-6 rounded-2xl max-md:mt-5 max-md:pl-5">
@@ -127,7 +127,20 @@ const Dashboard = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="justify-between items-stretch self-stretch flex gap-5 mt-12 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
+                      <div className="justify-start w-full flex gap-5 items-start mt-5">
+                        <div className="text-emerald-300 text-xl font-medium leading-8 whitespace-nowrap">
+                          Member of the Month
+                        </div>
+                        <Link to="/members/monthly_winner">
+                          <img
+                            loading="lazy"
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c359de759ff8baca0cacf2280a3984f0a2dcdab65d40a060dd65b7e2c108df2d?"
+                            className="aspect-square object-contain object-center w-[34px] justify-center items-center overflow-hidden self-stretch shrink-0 max-w-full"
+                          />
+                        </Link>
+                      </div>
+
+                      <div className="justify-between items-stretch self-stretch flex gap-5 mt-6 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
                         <div className="text-white text-2xl leading-8">
                           Recent Activities
                         </div>
@@ -135,7 +148,7 @@ const Dashboard = () => {
                           View all
                         </div>
                       </div>
-                      <div className="w-full mt-0 md:mt-8">
+                      <div className="w-full mt-0 md:mt-">
                         <div className="gap-5 mt-3 md:mt-0 p-3 md:p-0 w-full flex bg-zinc-800 md:bg-transparent rounded-md md:rounded-none items-center max-md:gap-0">
                           <div className="flex flex-col items-stretch w-[29%] max-md:w-full max-md:ml-0">
                             <div className="flex grow flex-col items-stretch md:mt-10">

@@ -1,5 +1,5 @@
 
-  import prettier from "prettier/standalone";
+import prettier from "prettier/standalone";
 import parserBabel from "prettier/parser-babel";
 
 export function classNames(...classes) {
@@ -189,4 +189,14 @@ export const StringCaser = (string, { separator, casetype }) => {
   }
 };
 
-  
+export function parseJsonSafely(json, failReturn) {
+  if (typeof json === "object" || Array.isArray(json)) return json;
+  if (typeof json !== "string") return failReturn;
+  try {
+    const res = JSON.parse(json);
+    return res;
+  } catch (err) {
+    console.log("err", json, err);
+    return failReturn;
+  }
+}
