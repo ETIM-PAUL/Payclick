@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: paybox
@@ -17,11 +17,11 @@ dataSources:
         - AccountCreated
       abis:
         - name: paybox
-          file: ./abis/paybox.json
+          file: paybox/abis/paybox.json
       eventHandlers:
         - event: AccountCreated(indexed address,indexed address)
           handler: handleAccountCreated
-      file: ./src/paybox.ts
+      file: paybox/paybox.wasm
 templates:
   - kind: ethereum
     name: payboxDashboard
@@ -32,12 +32,12 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/paybox.ts
+      file: paybox/paybox.wasm
       entities:
         - tokenDeposit
       abis:
         - name: payboxdashboard
-          file: ./abis/payboxdashboard.json
+          file: payboxDashboard/abis/payboxdashboard.json
       eventHandlers:
         - event: tokenDeposit(indexed uint256,uint256)
           handler: handleTokenDeposit
