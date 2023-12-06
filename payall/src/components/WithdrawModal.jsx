@@ -1,8 +1,33 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
+import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { GlobalContext } from '../context/GlobalContext';
+import childABI from '../const/childFact.json'
 
 export function WithdrawModal({ setShowWithdrawnModal, showWithdrawnModal }) {
+
+const [amount, setAmount] = useState('')
+const [addr, setAddr] = useState('');
+const {state} =useContext(GlobalContext)
+
+  const { config } = usePrepareContractWrite({
+
+    address: state.childAddress,
+    abi: childABI,
+    functionName: 'withdrawFund',
+    args:[addr, Number(amount)*1e18],
+    onSuccess(data) {
+      console.log('Success', data)
+
+    },
+  })
+  const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    write?.()
+  }
 
   return (
     <Transition
@@ -46,19 +71,22 @@ export function WithdrawModal({ setShowWithdrawnModal, showWithdrawnModal }) {
                     <p className=''>
                       Amount to Withdraw
                     </p>
-                    <input type="number" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-3xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                    <input type="number" placeholder="$0.00" onChange={(e)=>setAmount(e.target.value)} className='bg-transparent border rounded-lg mt-2 border-white text-3xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                   </div>
                   <div className='mb-2 mt-4 w-full'>
                     <p className=''>
                       Withdraw Destination (USDT Wallet)
                     </p>
-                    <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-3xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                    <input type="text" placeholder="$0.00" onChange={(e)=>setAddr(e.target.value)}  className='bg-transparent border rounded-lg mt-2 border-white text-3xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                   </div>
                 </div>
 
                 <div className='flex w-full items-center gap-3 mt-16'>
                   <button onClick={() => setShowWithdrawnModal(false)} className="w-full bg-zinc-500 text-white p-3 rounded-[8px]">Cancel</button>
-                  <button onClick={() => setShowWithdrawnModal(false)} className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Withdraw Funds</button>
+                  <button
+                  //  onClick={() => setShowWithdrawnModal(false)} 
+                  onClick={handleSubmit}
+                  className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Withdraw Funds</button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
