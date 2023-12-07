@@ -79,7 +79,7 @@ export default function SignUpComp() {
     });
   };
 
-  const { config } = usePrepareContractWrite({
+  const { data, isLoading, isSuccess, write } = useContractWrite({
     address: FactoryAddr,
     abi: PayClickABI,
     functionName: "createAccount",
@@ -89,12 +89,11 @@ export default function SignUpComp() {
       console.log("Error", error);
     },
     onSuccess(data) {
-      console.log("Success", data);
+      // console.log("Success", data);
     },
   });
 
 
-  const { data, isLoading, isSuccess, write } = useContractWrite(config)
 
   const { data: readAcct, isError: readError, isLoading: readLoading } = useContractRead({
     address: FactoryAddr,
@@ -106,13 +105,16 @@ export default function SignUpComp() {
 
   const handleSubmit = () => {
     setErrMsg("");
+    console.log('clicked');
 
     if (orgName === "" || email === "" || selectedFile === null || cert === null) {
       setErrMsg("All Fields Required");
     } else {
       setMyLoading(true);
       handleLogoUpload();
+      console.log('clicked2');
       handleCertUpload();
+      console.log('clicked3');
       write?.();
       setMyLoading(false);
     }
@@ -129,8 +131,7 @@ export default function SignUpComp() {
   return (
     <main>
       {errMsg !== "" && <h2 className=" w-[36%] bg-[red] text-white text-center text-[16px]  h-[30px] ml-20 mt-10 ">{errMsg}</h2>}
-      {myLoading ||
-        isLoading && (
+      {myLoading || isLoading && (
           <div className="flex justify-center items-center w-[36%] mt-[300px] absolute ">
 
             <span className="relative flex h-20 w-20">
