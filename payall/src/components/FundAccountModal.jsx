@@ -1,28 +1,43 @@
 import { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
 import childABI from '../const/childFact.json'
+import tokenABI from '../const/token.json'
 import { GlobalContext } from '../context/GlobalContext';
+import {TestTokenAddr} from '../const/contract'
 
 export function FundModal({ setShowFundModal, showFundModal }) {
   const {state} =useContext(GlobalContext)
   const [isOpen, setIsOpen] = useState(true)
   const [num, setNum] = useState('')
+  const [fullnum, setFullNum] = useState('')
+const {address} = useAccount()
 
-
+const { data:approveData, isLoading:approveLoading, isSuccess:approveSuccess, write:approveWrite } = useContractWrite({
+  address: TestTokenAddr,
+  abi: tokenABI,
+  functionName: 'approve',
+  args:[state.childAddress, Number(num)*1e18]
+})
 
   const { config } = usePrepareContractWrite({
     address: state.childAddress,
     abi: childABI,
     functionName: 'depositFund',
-    args:[num]
+    args:[Number(num)*1e18],
+    onSuccess(data) {
+      console.log('Success', data)
+      write?.()
+    },
   })
   const { data, isLoading, isSuccess, write } = useContractWrite(config)
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    write?.()
+
+    approveWrite?.()
+
   }
 
   return (
@@ -70,13 +85,13 @@ export function FundModal({ setShowFundModal, showFundModal }) {
                 </div>
 
                 <div className='flex justify-between items-center mt-24'>
-                  <span>Wallet Address: Asdhj6823hdjhdj</span>
+                  <span>Wallet Address: {address}</span>
                   <IoCopyOutline className='text-2xl cursor-pointer' />
                 </div>
 
                 <div className='flex w-full items-center gap-3 mt-16'>
                   <button onClick={() => setShowFundModal(false)} className="w-full bg-zinc-500 text-white p-3 rounded-[8px]">Cancel</button>
-                  <button onClick={() => setIsOpen(false)} className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Fund Account</button>
+                  <button onClick={handleSubmit} className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Fund Account</button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
