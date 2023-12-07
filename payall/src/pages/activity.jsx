@@ -1,12 +1,77 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import Layout from '../components/Layout'
 import activity from "../assets/activity.svg"
 import TopNav from '../components/TopNav'
+import { gql, useQuery } from 'urql';
+
+const QueryTokendeposit = gql`
+{
+  tokenDeposits {
+    id
+    _contract
+    _amount
+    time
+  }
+  }
+`;
+
+const QueryTokenWithdraw = gql`
+{
+  withdrawTokens {
+    _amount
+    _contract
+    receiver
+    time
+  }
+  }
+`;
+
+const QueryAmountpaidOut = gql`
+{
+  amountPaidouts {
+    _contract
+    amount
+    timePaid
+  }
+  }
+`;
+
 
 const Activity = () => {
   const [activities, setActivities] = React.useState([1, 2, 3])
+  //depost query
+  const [Depositresult, reexecuteDepositQuery] = useQuery({
+    query: QueryTokendeposit,
+  });
 
-  return (
+  //withdraw query
+  const [result, reexecuteQuery] = useQuery({
+    query: QueryTokenWithdraw,
+  });
+  //amount paid out query
+  const [amountpaidData, reexecuteAmountpaidQuery] = useQuery({
+    query: QueryAmountpaidOut,
+  });
+
+  const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
+    console.log('deposit data here', depositData);
+    if (fetchingDeposit) return <p>Loading...</p>;
+    if (depositError) return <p>Oh no... {depositError.message}</p>;
+
+  const { data, fetching, error } = result;
+    console.log('withdraw data here', data);
+    if (fetching) return <p>Loading...</p>;
+    if (error) return <p>Oh no... {error.message}</p>;
+
+    const { data :paidOutdata, fetching:paidOutfetching, error:paidouterror } = amountpaidData;
+    console.log('Amount paid out data here', paidOutdata);
+    if (fetching) return <p>Loading...</p>;
+    if (error) return <p>Oh no... {error.message}</p>;
+  
+  
+  
+    return (
     <Layout>
       <div className="bg-stone">
         <div className="gap-5  max-md:items-stretch max-md:gap-0">
@@ -17,8 +82,8 @@ const Activity = () => {
               {/* Activities */}
               {activities ?
                 <div className='grid space-y-4'>
-                  {activities.length > 0 && activities.map((activity) => (
-                    <div className="items-star self-stretch bg-zinc-800 flex justify-between gap-5 px-6 py-5 rounded-lg max-md:flex-wrap max-md:justify-between max-md:px-5 w-full">
+                  {activities.length > 0 && activities.map((activity, index) => (
+                    <div key={index} className="items-star self-stretch bg-zinc-800 flex justify-between gap-5 px-6 py-5 rounded-lg max-md:flex-wrap max-md:justify-between max-md:px-5 w-full">
                       <div className="items-stretch self-stretch flex justify-between gap-2">
                         <img
                           loading="lazy"

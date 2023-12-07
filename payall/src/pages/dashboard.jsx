@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react'
 import fund_bg from "../assets/withdraw_img.svg"
 import withdraw_bg from "../assets/fund_img.svg"
@@ -12,11 +13,55 @@ import { GlobalContext } from '../context/GlobalContext';
 import childABI from '../const/childFact.json'
 import tokenABI from '../const/token.json'
 import { TestTokenAddr } from '../const/contract';
+import { gql, useQuery } from 'urql';
+
+const QueryTokendeposit = gql`
+{
+  tokenDeposits {
+    id
+    _contract
+    _amount
+    time
+  }
+  }
+`;
+
+const QueryTokenWithdraw = gql`
+{
+  withdrawTokens {
+    _amount
+    _contract
+    receiver
+    time
+  }
+  }
+`;
 
 const Dashboard = () => {
   const [showFundModal, setShowFundModal] = useState(false)
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
   const {state} =useContext(GlobalContext)
+
+  //depost query
+  const [Depositresult, reexecuteDepositQuery] = useQuery({
+    query: QueryTokendeposit,
+  });
+
+  //withdraw query
+  const [result, reexecuteQuery] = useQuery({
+    query: QueryTokenWithdraw,
+  });
+
+  const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
+    console.log('deposit data here', depositData);
+    if (fetchingDeposit) return <p>Loading...</p>;
+    if (depositError) return <p>Oh no... {depositError.message}</p>;
+
+  const { data, fetching, error } = result;
+    console.log('withdraw data here', data);
+    if (fetching) return <p>Loading...</p>;
+    if (error) return <p>Oh no... {error.message}</p>;
+  
 
   console.log('hello',state.childAddress)
 
