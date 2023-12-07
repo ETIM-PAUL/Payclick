@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
-const MemberMiniActionModal = ({ setMiniActionModal, miniActionModal }) => {
+const MemberMiniActionModal = ({ setMiniActionModal, miniActionModal, setRemoveModal, setRemoveType }) => {
   return (
     // <Transition
     //   appear
@@ -38,8 +38,8 @@ const MemberMiniActionModal = ({ setMiniActionModal, miniActionModal }) => {
 
       <div className="inline-grid text-white">
         <span onClick={() => setMiniActionModal(false)} className='font-bold text-right text-xl mb-2 cursor-pointer'>x</span>
-        <span className='mb-2 cursor-pointer hover:bg-white hover:text-black rounded-md p-1'>Remove member</span>
-        <span className='cursor-pointer hover:bg-white hover:text-black rounded-md p-1'>Cancel payment</span>
+        <span onClick={() => { setRemoveModal(true); setRemoveType("member"); setMiniActionModal(false) }} className='mb-2 cursor-pointer hover:bg-white hover:text-black rounded-md p-1'>Remove member</span>
+        <span onClick={() => { setRemoveModal(true); setRemoveType("payment"); setMiniActionModal(false) }} className='cursor-pointer hover:bg-white hover:text-black rounded-md p-1'>Cancel payment</span>
       </div>
     </div>
     //           </Dialog.Panel>

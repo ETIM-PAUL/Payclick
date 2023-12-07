@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
 
-export function WithdrawModal({ setShowWithdrawnModal, showWithdrawnModal }) {
+export function RemoveModalPage({ setRemoveModal, removeModal, removeType }) {
 
   return (
     <Transition
@@ -10,7 +10,7 @@ export function WithdrawModal({ setShowWithdrawnModal, showWithdrawnModal }) {
       show={true}
       as={Fragment}
     >
-      <Dialog open={showWithdrawnModal} onClose={() => null} className="z-10 bg-white">
+      <Dialog open={removeModal} onClose={() => null} className="z-10 bg-white">
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -36,29 +36,23 @@ export function WithdrawModal({ setShowWithdrawnModal, showWithdrawnModal }) {
               className="bg-zinc-800 rounded-md text-white p-6"
             >
               <Dialog.Panel>
-                <Dialog.Title className="text-start block text-3xl">Withdraw Fund</Dialog.Title>
+                <div className='flex justify-between items-center'>
+                  <Dialog.Title className="text-start block text-3xl">Are you sure</Dialog.Title>
+                  <span onClick={() => setRemoveModal(false)} className='font-bold text-right text-xl mb-2 cursor-pointer'>x</span>
+                </div>
                 <Dialog.Description className="text-start block text-base w-[60%] mt-2">
-                  Employee salaries will be sent out on the scheduled date and time
+                  {removeType === "member" ? "Are you sure you want to remove Ella Roberts? They will be remove from your PayCheck members"
+                    :
+                    "Are you sure you want to cancel salary scheduled for Ella Roberts? They will not be able to get their scheduled anymore"
+                  }
                 </Dialog.Description>
 
-                <div className='my-20 block text-start w-full'>
-                  <div className='mb-2 w-full'>
-                    <p className=''>
-                      Amount to Withdraw
-                    </p>
-                    <input type="number" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
-                  </div>
-                  <div className='mb-2 mt-4 w-full'>
-                    <p className=''>
-                      Withdraw Destination (USDT Wallet)
-                    </p>
-                    <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
-                  </div>
-                </div>
-
                 <div className='flex w-full items-center gap-3 mt-16'>
-                  <button onClick={() => setShowWithdrawnModal(false)} className="w-full bg-zinc-500 text-white p-3 rounded-[8px]">Cancel</button>
-                  <button onClick={() => setShowWithdrawnModal(false)} className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Withdraw Funds</button>
+                  {removeType === "member" ?
+                    <button onClick={() => setRemoveModal(false)} className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Remove</button>
+                    :
+                    <button onClick={() => setRemoveModal(false)} className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Cancel</button>
+                  }
                 </div>
               </Dialog.Panel>
             </Transition.Child>

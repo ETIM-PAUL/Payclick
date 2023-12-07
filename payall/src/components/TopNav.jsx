@@ -13,10 +13,10 @@ const TopNav = ({ heading }) => {
   };
   return (
     <div className=''>
-      <div className="flex px-5 md:px-0 flex-col items-stretch my-auto max-md:max-w-full md:mt-10">
+      <div className="flex px-4 md:px-0 flex-col items-stretch my-auto max-md:max-w-full md:mt-10">
         <div className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap pr-0">
           <div className="items-stretch grow basis-[0%] flex-col hidden md:flex">
-            <div className="text-white text-5xl leading-[52px] whitespace-nowrap mt-6 max-md:text-4xl max-md:leading-[51px]">
+            <div className="text-white text-3xl leading-[52px] whitespace-nowrap mt-6 max-md:text-4xl max-md:leading-[51px]">
               {heading}
             </div>
           </div>
