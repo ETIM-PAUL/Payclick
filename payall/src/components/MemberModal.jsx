@@ -1,9 +1,54 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
+import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { GlobalContext } from '../context/GlobalContext';
+import childABI from '../const/childFact.json'
 
 export function MemberModal({ setMemberAdd, memberAdd }) {
-  const [lastStep, setLastStep] = useState(false)
+  const {state} =useContext(GlobalContext)
+  const [lastStep, setLastStep] = useState(false);
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [wallet, setWallet] = useState('')
+  const [position, setPosition] = useState('')
+  const [salary, setSalary] = useState('')
+
+  const [groupName, setGroupName] = useState([])
+  const [groupMail, setGroupMail] = useState([])
+  const [groupWallet, setGroupWallet] = useState([])
+  const [groupPosition, setGroupPosition] = useState([])
+  const [groupSalary, setGroupSalary] = useState([])
+
+  const { config } = usePrepareContractWrite({
+
+    address: state.childAddress,
+    abi: childABI,
+    functionName: 'addStaff',
+    args:[groupWallet,groupSalary,groupName,groupPosition,groupMail ],
+    onSuccess(data) {
+      console.log('Success', data)
+
+    },
+  })
+  const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+
+  const handleSubmit=(e)=>{
+    e.preventDefault()
+    console.log('clicked')
+    if(name===''||email===''||wallet===''||position===''||salary===''){
+      console.log('All fields required')
+    }else{
+
+      setGroupName((prevGroup) => [...prevGroup, name]);
+      setGroupMail((prevGroup) => [...prevGroup, email]);
+      setGroupWallet((prevGroup) => [...prevGroup, wallet]);
+      setGroupPosition((prevGroup) => [...prevGroup, position]);
+      setGroupSalary((prevGroup) => [...prevGroup, salary]);
+      write?.()
+    }
+  }
 
   return (
     <Transition
@@ -52,19 +97,19 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                         <p className=''>
                           Full Name
                         </p>
-                        <input type="text" placeholder="Member Name" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="text" onChange={(e)=> setName(e.target.value)} placeholder="Member Name" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                       <div className='mb-2 mt-4 w-full'>
                         <p className=''>
                           Email Address
                         </p>
-                        <input type="email" placeholder="Member Email" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="email" placeholder="Member Email"  onChange={(e)=> setEmail(e.target.value)}  className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                       <div className='mb-2 mt-4 w-full'>
                         <p className=''>
                           Wallet Address
                         </p>
-                        <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="text" placeholder="Wallet Address"  onChange={(e)=> setWallet(e.target.value)} className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                     </div>
                     :
@@ -73,13 +118,13 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                         <p className=''>
                           Position
                         </p>
-                        <input type="text" placeholder="$0.00" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="text" placeholder="Software Developer" value={position}  onChange={(e)=>  setPosition(e.target.value)}  className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                       <div className='mb-2 mt-4 w-full'>
                         <p className=''>
                           Salary
                         </p>
-                        <input type="number" placeholder="Salary in Dollars($)" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="number" placeholder="Salary in Dollars($)" onChange={(e)=> setSalary(e.target.value)}  className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
 
                     </div>
@@ -89,7 +134,10 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                     {!lastStep ?
                       <button onClick={() => setLastStep(true)} type='button' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Next Step</button>
                       :
-                      <button onClick={() => setMemberAdd(false)} type='submit' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Add Member</button>
+                      <button 
+                      // onClick={() => {setMemberAdd(false)}}
+                      onClick={handleSubmit}
+                       type='submit' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Add Member</button>
                     }
                   </div>
                 </div>

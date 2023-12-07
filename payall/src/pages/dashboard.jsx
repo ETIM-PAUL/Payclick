@@ -29,27 +29,27 @@ const Dashboard = () => {
     abi: tokenABI,
   }
 
-  const { data, isError, isLoading } = useContractReads({
-    contracts: [
+  // const { data, isError, isLoading } = useContractReads({
+  //   contracts: [
 
-      {
-        ...childContract,
-        functionName: 'balanceOf',
-        args:[state.childAddress]
-      },
-      {
-        ...childContract,
-        functionName: 'salaryPaidout',
+  //     {
+  //       ...childContract,
+  //       functionName: 'balanceOf',
+  //       args:[state.childAddress]
+  //     },
+  //     {
+  //       ...childContract,
+  //       functionName: 'salaryPaidout',
       
-      },
-      // {
-      //   ...childContract,
-      //   functionName: 'totalPayment',
+  //     },
+  //     // {
+  //     //   ...childContract,
+  //     //   functionName: 'totalPayment',
       
-      // },
+  //     // },
      
-    ],
-  })
+  //   ],
+  // })
 
   return (
     <Layout>
@@ -74,7 +74,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
-                                    {Number(data[0].result)}
+                                    {/* {Number(data[0].result)} */}
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
                                     USDT
@@ -102,7 +102,7 @@ const Dashboard = () => {
                                 For November
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
-                                ${Number(data[1]?.result[0])}
+                                {/* ${Number(data[1]?.result[0])} */}
                               </div>
                             </div>
                           </div>
