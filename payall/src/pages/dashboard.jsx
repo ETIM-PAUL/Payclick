@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useContext, useState } from 'react'
 import fund_bg from "../assets/withdraw_img.svg"
 import withdraw_bg from "../assets/fund_img.svg"
 import schedule from "../assets/schedule.png"
@@ -6,11 +7,95 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { FundModal } from '../components/FundAccountModal';
 import { WithdrawModal } from '../components/WithdrawModal';
+import {useContractReads} from 'wagmi';
 import TopNav from '../components/TopNav';
+import { GlobalContext } from '../context/GlobalContext';
+import childABI from '../const/childFact.json'
+import tokenABI from '../const/token.json'
+import { TestTokenAddr } from '../const/contract';
+import { gql, useQuery } from 'urql';
+
+const QueryTokendeposit = gql`
+{
+  tokenDeposits {
+    id
+    _contract
+    _amount
+    time
+  }
+  }
+`;
+
+const QueryTokenWithdraw = gql`
+{
+  withdrawTokens {
+    _amount
+    _contract
+    receiver
+    time
+  }
+  }
+`;
 
 const Dashboard = () => {
   const [showFundModal, setShowFundModal] = useState(false)
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
+  const {state} =useContext(GlobalContext)
+
+  //depost query
+  const [Depositresult, reexecuteDepositQuery] = useQuery({
+    query: QueryTokendeposit,
+  });
+
+  //withdraw query
+  const [result, reexecuteQuery] = useQuery({
+    query: QueryTokenWithdraw,
+  });
+
+  const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
+    console.log('deposit data here', depositData);
+    if (fetchingDeposit) return <p>Loading...</p>;
+    if (depositError) return <p>Oh no... {depositError.message}</p>;
+
+  const { data, fetching, error } = result;
+    console.log('withdraw data here', data);
+    if (fetching) return <p>Loading...</p>;
+    if (error) return <p>Oh no... {error.message}</p>;
+  
+
+  console.log('hello',state.childAddress)
+
+  const childContract = {
+    address: state.childAddress,
+    abi: childABI,
+  }
+  const tokenContract = {
+    address: TestTokenAddr,
+    abi: tokenABI,
+  }
+
+  // const { data, isError, isLoading } = useContractReads({
+  //   contracts: [
+
+  //     {
+  //       ...childContract,
+  //       functionName: 'balanceOf',
+  //       args:[state.childAddress]
+  //     },
+  //     {
+  //       ...childContract,
+  //       functionName: 'salaryPaidout',
+      
+  //     },
+  //     // {
+  //     //   ...childContract,
+  //     //   functionName: 'totalPayment',
+      
+  //     // },
+     
+  //   ],
+  // })
+
   return (
     <Layout>
       <div className="bg-stone block pb-20">
@@ -34,7 +119,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
-                                    24,000
+                                    {/* {Number(data[0].result)} */}
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
                                     USDT
@@ -62,7 +147,7 @@ const Dashboard = () => {
                                 For November
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
-                                $9800
+                                {/* ${Number(data[1]?.result[0])} */}
                               </div>
                             </div>
                           </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import Layout from '../components/Layout'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -6,6 +7,18 @@ import MemberMiniActionModal from '../components/MemberMiniActionModal';
 import { MdMenuOpen } from "react-icons/md";
 import TopNav from '../components/TopNav';
 import { RemoveModalPage } from '../components/RemoveModalPage';
+import { gql, useQuery } from 'urql';
+
+const QueryBestStaff = gql`
+{
+  bestStaffs {
+    _contract
+    bestStaff
+    name
+    nftId
+  }
+  }
+`;
 
 const Schedule = () => {
   const [scheduleModal, setScheduleModal] = useState(false)
@@ -14,8 +27,18 @@ const Schedule = () => {
   const [removeModal, setRemoveModal] = useState(false)
   const [removeType, setRemoveType] = useState("")
 
+  //best staff query
+  const [result, reexecuteQuery] = useQuery({
+    query: QueryBestStaff,
+  });
 
-  return (
+  const { data, fetching, error } = result;
+    console.log('best staff data here', data);
+    if (fetching) return <p>Loading...</p>;
+    if (error) return <p>Oh no... {error.message}</p>;
+  
+  
+    return (
     <Layout>
       <div className="bg-stone">
         <div className="gap-5 max-md:items-stretch max-md:gap-0">
@@ -45,9 +68,9 @@ const Schedule = () => {
 
 
 
-              <div class="relative overflow-x-auto sm:rounded-lg">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+              <div className="relative overflow-x-auto sm:rounded-lg">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-900 uppercase dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3">
                         Name

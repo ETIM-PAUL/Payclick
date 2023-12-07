@@ -13,19 +13,20 @@ export default function CustomWallet() {
   const [coin, setCoin] = useState(false)
   const [walcon, setWalCon] = useState(false)
   const [fort, setFort] = useState(false)
-  console.log(mMask);
+  // console.log(mMask);
   return (
         <div className="mt-10">
         <WalletButton.Custom wallet="metamask">
         {({ ready, connect,disconnect }) => {
           return (
             <>
-            {!mMask && !connected? 
+            {!mMask ? 
 
             <button
               type="button"
               disabled={!ready}
-              onClick={()=>{connect(); setMMask(true), setConnected(true)}}
+              // onClick={()=>{connect(); setMMask(true); setConnected(true)}}
+              onClick={connect}
               className="border-[1px] w-[100%]  border-[#F1F1F1] bg-[#4E4E4E] flex justify-between items-center px-[10px] rounded-lg h-[48px] cursor-pointer">
                 <h2 className="text-[#F1F1F1]">{"MetaMask"}</h2>
                 <img src={metamaskjpg} alt="" className='w-[24px] h-[24px]'/>

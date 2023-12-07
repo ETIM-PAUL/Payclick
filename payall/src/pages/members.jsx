@@ -1,11 +1,34 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import Layout from '../components/Layout'
 import TopNav from '../components/TopNav'
 import { Link } from 'react-router-dom'
 import { MemberModal } from '../components/MemberModal'
+import { gql, useQuery } from 'urql';
+
+const QueryAttendance = gql`
+{
+    allAttendances {
+      _contract
+      _staff
+      _time
+    }
+  }
+`;
+
 
 const Members = () => {
   const [memberAdd, setMemberAdd] = useState(false)
+  const [result, reexecuteQuery] = useQuery({
+    query: QueryAttendance,
+  });
+
+  const handleViewAttendance = () =>{
+    const { data, fetching, error } = result;
+    console.log('attendance data here', data);
+    if (fetching) return <p>Loading...</p>;
+    if (error) return <p>Oh no... {error.message}</p>;
+  }
 
   return (
     <Layout>
@@ -31,7 +54,7 @@ const Members = () => {
                     <Link to="/attendance"
                       className="text-emerald-300 border border-emerald-300 hover:cursor-pointer items-stretch justify-center flex w-60 max-w-full gap-2 mt-2 py-3.5 rounded-lg"
                     >
-                      <div className="text-base font-medium leading-6 tracking-normal grow whitespace-nowrap text-center">
+                      <div className="text-base font-medium leading-6 tracking-normal grow whitespace-nowrap text-center" onClick={handleViewAttendance}>
                         View Attendance
                       </div>
                     </Link>

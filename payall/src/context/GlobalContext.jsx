@@ -14,7 +14,7 @@ const reducer = (state, action) => {
     case "SET_CHILD_ADDRESS":
       return {
         ...state,
-        path: action.payload.address,
+        childAddress: action.payload.childAddress,
       };
     default:
       return state;

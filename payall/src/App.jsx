@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Layout from "./components/Layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
@@ -22,6 +23,8 @@ import { publicProvider } from 'wagmi/providers/public';
 import Members from "./pages/members";
 import GlobalProvider from "./context/GlobalContext";
 import MonthMember from "./pages/monthmember";
+import { Client, Provider, cacheExchange, fetchExchange } from 'urql';
+
 const { chains, publicClient } = configureChains(
   [polygonZkEvmTestnet],
   [
@@ -29,6 +32,11 @@ const { chains, publicClient } = configureChains(
     publicProvider()
   ]
 );
+
+const client = new Client({
+  url: 'https://api.studio.thegraph.com/query/52398/payboxproject/version/latest',
+  exchanges: [cacheExchange, fetchExchange],
+});
 
 const { connectors } = getDefaultWallets({
   appName: 'My RainbowKit App',
@@ -48,6 +56,7 @@ function App() {
     <GlobalProvider>
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider chains={chains}>
+        <Provider value={client}>
           <BrowserRouter>
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
@@ -58,6 +67,7 @@ function App() {
               <Route path="/signin" element={<Signin />} />
             </Routes>
           </BrowserRouter>
+          </Provider>
         </RainbowKitProvider>
       </WagmiConfig>
     </GlobalProvider>
