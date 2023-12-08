@@ -111,9 +111,9 @@ const { data, isError, isLoading } = useContractReads({
                   <div className="flex flex-col items-stretch w-[69%] max-md:w-full max-md:ml-0">
                     <div className="md:border border-[color:var(--color-secondary-30400,#4A4A4A)] md:bg-zinc-800 flex grow flex-col items-center w-full mx-auto md:pt-12 pb-8 px-7 rounded-xl border-solid max-md:max-w-full mt-0 max-md:px-5">
                       <div className="self-stretch max-md:max-w-full">
-                        <div className="gap-5 flex md:flex-wrap overflow-scroll space-x-8 md:space-x-0 w-full max-md:items-stretch max-md:gap-0">
+                        <div className="gap-5 flex md:flex-wrap overflow-hidden space-x-8 md:space-x-0 w-full max-md:items-stretch max-md:gap-0">
 
-                          <div className="flex flex-col items-stretch grow max-md:w-full max-md:ml-0">
+                          <div className="flex flex-col items-stretch grow max-md:w-full max-md:ml-0 ">
                             <div className="bg-orange-600 flex grow justify-between gap-5 w-full mx-auto pl-6 pb-6 rounded-2xl max-md:mt-5 max-md:pl-5">
                               <div className="items-stretch flex grow basis-[0%] flex-col mt-6">
                                 <div className="text-white text-2xl leading-8 whitespace-nowrap">

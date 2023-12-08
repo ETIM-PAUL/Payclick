@@ -5,7 +5,7 @@ import dashboard from "../assets/dashboardicon.svg"
 export const Sidebar = () => {
   return (
     <>
-      <div className="hidden overflow-scroll md:flex flex-col items-stretch  max-md:w-full max-md:ml-0">
+      <div className="hidden verflow-y-scroll scrollbar-thin scrollbar-thumb-[#19192E] scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full md:flex flex-col items-stretch  max-md:w-full max-md:ml-0">
         <div className="border-r-[color:var(--color-gray-900,#4E4E4E)] bg-stone-950 flex w-full grow flex-col mx-auto pl-11 pr-8 py-12 border-r-2 border-solid max-md:px-5">
           <div className="items-stretch flex w-[217px] max-w-full gap-5 ml-4 mt-2.5 self-start max-md:ml-2.5">
             <img
