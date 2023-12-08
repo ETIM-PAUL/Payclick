@@ -4,6 +4,7 @@ import React, { useReducer } from "react";
 
 const initialState = {
   childAddress: "",
+  loading:false,
 };
 
 export const GlobalContext = React.createContext(initialState);
@@ -15,6 +16,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         childAddress: action.payload.childAddress,
+      };
+    case "LOADING":
+      return {
+        ...state,
+        childAddress: action.payload.loading,
       };
     default:
       return state;

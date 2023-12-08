@@ -112,9 +112,7 @@ export default function SignUpComp() {
     } else {
       setMyLoading(true);
       handleLogoUpload();
-      console.log('clicked2');
       handleCertUpload();
-      console.log('clicked3');
       write?.();
       setMyLoading(false);
     }

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const Layout = ({ children }) => {
   const {address} = useAccount()
   const navigate = useNavigate();
-  const {dispatch} =useContext(GlobalContext)
+  const {dispatch, state} =useContext(GlobalContext)
  
 
   
@@ -24,11 +24,12 @@ const Layout = ({ children }) => {
   useEffect(()=>{
 
 
-    dispatch({
-      type: "SET_CHILD_ADDRESS",
-      payload: { childAddress: readAcct },
-    });
-  
+
+  dispatch({
+    type: "SET_CHILD_ADDRESS",
+    payload: { childAddress: readAcct },
+  });
+
     if(address){
 
       if(readAcct==='0x0000000000000000000000000000000000000000'){

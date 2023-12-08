@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import fund_bg from "../assets/withdraw_img.svg"
 import withdraw_bg from "../assets/fund_img.svg"
 import schedule from "../assets/schedule.png"
@@ -40,7 +40,7 @@ const QueryTokenWithdraw = gql`
 const Dashboard = () => {
   const [showFundModal, setShowFundModal] = useState(false)
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
-  const {state} =useContext(GlobalContext)
+  const {dispatch, state} =useContext(GlobalContext)
 
   //depost query
   const [Depositresult, reexecuteDepositQuery] = useQuery({
@@ -52,18 +52,18 @@ const Dashboard = () => {
     query: QueryTokenWithdraw,
   });
 
-  const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
-    console.log('deposit data here', depositData);
-    if (fetchingDeposit) return <p>Loading...</p>;
-    if (depositError) return <p>Oh no... {depositError.message}</p>;
+  // const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
+  //   console.log('deposit data here', depositData);
+  //   if (fetchingDeposit) return <p>Loading...</p>;
+  //   if (depositError) return <p>Oh no... {depositError.message}</p>;
 
-  const { data, fetching, error } = result;
-    console.log('withdraw data here', data);
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
+  // const { data:myData, fetching, error } = result;
+  //   console.log('withdraw data here', myData);
+  //   if (fetching) return <p>Loading...</p>;
+  //   if (error) return <p>Oh no... {error.message}</p>;
   
 
-  console.log('hello',state.childAddress)
+
 
   const childContract = {
     address: state.childAddress,
@@ -73,31 +73,35 @@ const Dashboard = () => {
     address: TestTokenAddr,
     abi: tokenABI,
   }
+// if(state.childAddress !== ''){
+// console.log('hello', state.childAddress)
+// }
+const { data, isError, isLoading } = useContractReads({
+  contracts: [
 
-  // const { data, isError, isLoading } = useContractReads({
-  //   contracts: [
+    {
+      ...childContract,
+      functionName: 'balanceOf',
+      args:[state.childAddress]
+    },
+    {
+      ...childContract,
+      functionName: 'salaryPaidout',
+    
+    },
+    // {
+    //   ...childContract,
+    //   functionName: 'totalPayment',
+    
+    // },
+   
+  ],
+})
 
-  //     {
-  //       ...childContract,
-  //       functionName: 'balanceOf',
-  //       args:[state.childAddress]
-  //     },
-  //     {
-  //       ...childContract,
-  //       functionName: 'salaryPaidout',
-      
-  //     },
-  //     // {
-  //     //   ...childContract,
-  //     //   functionName: 'totalPayment',
-      
-  //     // },
-     
-  //   ],
-  // })
 
   return (
     <Layout>
+   
       <div className="bg-stone block pb-20">
         <div className="gap-5  max-md:items-stretch max-md:gap-0">
           <div className="flex flex-col items-stretch ml- max-md:w-full max-md:ml-0">
@@ -119,7 +123,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
-                                    {/* {Number(data[0].result)} */}
+                                    {state.childAddress !== '' ? Number(data[0].result) : '0.00'}
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
                                     USDT
@@ -147,7 +151,7 @@ const Dashboard = () => {
                                 For November
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
-                                {/* ${Number(data[1]?.result[0])} */}
+                                ${state.childAddress !== '' ? Number(data[1]?.result[0]) : '0.00'}
                               </div>
                             </div>
                           </div>
@@ -418,6 +422,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      
 
       {/* Fund Modal */}
       {showFundModal &&
