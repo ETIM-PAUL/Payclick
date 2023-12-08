@@ -1,12 +1,39 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useState,useContext,useEffect } from 'react'
 import Layout from '../components/Layout'
 import TopNav from '../components/TopNav'
 import { MemberModal } from '../components/MemberModal'
+import { gql, useQuery } from 'urql';
+import { GlobalContext } from '../context/GlobalContext';
+
 
 
 const Attendance = () => {
   const [memberAdd, setMemberAdd] = useState(false)
+  const {state} = useContext(GlobalContext)
+
+
+  const GET_ATTENDANCES = gql`
+  query GetAttendances($contract: String!) {
+    allAttendances(where: { _contract: $contract }) {
+      _contract
+      _staff
+      _time
+    }
+  }
+`;
+
+const [result] = useQuery({
+  query: GET_ATTENDANCES,
+  variables: { contract: state.childAddress },
+});
+
+  const { data, fetching, error } = result;
+  console.log('attendance staff here', data.allAttendances[0]._staff);
+  console.log('attendance time here', data.allAttendances[0]._time);
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
+  
 
   return (
     <Layout>
@@ -83,7 +110,6 @@ const Attendance = () => {
                       </tr>
                     </tbody>
                   </table>
-
                 </div>
 
               </div>

@@ -15,7 +15,14 @@ import tokenABI from '../const/token.json'
 import { TestTokenAddr } from '../const/contract';
 import { gql, useQuery } from 'urql';
 
-const QueryTokendeposit = gql`
+
+
+const Dashboard = () => {
+  const [showFundModal, setShowFundModal] = useState(false)
+  const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
+  const {state} =useContext(GlobalContext)
+
+  const QueryTokendeposit = gql`
 {
   tokenDeposits {
     id
@@ -36,12 +43,6 @@ const QueryTokenWithdraw = gql`
   }
   }
 `;
-
-const Dashboard = () => {
-  const [showFundModal, setShowFundModal] = useState(false)
-  const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
-  const {state} =useContext(GlobalContext)
-
   //depost query
   const [Depositresult, reexecuteDepositQuery] = useQuery({
     query: QueryTokendeposit,
