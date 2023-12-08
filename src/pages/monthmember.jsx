@@ -3,7 +3,30 @@ import TopNav from '../components/TopNav'
 import Layout from '../components/Layout'
 import nft from "../assets/NFT.svg"
 
+import { gql, useQuery } from 'urql';
+
+const QueryBestStaff = gql`
+{
+  bestStaffs {
+    _contract
+    bestStaff
+    name
+    nftId
+  }
+  }
+`;
+
+
 const MonthMember = () => {
+   //best staff query
+   const [result, reexecuteQuery] = useQuery({
+    query: QueryBestStaff,
+  });
+
+  const { data, fetching, error } = result;
+    console.log('best staff data here', data);
+    if (fetching) return <p>Loading...</p>;
+    if (error) return <p>Oh no... {error.message}</p>;
   return (
     <Layout >
       <div className="bg-stone px-">
