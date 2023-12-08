@@ -1,6 +1,0 @@
-export {default as IconCards} from './IconCards'
-      export {default as DashboardUI} from './DashboardUI'
-      export {default as LineChart} from './LineChart'
-      export {default as NumberLabelCard} from './NumberLabelCard'
-      export {default as PieChart} from './PieChart'
-      export {default as Stats} from './Stats'
