@@ -30,14 +30,13 @@ const Layout = ({ children }) => {
     payload: { childAddress: readAcct },
   });
 
-    if(address){
-
-      if(readAcct==='0x0000000000000000000000000000000000000000'){
-       navigate("/signin")
-      } 
-    }
+  
     if(!address){
       navigate("/signin")
+    }else{
+      if(readAcct==='0x0000000000000000000000000000000000000000'){
+        navigate("/signin")
+       } 
     }
   },[readAcct,address])
   return (
