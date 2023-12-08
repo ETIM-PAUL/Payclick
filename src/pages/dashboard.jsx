@@ -22,46 +22,46 @@ const Dashboard = () => {
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
   const {state} =useContext(GlobalContext)
 
-  const QueryTokendeposit = gql`
-{
-  tokenDeposits {
-    id
-    _contract
-    _amount
-    time
-  }
-  }
-`;
+//   const QueryTokendeposit = gql`
+// {
+//   tokenDeposits {
+//     id
+//     _contract
+//     _amount
+//     time
+//   }
+//   }
+// `;
 
-const QueryTokenWithdraw = gql`
-{
-  withdrawTokens {
-    _amount
-    _contract
-    receiver
-    time
-  }
-  }
-`;
-  //depost query
-  const [Depositresult, reexecuteDepositQuery] = useQuery({
-    query: QueryTokendeposit,
-  });
+// const QueryTokenWithdraw = gql`
+// {
+//   withdrawTokens {
+//     _amount
+//     _contract
+//     receiver
+//     time
+//   }
+//   }
+// `;
+//   //depost query
+//   const [Depositresult, reexecuteDepositQuery] = useQuery({
+//     query: QueryTokendeposit,
+//   });
 
-  //withdraw query
-  const [result, reexecuteQuery] = useQuery({
-    query: QueryTokenWithdraw,
-  });
+//   //withdraw query
+//   const [result, reexecuteQuery] = useQuery({
+//     query: QueryTokenWithdraw,
+//   });
 
-  const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
-    console.log('deposit data here', depositData);
-    if (fetchingDeposit) return <p>Loading...</p>;
-    if (depositError) return <p>Oh no... {depositError.message}</p>;
+//   const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
+//     console.log('deposit data here', depositData);
+//     if (fetchingDeposit) return <p>Loading...</p>;
+//     if (depositError) return <p>Oh no... {depositError.message}</p>;
 
-  const { data, fetching, error } = result;
-    console.log('withdraw data here', data);
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
+//   const { data, fetching, error } = result;
+//     console.log('withdraw data here', data);
+//     if (fetching) return <p>Loading...</p>;
+//     if (error) return <p>Oh no... {error.message}</p>;
   
 
   console.log('hello',state.childAddress)

@@ -1,12 +1,12 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: paybox
     network: polygon-zkevm-testnet
     source:
-      address: "0xfd549326FFfC7a7a6c742034a30D3a5846C63455"
+      address: "0x7B27c498999347cfCBbCC9Ba9410a03877e4904E"
       abi: paybox
       startBlock: 0
     mapping:
@@ -17,11 +17,11 @@ dataSources:
         - AccountCreated
       abis:
         - name: paybox
-          file: ./abis/paybox.json
+          file: paybox/abis/paybox.json
       eventHandlers:
         - event: AccountCreated(indexed address,indexed address)
           handler: handleAccountCreated
-      file: ./src/paybox.ts
+      file: paybox/paybox.wasm
 templates:
   - kind: ethereum
     name: payboxDashboard
@@ -32,18 +32,18 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/paybox.ts
+      file: paybox/paybox.wasm
       entities:
         - tokenDeposit
       abis:
         - name: payboxdashboard
-          file: ./abis/payboxdashboard.json
+          file: payboxDashboard/abis/payboxdashboard.json
       eventHandlers:
         - event: tokenDeposit(address,indexed uint256,uint256)
           handler: handleTokenDeposit
         - event: withdrawToken(address,indexed uint256,indexed address,indexed uint256)
           handler: handleWithdrawToken
-        - event: AllAttendance(address,indexed address,indexed uint256)
+        - event: AllAttendance(address,indexed address,string,string,string,indexed uint256)
           handler: handleAttendance
         - event: AmountPaidout(address,indexed uint256,indexed uint256)
           handler: handleAmountpaidOut

@@ -31,8 +31,20 @@ export class AllAttendance__Params {
     return this._event.parameters[1].value.toAddress();
   }
 
+  get name(): string {
+    return this._event.parameters[2].value.toString();
+  }
+
+  get position(): string {
+    return this._event.parameters[3].value.toString();
+  }
+
+  get email(): string {
+    return this._event.parameters[4].value.toString();
+  }
+
   get _time(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[5].value.toBigInt();
   }
 }
 

@@ -5,69 +5,69 @@ import activity from "../assets/activity.svg"
 import TopNav from '../components/TopNav'
 import { gql, useQuery } from 'urql';
 
-const QueryTokendeposit = gql`
-{
-  tokenDeposits {
-    id
-    _contract
-    _amount
-    time
-  }
-  }
-`;
+// const QueryTokendeposit = gql`
+// {
+//   tokenDeposits {
+//     id
+//     _contract
+//     _amount
+//     time
+//   }
+//   }
+// `;
 
-const QueryTokenWithdraw = gql`
-{
-  withdrawTokens {
-    _amount
-    _contract
-    receiver
-    time
-  }
-  }
-`;
+// const QueryTokenWithdraw = gql`
+// {
+//   withdrawTokens {
+//     _amount
+//     _contract
+//     receiver
+//     time
+//   }
+//   }
+// `;
 
-const QueryAmountpaidOut = gql`
-{
-  amountPaidouts {
-    _contract
-    amount
-    timePaid
-  }
-  }
-`;
+// const QueryAmountpaidOut = gql`
+// {
+//   amountPaidouts {
+//     _contract
+//     amount
+//     timePaid
+//   }
+//   }
+// `;
 
 
 const Activity = () => {
   const [activities, setActivities] = React.useState([1, 2, 3])
   //depost query
-  const [Depositresult, reexecuteDepositQuery] = useQuery({
-    query: QueryTokendeposit,
-  });
+  // const [Depositresult, reexecuteDepositQuery] = useQuery({
+  //   query: QueryTokendeposit,
+  // });
 
-  //withdraw query
-  const [result, reexecuteQuery] = useQuery({
-    query: QueryTokenWithdraw,
-  });
-  //amount paid out query
-  const [amountpaidData, reexecuteAmountpaidQuery] = useQuery({
-    query: QueryAmountpaidOut,
-  });
+  // //withdraw query
+  // const [result, reexecuteQuery] = useQuery({
+  //   query: QueryTokenWithdraw,
+  // });
+  // //amount paid out query
+  // const [amountpaidData, reexecuteAmountpaidQuery] = useQuery({
+  //   query: QueryAmountpaidOut,
+  // });
 
-  const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
-    console.log('deposit data here', depositData);
-    if (fetchingDeposit) return <p>Loading...</p>;
-    if (depositError) return <p>Oh no... {depositError.message}</p>;
+  // const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
+  //   console.log('deposit data here', depositData);
+  //   if (fetchingDeposit) return <p>Loading...</p>;
+  //   if (depositError) return <p>Oh no... {depositError.message}</p>;
 
-  const { data, fetching, error } = result;
-    console.log('withdraw data here', data);
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
+  // const { data, fetching, error } = result;
+  //   console.log('withdraw data here', data);
+  //   if (fetching) return <p>Loading...</p>;
+  //   if (error) return <p>Oh no... {error.message}</p>;
 
-    const { data :paidOutdata, fetching:paidOutfetching, error:paidouterror } = amountpaidData;
-    console.log('Amount paid out data here', paidOutdata);
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
+  //   const { data :paidOutdata, fetching:paidOutfetching, error:paidouterror } = amountpaidData;
+  //   console.log('Amount paid out data here', paidOutdata);
+  //   if (fetching) return <p>Loading...</p>;
+  //   if (error) return <p>Oh no... {error.message}</p>;
   
   
   

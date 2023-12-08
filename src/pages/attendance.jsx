@@ -13,26 +13,26 @@ const Attendance = () => {
   const {state} = useContext(GlobalContext)
 
 
-  const GET_ATTENDANCES = gql`
-  query GetAttendances($contract: String!) {
-    allAttendances(where: { _contract: $contract }) {
-      _contract
-      _staff
-      _time
-    }
-  }
-`;
+//   const GET_ATTENDANCES = gql`
+//   query GetAttendances($contract: String!) {
+//     allAttendances(where: { _contract: $contract }) {
+//       _contract
+//       _staff
+//       _time
+//     }
+//   }
+// `;
 
-const [result] = useQuery({
-  query: GET_ATTENDANCES,
-  variables: { contract: state.childAddress },
-});
+// const [result] = useQuery({
+//   query: GET_ATTENDANCES,
+//   variables: { contract: state.childAddress },
+// });
 
-  const { data, fetching, error } = result;
-  console.log('attendance staff here', data.allAttendances[0]._staff);
-  console.log('attendance time here', data.allAttendances[0]._time);
-  if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+//   const { data, fetching, error } = result;
+//   console.log('attendance staff here', data.allAttendances[0]._staff);
+//   console.log('attendance time here', data.allAttendances[0]._time);
+//   if (fetching) return <p>Loading...</p>;
+//   if (error) return <p>Oh no... {error.message}</p>;
   
 
   return (

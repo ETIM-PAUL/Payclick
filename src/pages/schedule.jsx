@@ -20,25 +20,25 @@ const Schedule = () => {
   const {state} = useContext(GlobalContext)
 
 
-  const QueryBestStaff = gql`
-{
-  bestStaffs (where : {state.childAddress}){
-    _contract
-    bestStaff
-    name
-    nftId
-  }
-  }
-`;
-  //best staff query
-  const [result, reexecuteQuery] = useQuery({
-    query: QueryBestStaff,
-  });
+//   const QueryBestStaff = gql`
+// {
+//   bestStaffs (where : {state.childAddress}){
+//     _contract
+//     bestStaff
+//     name
+//     nftId
+//   }
+//   }
+// `;
+//   //best staff query
+//   const [result, reexecuteQuery] = useQuery({
+//     query: QueryBestStaff,
+//   });
 
-  const { data, fetching, error } = result;
-    console.log('best staff data here', data);
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
+//   const { data, fetching, error } = result;
+//     console.log('best staff data here', data);
+//     if (fetching) return <p>Loading...</p>;
+//     if (error) return <p>Oh no... {error.message}</p>;
   
   
     return (

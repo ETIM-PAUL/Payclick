@@ -32,6 +32,9 @@ type AllAttendance @entity(immutable: true) {
   id: Bytes!
   _contract: Bytes! 
   _staff: Bytes!  
+  name : String!
+  position : String!
+  email : String!
   _time: BigInt! 
   blockNumber: BigInt!
   blockTimestamp: BigInt!

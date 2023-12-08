@@ -36,7 +36,7 @@ const { chains, publicClient } = configureChains(
 );
 
 const client = new Client({
-  url: '',
+  url: 'https://api.studio.thegraph.com/query/52398/payboxsubgraph/version/latest',
   exchanges: [cacheExchange, fetchExchange],
 });
 
