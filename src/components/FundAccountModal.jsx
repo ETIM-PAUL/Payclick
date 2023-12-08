@@ -1,13 +1,14 @@
 /** @format */
 
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IoCopyOutline } from "react-icons/io5";
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import childABI from "../const/childFact.json";
 import tokenABI from "../const/token.json";
 import { GlobalContext } from "../context/GlobalContext";
 import { TestTokenAddr } from "../const/contract";
+import { toast } from "react-toastify";
 
 export function FundModal({ setShowFundModal, showFundModal }) {
   const { state } = useContext(GlobalContext);
@@ -15,21 +16,23 @@ export function FundModal({ setShowFundModal, showFundModal }) {
   const [num, setNum] = useState("");
   const [fullnum, setFullNum] = useState("");
   const { address } = useAccount();
-  const [err, setErr]= useState('')
+  const [err, setErr] = useState("");
 
-  const { data, isLoading, isSuccess, write  } = useContractWrite({
+  const { data, isLoading, isSuccess, write } = useContractWrite({
     address: state.childAddress,
     abi: childABI,
     functionName: "depositFund",
     args: [Number(num) * 1e18],
     onSuccess(data) {
       console.log("Success", data);
+      setShowFundModal(false)
+      toast.success("Transaction Approved");
 
     },
-    onError(error){
-setErr(error)
-    }
-  })
+    onError() {
+      setErr("Error Occur when calling Deposit");
+    },
+  });
 
   const {
     data: approveData,
@@ -42,23 +45,30 @@ setErr(error)
     functionName: "approve",
     args: [state.childAddress, Number(num) * 1e18],
     onSuccess(data) {
-      console.log("Success", data);
+      toast.success('Amount Approved');
       write?.();
+    },
+    onError() {
+      setErr("Error Occur when approving cotract");
     },
   });
 
-;
-
+  // const {
+  //   data: approveWait,
+  //   isError: approveWaitErr,
+  //   isLoading: approvewaitLoad,
+  // } = useWaitForTransaction({
+  //   hash: approveData.hash,
+  // });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(Number(num)===0){
-      setErr('INPUT CAN NOT BE EMPTY')
-    }else{
-console.log('clicked')
+    if (Number(num) === 0) {
+      setErr("INPUT CAN NOT BE EMPTY");
+    } else {
+      console.log("clicked");
       approveWrite?.();
     }
-  
   };
 
   return (
@@ -93,15 +103,16 @@ console.log('clicked')
               className="bg-zinc-800 rounded-md text-white p-6"
             >
               <Dialog.Panel>
-                {isLoading || approveLoading &&
-                <div className="flex tems-center mt-[200px] absolute ">
-                  <span className="relative flex h-20 w-20 ml-[250px]">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
-                  </span>
-                </div>
-                }
-              
+                {isLoading ||
+                  approveLoading? (
+                    <div className="flex tems-center mt-[200px] absolute ">
+                      <span className="relative flex h-20 w-20 ml-[250px]">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
+                      </span>
+                    </div>
+                  ): null}
+
                 <Dialog.Title className="text-start block text-3xl">
                   Fund Account
                 </Dialog.Title>
@@ -109,9 +120,11 @@ console.log('clicked')
                   Amount funded into your account will be added directly from
                   connected wallet
                 </Dialog.Description>
-                {err !== '' &&
-                <h2 className=" w-[100%] bg-[red] text-white text-center text-[16px]  h-[30px]  mt-10 ">{err}</h2>
-                }
+                {err !== "" && (
+                  <h2 className=" w-[100%] bg-[red] text-white text-center text-[16px]  h-[30px]  mt-10 ">
+                    {err}
+                  </h2>
+                )}
 
                 <div className="my-20 w-full mx-auto">
                   <p className="text-center block w-full">

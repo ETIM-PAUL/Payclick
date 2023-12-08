@@ -73,9 +73,7 @@ const Dashboard = () => {
     address: TestTokenAddr,
     abi: tokenABI,
   }
-// if(state.childAddress !== ''){
-// console.log('hello', state.childAddress)
-// }
+
 const { data, isError, isLoading } = useContractReads({
   contracts: [
 

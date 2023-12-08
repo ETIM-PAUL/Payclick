@@ -26,6 +26,8 @@ import MonthMember from "./pages/monthmember";
 import { Client, Provider, cacheExchange, fetchExchange } from 'urql';
 import Payout from "./pages/payout";
 import Attendance from "./pages/attendance";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { chains, publicClient } = configureChains(
   [polygonZkEvmTestnet],
@@ -71,6 +73,7 @@ function App() {
                 <Route path="/signin" element={<Signin />} />
               </Routes>
             </BrowserRouter>
+                <ToastContainer />
           </Provider>
         </RainbowKitProvider>
       </WagmiConfig>

@@ -4,6 +4,7 @@ import { IoCopyOutline } from "react-icons/io5";
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 import { GlobalContext } from '../context/GlobalContext';
 import childABI from '../const/childFact.json'
+import { toast } from 'react-toastify';
 
 export function MemberModal({ setMemberAdd, memberAdd }) {
   const {state} =useContext(GlobalContext)
@@ -19,26 +20,36 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
   const [groupWallet, setGroupWallet] = useState([])
   const [groupPosition, setGroupPosition] = useState([])
   const [groupSalary, setGroupSalary] = useState([])
+  const [err, setErr] = useState("");
 
-  const { config } = usePrepareContractWrite({
+  const { data, isLoading, isSuccess, write } = useContractWrite({
 
     address: state.childAddress,
     abi: childABI,
     functionName: 'addStaff',
     args:[groupWallet,groupSalary,groupName,groupPosition,groupMail ],
     onSuccess(data) {
-      console.log('Success', data)
+      setLastStep(true)
+      setName('')
+      setEmail('')
+      setWallet('')
+      setPosition('')
+      setSalary('')
+      toast.success('Staff Added');
 
     },
+   onError() {
+      setErr("Error Occur, Try Again");
+    },
   })
-  const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
 
 
   const handleSubmit=(e)=>{
     e.preventDefault()
-    console.log('clicked')
+    
     if(name===''||email===''||wallet===''||position===''||salary===''){
-      console.log('All fields required')
+     setErr('All fields required')
     }else{
 
       setGroupName((prevGroup) => [...prevGroup, name]);
@@ -82,6 +93,14 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
               className="bg-zinc-800 rounded-md text-white p-6"
             >
               <Dialog.Panel>
+              {isLoading ? (
+                    <div className="flex tems-center mt-[200px] absolute ">
+                      <span className="relative flex h-20 w-20 ml-[250px]">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
+                      </span>
+                    </div>
+                  ): null}
                 <div className='flex justify-between items-center'>
                   <Dialog.Title className="text-start block text-3xl">Add Member</Dialog.Title>
                   <span onClick={() => setMemberAdd(false)} className='font-bold text-right text-xl mb-2 cursor-pointer'>x</span>
@@ -89,6 +108,11 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                 <Dialog.Description className="text-start block text-base w-[60%] mt-2">
                   Members added can be scheduled to get their salary paid on a set date and time
                 </Dialog.Description>
+                {err !== "" && (
+                  <h2 className=" w-[100%] bg-[red] text-white text-center text-[16px]  h-[30px]  mt-10 ">
+                    {err}
+                  </h2>
+                )}
 
                 <div className='my-10 block text-start w-full'>
                   {!lastStep ?
@@ -134,10 +158,13 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                     {!lastStep ?
                       <button onClick={() => setLastStep(true)} type='button' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Next Step</button>
                       :
+                      <>
+                          <button onClick={() => setLastStep(false)} type='button' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Back</button>
                       <button 
                       // onClick={() => {setMemberAdd(false)}}
                       onClick={handleSubmit}
                        type='submit' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Add Member</button>
+                      </>
                     }
                   </div>
                 </div>
