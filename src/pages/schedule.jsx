@@ -28,14 +28,14 @@ const Schedule = () => {
   const [removeType, setRemoveType] = useState("")
 
   //best staff query
-  const [result, reexecuteQuery] = useQuery({
-    query: QueryBestStaff,
-  });
+  // const [result, reexecuteQuery] = useQuery({
+  //   query: QueryBestStaff,
+  // });
 
-  const { data, fetching, error } = result;
-    console.log('best staff data here', data);
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
+  // const { data, fetching, error } = result;
+  //   console.log('best staff data here', data);
+  //   if (fetching) return <p>Loading...</p>;
+  //   if (error) return <p>Oh no... {error.message}</p>;
   
   
     return (
