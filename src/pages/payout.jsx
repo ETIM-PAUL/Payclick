@@ -103,7 +103,7 @@ const Payout = () => {
                   </div>
                 </div>
 
-              {amountPaidData.amountPaidouts.map((amount, index)=>(
+              {amountPaidData?.amountPaidouts?.map((amount, index)=>(
                 <div key={index} className="items-stretch content-start flex-wrap flex flex-col py-2.5">
                   <div className="w-full max-md:max-w-full">
                     <div className="gap-5 flex max-md:flex-col flex-wrap max-md:items-stretch max-md:gap-0">
@@ -111,18 +111,18 @@ const Payout = () => {
                         <div className="justify-center items-stretch bg-zinc-800 flex w-full grow flex-col mx-auto px-6 py-3 rounded-lg max-md:mt-6 max-md:px-5">
                           <div className="items-center flex justify-between gap-1">
                             <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                              {(amount.amount)/1e18 + " usdt"}
+                              {(amount?.amount)/1e18 + " usdt"}
                             </div>
                           </div>
                           <div className="items-stretch flex justify-between gap-2 mt-16 max-md:mt-10">
                             <div className="items-stretch flex justify-between gap-0.5">
                               <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                {convertTime(amount.timePaid)}
+                                {convertTime(amount?.timePaid)}
                               </div>
                             </div>
                             <div className="items-stretch flex gap-1 max-md:justify-center">
                               <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                {convertTimestampToAMPM(amount.timePaid)}
+                                {convertTimestampToAMPM(amount?.timePaid)}
                               </div>
                              
                             </div>
