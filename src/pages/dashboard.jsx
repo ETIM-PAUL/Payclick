@@ -15,6 +15,27 @@ import tokenABI from '../const/token.json'
 import { TestTokenAddr } from '../const/contract';
 import { gql, useQuery } from 'urql';
 
+//deposit query
+const GET_TOKENDEPOSIT = gql`
+query GetDeposit($contract: String!) {
+  tokenDeposits(where: { _contract: $contract }) {
+    id
+    _contract
+    _amount
+    time
+  }
+}
+`;
+
+//withdraw query
+const GET_WITHDRAW = gql`
+query Getwithdraw($contract: String!) {
+  withdrawTokens(where: { _contract: $contract }) {
+    _amount
+    _contract
+  }
+}
+`;
 
 
 const Dashboard = () => {
@@ -22,48 +43,17 @@ const Dashboard = () => {
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
   const {dispatch, state} =useContext(GlobalContext)
 
-//   const QueryTokendeposit = gql`
-// {
-//   tokenDeposits {
-//     id
-//     _contract
-//     _amount
-//     time
-//   }
-//   }
-// `;
 
-// const QueryTokenWithdraw = gql`
-// {
-//   withdrawTokens {
-//     _amount
-//     _contract
-//     receiver
-//     time
-//   }
-//   }
-// `;
-//   //depost query
-//   const [Depositresult, reexecuteDepositQuery] = useQuery({
-//     query: QueryTokendeposit,
-//   });
 
-//   //withdraw query
-//   const [result, reexecuteQuery] = useQuery({
-//     query: QueryTokenWithdraw,
-//   });
+const [depositresult] = useQuery({
+  query: GET_TOKENDEPOSIT,
+  variables: { contract: state.childAddress },
+});
 
-//   const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
-//     console.log('deposit data here', depositData);
-//     if (fetchingDeposit) return <p>Loading...</p>;
-//     if (depositError) return <p>Oh no... {depositError.message}</p>;
-
-//   const { data, fetching, error } = result;
-//     console.log('withdraw data here', data);
-//     if (fetching) return <p>Loading...</p>;
-//     if (error) return <p>Oh no... {error.message}</p>;
-  
-
+const [withdrawresult] = useQuery({
+  query: GET_WITHDRAW,
+  variables: { contract: state.childAddress },
+});
 
 
   const childContract = {
@@ -96,7 +86,15 @@ const { data, isError, isLoading } = useContractReads({
    
   ],
 })
+const { data : depositData, fetching: fetchingDeposit, error: depositError } = depositresult;
+console.log('deposit data here', depositData);
+if (fetchingDeposit) return <p>Loading...</p>;
+if (depositError) return <p>Oh no... {depositError.message}</p>;
 
+const { data : withdrawdata, fetching, error } = withdrawresult;
+console.log('withdraw data here', withdrawdata);
+if (fetching) return <p>Loading...</p>;
+if (error) return <p>Oh no... {error.message}</p>;
 
   return (
     <Layout>
@@ -122,7 +120,7 @@ const { data, isError, isLoading } = useContractReads({
                                 </div>
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
-                                    {state.childAddress !== '' ? Number(data[0].result) : '0.00'}
+                                    {/* {state.childAddress !== '' ? Number(data[0].result) : '0.00'} */}
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
                                     USDT
@@ -150,7 +148,7 @@ const { data, isError, isLoading } = useContractReads({
                                 For November
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
-                                ${state.childAddress !== '' ? Number(data[1]?.result[0]) : '0.00'}
+                                {/* ${state.childAddress !== '' ? Number(data[1]?.result[0]) : '0.00'} */}
                               </div>
                             </div>
                           </div>

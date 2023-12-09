@@ -13,28 +13,38 @@ const Attendance = () => {
   const {state} = useContext(GlobalContext)
 
 
-//   const GET_ATTENDANCES = gql`
-//   query GetAttendances($contract: String!) {
-//     allAttendances(where: { _contract: $contract }) {
-//       _contract
-//       _staff
-//       _time
-//     }
-//   }
-// `;
+  const GET_ATTENDANCES = gql`
+  query GetAttendances($contract: String!) {
+    allAttendances(where: { _contract: $contract }) {
+      _contract
+      _staff
+      name
+      position
+      email
+      _time
+    }
+  }
+`;
 
-// const [result] = useQuery({
-//   query: GET_ATTENDANCES,
-//   variables: { contract: state.childAddress },
-// });
+const [result] = useQuery({
+  query: GET_ATTENDANCES,
+  variables: { contract: state.childAddress },
+});
 
-//   const { data, fetching, error } = result;
-//   console.log('attendance staff here', data.allAttendances[0]._staff);
-//   console.log('attendance time here', data.allAttendances[0]._time);
-//   if (fetching) return <p>Loading...</p>;
-//   if (error) return <p>Oh no... {error.message}</p>;
+  const { data, fetching, error } = result;
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
   
-
+  function convertTimestampToAMPM(timestamp) {
+    const date = new Date(timestamp * 1000); // Convert UNIX timestamp to milliseconds
+    const hours = date.getHours();
+    const minutes = "0" + date.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    const formattedHours = hours % 12 || 12; 
+  
+    const formattedTime = `${formattedHours}:${minutes.substr(-2)} ${ampm}`;
+    return `${formattedTime}`;
+  }
   return (
     <Layout>
       <div className="bg-stone block pb-20">
@@ -94,20 +104,24 @@ const Attendance = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {data.allAttendances.map((item, index)=> (
+                      
+                      <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td scope="ro" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          Adebisi
+                        {item.name}
                         </td>
                         <td className="px-6 py-4 hidden md:inline-block">
-                          vince@gmail.com
+                          {item.position}
                         </td>
                         <td className="px-6 py-4">
-                          UI Engineer
+                          {item.email}
                         </td>
                         <td className="px-6 py-4">
-                          11:26 am
+                          {convertTimestampToAMPM(item._time)}
                         </td>
                       </tr>
+                    ))}
+                      
                     </tbody>
                   </table>
                 </div>
