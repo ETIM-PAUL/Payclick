@@ -33,12 +33,12 @@ const Layout = ({ children }) => {
   
     if(!address){
       navigate("/signin")
-    }else{
+    }
       if(readAcct==='0x0000000000000000000000000000000000000000'){
         navigate("/signin")
        } 
-    }
-  },[readAcct,address])
+    
+  },[readAcct, address])
   return (
     <main className=''>
       <section className="flex max-h-screen h-screen overflow-y-hidden">

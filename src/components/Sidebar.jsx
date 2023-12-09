@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import dashboard from "../assets/dashboardicon.svg"
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export const Sidebar = () => {
   return (
@@ -128,22 +129,22 @@ export const Sidebar = () => {
               Settings
             </div>
           </div>
-          <div className="justify-between items-stretch self-center flex w-[201px] max-w-full gap-5 mt-11 max-md:mt-10">
+          <div className=" cursor-pointer justify-between items-stretch self-center flex w-[201px] max-w-full gap-5 mt-11 max-md:mt-10">
             <div className="text-white text-sm font-medium leading-5 tracking-wide">
-              Attendance div
+              Attendance link
             </div>
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ac0d8f6-1310-42ef-93a8-b35fd8a6b122?"
               className="aspect-square object-contain object-center w-4 justify-center items-center overflow-hidden self-center shrink-0 max-w-full my-auto" />
           </div>
-          <div className="items-stretch bg-zinc-800 self-center flex w-[201px] max-w-full gap-2 mt-7 mb-8 pl-6 pr-6 py-3 rounded-lg max-md:px-5">
-            <img
+          <div className="items-stretch bg-zinc-800 self-center flex w-[201px] max-w-full gap-2 mt-7 mb-8  pr-6 py-3 rounded-lg max-md:px-5">
+            {/* <img
               loading="lazy"
               srcSet="..."
-              className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
+              className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full rounded-[50%]" /> */}
             <div className="text-white text-sm leading-5 tracking-wide self-center grow whitespace-nowrap my-auto">
-              ADGJ163738JKJK
+             <ConnectButton accountStatus="address"/>
             </div>
           </div>
         </div>

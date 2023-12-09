@@ -115,6 +115,15 @@ const Members = () => {
                     </div>
                   ): null}
                     <tbody>
+                      {data?.length ===0 ?
+                       <div className="">
+                        <h2 className="text-center text-[18px] mt-4 text-[#63D9B9] font-bold">
+
+                        Add Member
+                        </h2>
+                       </div>
+                      :
+                      <>
                       {data?.map((data, index)=>(
 
                       <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -136,6 +145,8 @@ const Members = () => {
                       </tr>
 
                       ))}
+                      </>
+                      }
                     </tbody>
                   </table>
 

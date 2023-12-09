@@ -63,7 +63,7 @@ const [withdrawresult] = useQuery({
 
 
   const childContract = {
-    address: state.childAddress,
+    address: state?.childAddress,
     abi: childABI,
   };
   const tokenContract = {
@@ -71,14 +71,14 @@ const [withdrawresult] = useQuery({
     abi: tokenABI,
   };
 
-
+console.log(state.childAddress)
 
   const { data, isError, isLoading } = useContractReads({
      contracts: [
        {
          ...childContract,
          functionName: "balanceOf",
-         args: [state.childAddress],
+         args: [state?.childAddress],
        },
        {
          ...childContract,
@@ -95,11 +95,14 @@ const [withdrawresult] = useQuery({
   
 
 
-
+  //  console.log('data:', data); // Log the entire data object
+  //  console.log('data[0]:', data ? data[0] : null); // Log data[0]
+  //  console.log('data[1]:', data ? data[1] : null); // Log data[1]
+  //  console.log('data[2]:', data ? data[2] : null); // Log data[2]
 
  
    const { data:openAtt, isLoading:openLod, write } = useContractWrite({
-    address: state.childAddress,
+    address: state?.childAddress,
     abi: childABI,
     functionName: 'openAttendance',
     onSuccess(data) {
@@ -136,9 +139,9 @@ const [withdrawresult] = useQuery({
                                 </div>
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
-                                    {state.childAddress !== ""
-                                      ? Number(data[0]?.result)
-                                      : "0.00"}
+                                    {state?.childAddress === "" || isLoading || !data || !data[0]
+                                      ?  "0.001": Number(data[0]?.result)
+                                     }
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
                                     USDT
@@ -167,9 +170,9 @@ const [withdrawresult] = useQuery({
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
                                 $
-                                {state.childAddress !== ""
-                                  ? Number(data[1]?.result[0])
-                                  : "0.00"}
+                                {state.childAddress === "" || isLoading || !data || !data[1]
+                                  ?"0.00" :Number(data[1]?.result[0])
+                                }
                               </div>
                             </div>
                           </div>
@@ -188,9 +191,9 @@ const [withdrawresult] = useQuery({
                                 Outgoing Payments
                               </div>
                               <div className="text-black text-base font-medium leading-6 tracking-normal whitespace-nowrap mt-2">
-                                $ {state.childAddress !== ""
-                                      ? Number(data[2]?.result)
-                                      : "0.00"}
+                                $ {state?.childAddress === "" || isLoading || !data || !data[2]
+                                      ? "0.00" :Number(data[2]?.result)
+                                      }
                               </div>
                             </div>
                           </div>

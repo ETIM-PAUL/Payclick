@@ -26,10 +26,22 @@
       { "internalType": "string", "name": "_Nfturi", "type": "string" },
       { "internalType": "string", "name": "_companyName", "type": "string" },
       { "internalType": "string", "name": "_companyLogo", "type": "string" },
-      { "internalType": "string", "name": "_email", "type": "string" }
+      { "internalType": "string", "name": "_email", "type": "string" },
+      {
+        "internalType": "enum paybox.Interval",
+        "name": "_interval",
+        "type": "uint8"
+      }
     ],
     "name": "createAccount",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "payStaff",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
