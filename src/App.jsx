@@ -15,8 +15,8 @@ import {
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
   // mainnet,
-  // polygon,
-  polygonZkEvmTestnet,
+  polygon,
+  // polygonZkEvmTestnet,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -30,7 +30,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const { chains, publicClient } = configureChains(
-  [polygonZkEvmTestnet],
+  [polygon],
   [
     alchemyProvider({ apiKey: `https://polygonzkevm-testnet.g.alchemy.com/v2/N9cyd27jLeYKazPEzpCexlk3XvPn1GYo` }),
     publicProvider()
