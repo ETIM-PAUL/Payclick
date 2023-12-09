@@ -17,7 +17,7 @@ const Payout = () => {
             <div className="flex flex-col items-stretch my-auto max-md:max-w-full max-md:mt-10">
               <TopNav heading="Members" />
 
-              <div className='my-10 px-4'>
+              <div className='my-10 px-4 md:px-0'>
                 <div className="items-stretch mb-10 flex gap-5 flex-wrap max-md:justify-center">
                   <div className="justify-between items-center grow bg-orange-600 flex gap-5 px-12 py-3 md:py-6 rounded-lg max-md:px-5">
                     <div className="text-black text-center text-base font-medium leading-6 tracking-normal whitespace-nowrap my-auto">

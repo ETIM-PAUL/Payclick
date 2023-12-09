@@ -33,12 +33,12 @@ const Schedule = () => {
   });
 
   const { data, fetching, error } = result;
-    console.log('best staff data here', data);
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
-  
-  
-    return (
+  console.log('best staff data here', data);
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
+
+
+  return (
     <Layout>
       <div className="bg-stone">
         <div className="gap-5 max-md:items-stretch max-md:gap-0">

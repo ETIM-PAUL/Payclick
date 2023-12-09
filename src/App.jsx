@@ -26,6 +26,7 @@ import MonthMember from "./pages/monthmember";
 import { Client, Provider, cacheExchange, fetchExchange } from 'urql';
 import Payout from "./pages/payout";
 import Attendance from "./pages/attendance";
+import SignAttendance from "./pages/signAttendance";
 
 const { chains, publicClient } = configureChains(
   [polygonZkEvmTestnet],
@@ -67,6 +68,7 @@ function App() {
                 <Route path="/members" element={<Members />} />
                 <Route path="/payouts" element={<Payout />} />
                 <Route path="/attendance" element={<Attendance />} />
+                <Route path="/sign-attendance" element={<SignAttendance />} />
                 <Route path="/members/monthly_winner" element={<MonthMember />} />
                 <Route path="/signin" element={<Signin />} />
               </Routes>
