@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * eslint-disable no-unused-vars
  *
@@ -45,9 +46,10 @@ query Getwithdraw($contract: String!) {
 
 
 const Dashboard = () => {
-  const [showFundModal, setShowFundModal] = useState(false);
-  const [showWithdrawnModal, setShowWithdrawnModal] = useState(false);
-  const { dispatch, state } = useContext(GlobalContext);
+  const [showFundModal, setShowFundModal] = useState(false)
+  const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
+  const {dispatch, state} =useContext(GlobalContext)
+  const [combinedddata, setcombinedData] = useState([])
 
 
 
@@ -73,49 +75,70 @@ const [withdrawresult] = useQuery({
 
 console.log(state.childAddress)
 
-  const { data, isError, isLoading } = useContractReads({
-     contracts: [
-       {
-         ...childContract,
-         functionName: "balanceOf",
-         args: [state?.childAddress],
-       },
-       {
-         ...childContract,
-         functionName: "salaryPaidout",
-       },
-       {
-         ...childContract,
-         functionName: "totalPayment",
-       },
-      
-     ],
-   });
-
-  
-
-
-   console.log('data:', data); // Log the entire data object
-   console.log('data[0]:', data ? data[0] : null); // Log data[0]
-   console.log('data[1]:', data ? data[1] : null); // Log data[1]
-   console.log('data[2]:', data ? data[2] : null); // Log data[2]
-
- 
-   const { data:openAtt, isLoading:openLod, write } = useContractWrite({
-    address: state?.childAddress,
-    abi: childABI,
-    functionName: 'openAttendance',
-    onSuccess(data) {
-
-      toast.success("Attendance opened for the day");
-
+const { data, isError, isLoading } = useContractReads({
+  contracts: [
+    {
+      ...childContract,
+      functionName: "balanceOf",
+      args: [state?.childAddress],
     },
-    onError(error) {
-      console.log('myE',   error[1])
-      toast.error("Not a new day");
+    {
+      ...childContract,
+      functionName: "salaryPaidout",
     },
-  })
-  
+    {
+      ...childContract,
+      functionName: "totalPayment",
+    },
+   
+  ],
+});
+const { data:openAtt, isLoading:openLod, write } = useContractWrite({
+  address: state?.childAddress,
+  abi: childABI,
+  functionName: 'openAttendance',
+  onSuccess(data) {
+
+    toast.success("Attendance opened for the day");
+
+  },
+  onError(error) {
+    console.log('myE',   error[1])
+    toast.error("Not a new day");
+  },
+})
+const { data : depositData, fetching: fetchingDeposit, error: depositError } = depositresult;
+const { data : withdrawdata, fetching, error } = withdrawresult;
+
+
+
+useEffect(() => {
+  if(depositData != undefined && withdrawdata != undefined){
+    setcombinedData([...(depositData.tokenDeposits), ...(withdrawdata.withdrawTokens)])
+  }
+}, [depositData,withdrawdata])
+
+
+console.log('deposit data here', depositData);
+if (fetchingDeposit) return <p>Loading...</p>;
+if (depositError) return <p>Oh no... {depositError.message}</p>;
+
+console.log('withdraw data here', withdrawdata);
+if (fetching) return <p>Loading...</p>;
+if (error) return <p>Oh no... {error.message}</p>;
+
+function convertTimestampToAMPM(timestamp) {
+  const date = new Date(timestamp * 1000); 
+  const hours = date.getHours();
+  const minutes = "0" + date.getMinutes();
+  const ampm = hours >= 12 ? 'pm' : 'am';
+  const formattedHours = hours % 12 || 12; 
+
+  const formattedTime = `${formattedHours}:${minutes.substr(-2)} ${ampm}`;
+  const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`; 
+
+  return `${formattedDate} ${formattedTime}`;
+}
 
   return (
     <Layout>
@@ -238,10 +261,9 @@ console.log(state.childAddress)
                           <div className="flex flex-col items-stretch w-[29%] max-md:w-full max-md:ml-0">
                             <div className="flex grow flex-col items-stretch md:mt-10">
                               <div className="">
-                                <span className="block w-full text-start md:hidden text-white">
-                                  11:26am
-                                </span>
-                                <div className="flex gap-2 mt-1 md:mt-0">
+                                <span className='block w-full text-start md:hidden text-white'>11:26am</span>
+                                <div className='flex gap-2 mt-1 md:mt-0'>
+                                 
                                   <img
                                     loading="lazy"
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/a104f955-0925-4ef4-8f47-09f0e6402904?"

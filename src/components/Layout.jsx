@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { cloneElement, useContext, useEffect, useState } from 'react'
 import { Sidebar } from './Sidebar'
 import { useAccount, useContractRead } from 'wagmi'
@@ -56,7 +57,7 @@ const Layout = ({ children }) => {
               srcSet={logo}
               className="aspect-square object-contain object-center w-9 overflow-hidden shrink-0 max-w-full rounded-[50%]"
             />
-            <span className='font-bold text-xl'>{data[0]}</span>
+            <span className='font-bold text-xl'>{!data ? "loading..." : data[0]}</span>
           </div>
           <div className=''>
             {children}
