@@ -79,7 +79,7 @@ console.log(state.childAddress)
 const { data, isError, isLoading } = useContractReads({
   contracts: [
     {
-      ...childContract,
+      ...tokenContract,
       functionName: "balanceOf",
       args: [state?.childAddress],
     },
@@ -164,7 +164,7 @@ function convertTimestampToAMPM(timestamp) {
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
                                     {state?.childAddress === "" || isLoading || !data || !data[0]
-                                      ?  "0.001": Number(data[0]?.result)
+                                      ?  "0.001": Number(data[0]?.result)/1e18
                                      }
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
