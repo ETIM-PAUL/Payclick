@@ -21,52 +21,46 @@ import { TestTokenAddr } from "../const/contract";
 import { gql, useQuery } from "urql";
 import { toast } from "react-toastify";
 
-const QueryTokendeposit = gql`
-  {
-    tokenDeposits {
-      id
-      _contract
-      _amount
-      time
-    }
+//deposit query
+const GET_TOKENDEPOSIT = gql`
+query GetDeposit($contract: String!) {
+  tokenDeposits(where: { _contract: $contract }) {
+    id
+    _contract
+    _amount
+    time
   }
+}
 `;
 
-const QueryTokenWithdraw = gql`
-  {
-    withdrawTokens {
-      _amount
-      _contract
-      receiver
-      time
-    }
+//withdraw query
+const GET_WITHDRAW = gql`
+query Getwithdraw($contract: String!) {
+  withdrawTokens(where: { _contract: $contract }) {
+    _amount
+    _contract
   }
+}
 `;
+
 
 const Dashboard = () => {
   const [showFundModal, setShowFundModal] = useState(false);
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false);
   const { dispatch, state } = useContext(GlobalContext);
 
-  //depost query
-  const [Depositresult, reexecuteDepositQuery] = useQuery({
-    query: QueryTokendeposit,
-  });
 
-  //withdraw query
-  const [result, reexecuteQuery] = useQuery({
-    query: QueryTokenWithdraw,
-  });
 
-  // const { data : depositData, fetching: fetchingDeposit, error: depositError } = Depositresult;
-  //   console.log('deposit data here', depositData);
-  //   if (fetchingDeposit) return <p>Loading...</p>;
-  //   if (depositError) return <p>Oh no... {depositError.message}</p>;
+const [depositresult] = useQuery({
+  query: GET_TOKENDEPOSIT,
+  variables: { contract: state.childAddress },
+});
 
-  // const { data:myData, fetching, error } = result;
-  //   console.log('withdraw data here', myData);
-  //   if (fetching) return <p>Loading...</p>;
-  //   if (error) return <p>Oh no... {error.message}</p>;
+const [withdrawresult] = useQuery({
+  query: GET_WITHDRAW,
+  variables: { contract: state.childAddress },
+});
+
 
   const childContract = {
     address: state.childAddress,

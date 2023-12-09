@@ -446,6 +446,45 @@ export class AllAttendance extends Entity {
     this.set("_staff", Value.fromBytes(value));
   }
 
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get position(): string {
+    let value = this.get("position");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set position(value: string) {
+    this.set("position", Value.fromString(value));
+  }
+
+  get email(): string {
+    let value = this.get("email");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set email(value: string) {
+    this.set("email", Value.fromString(value));
+  }
+
   get _time(): BigInt {
     let value = this.get("_time");
     if (!value || value.kind == ValueKind.NULL) {

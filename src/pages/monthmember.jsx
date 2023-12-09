@@ -1,26 +1,33 @@
-import React from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useState,useContext,useEffect } from 'react'
 import TopNav from '../components/TopNav'
 import Layout from '../components/Layout'
 import nft from "../assets/NFT.svg"
+import { GlobalContext } from '../context/GlobalContext';
+
 
 import { gql, useQuery } from 'urql';
 
-const QueryBestStaff = gql`
-{
-  bestStaffs {
+
+const GET_BESTSTAFF = gql`
+query GetbestStaff($contract: String!) {
+  bestStaffs(where: { _contract: $contract }) {
     _contract
     bestStaff
     name
     nftId
   }
-  }
+}
 `;
 
 
 const MonthMember = () => {
+  const {state} = useContext(GlobalContext)
+
    //best staff query
-   const [result, reexecuteQuery] = useQuery({
-    query: QueryBestStaff,
+   const [result] = useQuery({
+    query: GET_BESTSTAFF,
+    variables: { contract: state.childAddress },
   });
 
   const { data, fetching, error } = result;

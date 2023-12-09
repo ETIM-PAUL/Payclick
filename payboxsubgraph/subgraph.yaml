@@ -6,7 +6,7 @@ dataSources:
     name: paybox
     network: polygon-zkevm-testnet
     source:
-      address: "0xfd549326FFfC7a7a6c742034a30D3a5846C63455"
+      address: "0x7B27c498999347cfCBbCC9Ba9410a03877e4904E"
       abi: paybox
       startBlock: 0
     mapping:
@@ -43,9 +43,10 @@ templates:
           handler: handleTokenDeposit
         - event: withdrawToken(address,indexed uint256,indexed address,indexed uint256)
           handler: handleWithdrawToken
-        - event: AllAttendance(address,indexed address,indexed uint256)
+        - event: AllAttendance(address,indexed address,string,string,string,indexed uint256)
           handler: handleAttendance
         - event: AmountPaidout(address,indexed uint256,indexed uint256)
           handler: handleAmountpaidOut
         - event: bestStaff(address,indexed string,indexed address,indexed uint256)
           handler: handleBestStaff
+

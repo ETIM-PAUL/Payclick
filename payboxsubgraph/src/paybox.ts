@@ -7,7 +7,6 @@ import { bestStaff as BeststaffEvent } from "../generated/templates/payboxDashbo
 import { AccountCreated, tokenDeposit,withdrawToken,AllAttendance,AmountPaidout,bestStaff} from "../generated/schema"
 import {payboxDashboard} from "../generated/templates"
 
-
 export function handleAccountCreated(event: AccountCreatedEvent): void {
   let entity = new AccountCreated(
     event.transaction.hash.concatI32(event.logIndex.toI32())
@@ -53,6 +52,9 @@ export function handleAttendance(event: AllAttendanceevent): void {
   let entity = new AllAttendance(event.transaction.hash.concatI32(event.logIndex.toI32()))
   entity._contract = event.params._contract  
   entity._staff = event.params._staff
+  entity.name = event.params.name
+  entity.position = event.params.position
+  entity.email = event.params.email
   entity._time = event.params._time
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
