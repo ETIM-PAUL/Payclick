@@ -39,7 +39,6 @@ query Getwithdraw($contract: String!) {
   withdrawTokens(where: { _contract: $contract }) {
     _amount
     _contract
-    time
   }
 }
 `;
@@ -96,10 +95,10 @@ console.log(state.childAddress)
   
 
 
-   console.log('data:', state.address); // Log the entire data object
-  //  console.log('data[0]:', data ? data[0] : null); // Log data[0]
-  //  console.log('data[1]:', data ? data[1] : null); // Log data[1]
-  //  console.log('data[2]:', data ? data[2] : null); // Log data[2]
+   console.log('data:', data); // Log the entire data object
+   console.log('data[0]:', data ? data[0] : null); // Log data[0]
+   console.log('data[1]:', data ? data[1] : null); // Log data[1]
+   console.log('data[2]:', data ? data[2] : null); // Log data[2]
 
  
    const { data:openAtt, isLoading:openLod, write } = useContractWrite({
@@ -140,8 +139,8 @@ console.log(state.childAddress)
                                 </div>
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
-                                    {state?.childAddress === "" || isLoading || !data || !data[0]
-                                      ?  "0.001": Number(data[0]?.result)
+                                    {state?.childAddress === "" || isLoading || !data || !data[0]?.result[0]
+                                      ?  "0.00": Number(data[0]?.result)
                                      }
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
@@ -171,7 +170,7 @@ console.log(state.childAddress)
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
                                 $
-                                {state.childAddress === "" || isLoading || !data || !data[1]
+                                {state.childAddress === "" || isLoading || !data || !data[1]?.result[0]
                                   ?"0.00" :Number(data[1]?.result[0])
                                 }
                               </div>
@@ -192,7 +191,7 @@ console.log(state.childAddress)
                                 Outgoing Payments
                               </div>
                               <div className="text-black text-base font-medium leading-6 tracking-normal whitespace-nowrap mt-2">
-                                $ {state?.childAddress === "" || isLoading || !data || !data[2]
+                                $ {state?.childAddress === "" || isLoading || !data || !data[2]?.result[0]
                                       ? "0.00" :Number(data[2]?.result)
                                       }
                               </div>
@@ -234,8 +233,7 @@ console.log(state.childAddress)
                           View all
                         </div>
                       </div>
-                      {combinedddata?.map((item, index)=>(
-                      <div key={index} className="w-full mt-0 md:mt-">
+                      <div className="w-full mt-0 md:mt-">
                         <div className="gap-5 mt-3 md:mt-0 p-3 md:p-0 w-full flex bg-zinc-800 md:bg-transparent rounded-md md:rounded-none items-center max-md:gap-0">
                           <div className="flex flex-col items-stretch w-[29%] max-md:w-full max-md:ml-0">
                             <div className="flex grow flex-col items-stretch md:mt-10">
@@ -249,9 +247,8 @@ console.log(state.childAddress)
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/a104f955-0925-4ef4-8f47-09f0e6402904?"
                                     className="aspect-square object-contain object-center w-6 justify-center items-center overflow-hidden shrink-0 max-w-full"
                                   />
-                               
                                   <div className="text-white text-base font-medium leading-6 tracking-normal grow whitespace-nowrap">
-                                    {item.__typename == "tokenDeposit" ? "Fund Deposit" : "Fund Withdrawn"}
+                                    Fund Withdrawn
                                   </div>
                                 </div>
                               </div>
@@ -262,7 +259,18 @@ console.log(state.childAddress)
                               <div className="items-stretch flex justify-between gap-2">
                                 <div className="items-stretch hidden md:flex justify-between gap-0.5">
                                   <div className="text-white text-base leading-6 tracking-normal">
-                                    {convertTimestampToAMPM(item.time)}
+                                    11:26 am
+                                  </div>
+                                </div>
+                                <div className="items-stretch hidden md:flex gap-1 max-md:justify-center">
+                                  <div className="text-white text-base leading-6 tracking-normal">
+                                    24th
+                                  </div>
+                                  <div className="text-white text-base leading-6 tracking-normal">
+                                    November
+                                  </div>
+                                  <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
+                                    2023
                                   </div>
                                 </div>
                               </div>
@@ -273,7 +281,7 @@ console.log(state.childAddress)
                               <div className="flex w-full items-stretch justify-between gap-5">
                                 <div className="items-stretch flex justify-between gap-1">
                                   <div className="text-white text-base font-medium leading-6 tracking-normal whitespace-nowrap">
-                                    {(item._amount)/1e18 + " usdt"}
+                                    $125
                                   </div>
                                 </div>
                                 <div className="block md:hidden">
