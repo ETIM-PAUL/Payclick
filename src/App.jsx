@@ -73,9 +73,10 @@ function App() {
                 <Route path="/sign-attendance/:addr" element={<SignAttendance />} />
                 <Route path="/members/monthly_winner" element={<MonthMember />} />
                 <Route path="/signin" element={<Signin />} />
+                <Route path="/" element={<Signin />} />
               </Routes>
             </BrowserRouter>
-                <ToastContainer />
+            <ToastContainer />
           </Provider>
         </RainbowKitProvider>
       </WagmiConfig>
