@@ -23,11 +23,10 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
   const [err, setErr] = useState("");
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
-
     address: state.childAddress,
     abi: childABI,
     functionName: 'addStaff',
-    args:[groupWallet,groupSalary,groupName,groupPosition,groupMail ],
+    args:[groupWallet,groupSalary,groupName,groupPosition,groupMail],
     onSuccess(data) {
       setLastStep(true)
       setName('')
@@ -35,6 +34,7 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
       setWallet('')
       setPosition('')
       setSalary('')
+      console.log(data)
       toast.success('Staff Added');
 
     },

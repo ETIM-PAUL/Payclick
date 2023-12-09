@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Layout from '../components/Layout'
 import TopNav from '../components/TopNav'
 import { Link } from 'react-router-dom'
 import { MemberModal } from '../components/MemberModal'
 import { gql, useQuery } from 'urql';
+import { GlobalContext } from '../context/GlobalContext'
+import childABI from "../const/childFact.json";
+import { useContractRead } from 'wagmi'
 
 const QueryAttendance = gql`
 {
@@ -18,10 +21,19 @@ const QueryAttendance = gql`
 
 
 const Members = () => {
+  const { state } = useContext(GlobalContext);
   const [memberAdd, setMemberAdd] = useState(false)
   const [result, reexecuteQuery] = useQuery({
     query: QueryAttendance,
   });
+  const { data, isError, isLoading } = useContractRead({
+    address: state.childAddress,
+    abi: childABI,
+    functionName: 'allMembers',
+  })
+
+  console.log(data);
+  console.log(state.childAddress);
 
   const handleViewAttendance = () =>{
     const { data, fetching, error } = result;
@@ -29,6 +41,8 @@ const Members = () => {
     if (fetching) return <p>Loading...</p>;
     if (error) return <p>Oh no... {error.message}</p>;
   }
+
+
 
   return (
     <Layout>
@@ -92,24 +106,36 @@ const Members = () => {
                         </th>
                       </tr>
                     </thead>
+                    {isLoading ? (
+                    <div className="flex tems-center mt-[200px] absolute ">
+                      <span className="relative flex h-20 w-20 ml-[250px]">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
+                      </span>
+                    </div>
+                  ): null}
                     <tbody>
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      {data?.map((data, index)=>(
+
+                      <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td scope="ro" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          Adebisi
+                          {data?.myNAme}
                         </td>
                         <td className="px-6 py-4 hidden md:inline-block">
-                          vince@gmail.com
+                          {data?.email}
                         </td>
                         <td className="px-6 py-4 hidden md:inline-block">
-                          HS9NNS77383GHJ
+                          {data?.myAddress}
                         </td>
                         <td className="px-6 py-4 hidden md:inline-block">
-                          UI Engineer
+                          {data?.position}
                         </td>
                         <td className="px-6 py-4">
-                          $876
+                          ${Number(data?.salary)}
                         </td>
                       </tr>
+
+                      ))}
                     </tbody>
                   </table>
 

@@ -118,11 +118,11 @@ export default function SignUpComp() {
     }
   };
   useEffect(()=>{
-    if(address){
+    if(address !==null && readAcct!=='0x0000000000000000000000000000000000000000'){
 
-      if(readAcct!=='0x0000000000000000000000000000000000000000'){
+     
        navigate("/dashboard")
-      } 
+      
     }
   },[address, readAcct])
 
