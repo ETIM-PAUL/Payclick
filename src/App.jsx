@@ -28,6 +28,7 @@ import Payout from "./pages/payout";
 import Attendance from "./pages/attendance";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SignAttendance from "./pages/signAttendance";
 
 const { chains, publicClient } = configureChains(
   [polygon],
@@ -69,6 +70,7 @@ function App() {
                 <Route path="/members" element={<Members />} />
                 <Route path="/payouts" element={<Payout />} />
                 <Route path="/attendance" element={<Attendance />} />
+                <Route path="/sign-attendance" element={<SignAttendance />} />
                 <Route path="/members/monthly_winner" element={<MonthMember />} />
                 <Route path="/signin" element={<Signin />} />
               </Routes>
