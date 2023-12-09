@@ -1,0 +1,51 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: payclick
+    network: mumbai
+    source:
+      address: "0x03A39302fea7e39D289E714bCa585E5A7C0f0680"
+      abi: payclick
+      startBlock: 43370208
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AccountCreated
+      abis:
+        - name: payclick
+          file: ./abis/payclick.json
+      eventHandlers:
+        - event: AccountCreated(indexed address,indexed address)
+          handler: handleAccountCreated
+      file: ./src/payclick.ts
+templates:
+  - kind: ethereum
+    name: payclickDashboard
+    network: mumbai
+    source:
+      abi: payclickDashboard
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/payclick.ts
+      entities:
+        - tokenDeposit
+      abis:
+        - name: payclickDashboard
+          file: ./abis/payclickdashboard.json
+      eventHandlers:
+        - event: tokenDeposit(address,indexed uint256,uint256)
+          handler: handleTokenDeposit
+        - event: withdrawToken(address,indexed uint256,indexed address,indexed uint256)
+          handler: handleWithdrawToken
+        - event: AllAttendance(address,indexed address,string,string,string,indexed uint256)
+          handler: handleAttendance
+        - event: AmountPaidout(address,indexed uint256,indexed uint256)
+          handler: handleAmountpaidOut
+        - event: bestStaff(address,indexed string,indexed address,indexed uint256)
+          handler: handleBestStaff

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Layout from '../components/Layout'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { SchedulePaymentModal } from '../components/SchedulePaymentModal';
@@ -8,17 +8,8 @@ import { MdMenuOpen } from "react-icons/md";
 import TopNav from '../components/TopNav';
 import { RemoveModalPage } from '../components/RemoveModalPage';
 import { gql, useQuery } from 'urql';
+import { GlobalContext } from '../context/GlobalContext';
 
-const QueryBestStaff = gql`
-{
-  bestStaffs {
-    _contract
-    bestStaff
-    name
-    nftId
-  }
-  }
-`;
 
 const Schedule = () => {
   const [scheduleModal, setScheduleModal] = useState(false)
@@ -26,19 +17,11 @@ const Schedule = () => {
   const [selectedMember, setSelectedMember] = useState()
   const [removeModal, setRemoveModal] = useState(false)
   const [removeType, setRemoveType] = useState("")
-
-  //best staff query
-  const [result, reexecuteQuery] = useQuery({
-    query: QueryBestStaff,
-  });
-
-  const { data, fetching, error } = result;
-  console.log('best staff data here', data);
-  if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
+  const {state} = useContext(GlobalContext)
 
 
-  return (
+  
+    return (
     <Layout>
       <div className="bg-stone">
         <div className="gap-5 max-md:items-stretch max-md:gap-0">

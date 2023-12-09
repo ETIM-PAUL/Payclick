@@ -1,34 +1,56 @@
 import { Fragment, useState, useContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
 import { GlobalContext } from '../context/GlobalContext';
 import childABI from '../const/childFact.json'
+import { toast } from 'react-toastify';
 
 export function WithdrawModal({ setShowWithdrawnModal, showWithdrawnModal }) {
 
 const [amount, setAmount] = useState('')
 const [addr, setAddr] = useState('');
 const {state} =useContext(GlobalContext)
+const [err, setErr] = useState("");
 
-  const { config } = usePrepareContractWrite({
-
+  const { data, isLoading, isSuccess, write  } = useContractWrite({
     address: state.childAddress,
     abi: childABI,
     functionName: 'withdrawFund',
     args:[addr, Number(amount)*1e18],
     onSuccess(data) {
       console.log('Success', data)
+      setShowWithdrawnModal(false)
+      toast.success("Transaction Successful");
 
     },
   })
-  const { data, isLoading, isSuccess, write } = useContractWrite(config)
+  // const { data, isLoading, isSuccess, write } = useContractWrite(config);
+
+   const {
+    data: approveWait,
+    isError: approveWaitErr,
+    isLoading: approvewaitLoad,
+  } = useWaitForTransaction({
+    hash: data?.hash,
+    onError() {
+      setErr("Error Occur, Check your balance");
+    },
+
+  });
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    write?.()
-  }
+    setErr('')
+    console.log('clicked')
+    if(amount ==='' || addr===''){
+      setErr('All Field Required');
+    }else{
 
+      write?.()
+    }
+  }
+   //  onClick={() => setShowWithdrawnModal(false)} 
   return (
     <Transition
       appear
@@ -61,10 +83,25 @@ const {state} =useContext(GlobalContext)
               className="bg-zinc-800 rounded-md text-white p-6"
             >
               <Dialog.Panel>
+              {isLoading ||
+                  approvewaitLoad? (
+                    <div className="flex tems-center mt-[200px] absolute ">
+                      <span className="relative flex h-20 w-20 ml-[250px]">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
+                      </span>
+                    </div>
+                  ): null}
                 <Dialog.Title className="text-start block text-3xl">Withdraw Fund</Dialog.Title>
                 <Dialog.Description className="text-start block text-base w-[60%] mt-2">
                   Employee salaries will be sent out on the scheduled date and time
                 </Dialog.Description>
+                {err !== "" && (
+                  <h2 className=" w-[100%] bg-[red] text-white text-center text-[16px]  h-[30px]  mt-10 ">
+                    {err}
+                  </h2>
+                )}
+
 
                 <div className='my-20 block text-start w-full'>
                   <div className='mb-2 w-full'>
@@ -84,7 +121,6 @@ const {state} =useContext(GlobalContext)
                 <div className='flex w-full items-center gap-3 mt-16'>
                   <button onClick={() => setShowWithdrawnModal(false)} className="w-full bg-zinc-500 text-white p-3 rounded-[8px]">Cancel</button>
                   <button
-                  //  onClick={() => setShowWithdrawnModal(false)} 
                   onClick={handleSubmit}
                   className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Withdraw Funds</button>
                 </div>
