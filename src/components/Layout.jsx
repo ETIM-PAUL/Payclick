@@ -10,9 +10,9 @@ import logo from "../assets/logo.svg"
 const Layout = ({ children }) => {
   const { address } = useAccount()
   const navigate = useNavigate();
-  const {dispatch, state} =useContext(GlobalContext)
+  const {dispatch} =useContext(GlobalContext)
  
-  const { dispatch } = useContext(GlobalContext)
+
 
 
 
@@ -25,27 +25,18 @@ const Layout = ({ children }) => {
   })
 
   useEffect(() => {
-
-
-
-
+    if(!address){
+      navigate("/signin")
+    }
+    if( readAcct ==='0x0000000000000000000000000000000000000000' ){
+      navigate("/signin")
+    }
     dispatch({
       type: "SET_CHILD_ADDRESS",
       payload: { childAddress: readAcct },
     });
   
-    if(address){
 
-      if(readAcct==='0x0000000000000000000000000000000000000000'){
-       navigate("/signin")
-      } 
-    }
-    if(!address){
-      navigate("/signin")
-    }
-      if(readAcct==='0x0000000000000000000000000000000000000000'){
-        navigate("/signin")
-       } 
     
   },[readAcct, address])
   return (

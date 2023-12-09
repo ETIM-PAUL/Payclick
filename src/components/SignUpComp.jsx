@@ -123,12 +123,13 @@ export default function SignUpComp() {
     }
   };
   useEffect(()=>{
-    if(address !== null && readAcct!=='0x0000000000000000000000000000000000000000'){
+    if(address && readAcct!=='0x0000000000000000000000000000000000000000'){
+   
+          navigate("/dashboard")
+         
+    }
 
      
-       navigate("/dashboard")
-      
-    }
   },[address, readAcct])
 
   return (

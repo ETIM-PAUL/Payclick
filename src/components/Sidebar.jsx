@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import dashboard from "../assets/dashboardicon.svg"
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { GlobalContext } from '../context/GlobalContext'
+import copy from "copy-to-clipboard";
+import { toast } from 'react-toastify'
 
 export const Sidebar = () => {
+  const { state } = useContext(GlobalContext);
+  
+  const copyToClipboard = () => {
+    let copyText = `http://localhost:5173/sign-attendance/${state.childAddress}`;
+    let isCopy = copy(copyText);
+    if (isCopy) {
+      toast.success("link copied");
+    }
+  };
   return (
     <>
       <div className="hidden verflow-y-scroll scrollbar-thin scrollbar-thumb-[#19192E] scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full md:flex flex-col items-stretch  max-md:w-full max-md:ml-0">
@@ -142,7 +154,7 @@ export const Sidebar = () => {
               Settings
             </div>
           </div>
-          <div className=" cursor-pointer justify-between items-stretch self-center flex w-[201px] max-w-full gap-5 mt-11 max-md:mt-10">
+          <div onClick={copyToClipboard} className=" cursor-pointer justify-between items-stretch self-center flex w-[201px] max-w-full gap-5 mt-11 max-md:mt-10">
             <div className="text-white text-sm font-medium leading-5 tracking-wide">
               Attendance link
             </div>

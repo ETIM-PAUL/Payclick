@@ -95,7 +95,7 @@ console.log(state.childAddress)
   
 
 
-  //  console.log('data:', data); // Log the entire data object
+   console.log('data:', state.address); // Log the entire data object
   //  console.log('data[0]:', data ? data[0] : null); // Log data[0]
   //  console.log('data[1]:', data ? data[1] : null); // Log data[1]
   //  console.log('data[2]:', data ? data[2] : null); // Log data[2]
