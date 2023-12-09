@@ -40,6 +40,7 @@ query Getwithdraw($contract: String!) {
   withdrawTokens(where: { _contract: $contract }) {
     _amount
     _contract
+    time
   }
 }
 `;
@@ -78,7 +79,7 @@ console.log(state.childAddress)
 const { data, isError, isLoading } = useContractReads({
   contracts: [
     {
-      ...childContract,
+      ...tokenContract,
       functionName: "balanceOf",
       args: [state?.childAddress],
     },
@@ -93,6 +94,7 @@ const { data, isError, isLoading } = useContractReads({
    
   ],
 });
+console.log('ab', data)
 const { data:openAtt, isLoading:openLod, write } = useContractWrite({
   address: state?.childAddress,
   abi: childABI,
@@ -162,8 +164,8 @@ function convertTimestampToAMPM(timestamp) {
                                 </div>
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
-                                    {state?.childAddress === "" || isLoading || !data || !data[0]?.result[0]
-                                      ?  "0.00": Number(data[0]?.result)
+                                    {state?.childAddress === "" || isLoading || !data || !data[0]
+                                      ?  "0.001": Number(data[0]?.result)/1e18
                                      }
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
@@ -193,7 +195,7 @@ function convertTimestampToAMPM(timestamp) {
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
                                 $
-                                {state.childAddress === "" || isLoading || !data || !data[1]?.result[0]
+                                {state.childAddress === "" || isLoading || !data || !data[1]
                                   ?"0.00" :Number(data[1]?.result[0])
                                 }
                               </div>
@@ -214,7 +216,7 @@ function convertTimestampToAMPM(timestamp) {
                                 Outgoing Payments
                               </div>
                               <div className="text-black text-base font-medium leading-6 tracking-normal whitespace-nowrap mt-2">
-                                $ {state?.childAddress === "" || isLoading || !data || !data[2]?.result[0]
+                                $ {state?.childAddress === "" || isLoading || !data || !data[2]
                                       ? "0.00" :Number(data[2]?.result)
                                       }
                               </div>
@@ -256,8 +258,9 @@ function convertTimestampToAMPM(timestamp) {
                           View all
                         </div>
                       </div>
-                      <div className="w-full mt-0 md:mt-">
-                        <div className="gap-5 mt-3 md:mt-0 p-3 md:p-0 w-full flex bg-zinc-800 md:bg-transparent rounded-md md:rounded-none items-center max-md:gap-0">
+                      {combinedddata?.map((item, index)=>(
+                      <div key={index} className="w-full mt-0 md:mt-">
+                        <div className="gap-5 mt-3 md:mt-0 p-3 md:p-0 w-full flex items-center bg-zinc-800 md:bg-transparent rounded-md md:rounded-none max-md:gap-0">
                           <div className="flex flex-col items-stretch w-[29%] max-md:w-full max-md:ml-0">
                             <div className="flex grow flex-col items-stretch md:mt-10">
                               <div className="">
@@ -269,8 +272,9 @@ function convertTimestampToAMPM(timestamp) {
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/a104f955-0925-4ef4-8f47-09f0e6402904?"
                                     className="aspect-square object-contain object-center w-6 justify-center items-center overflow-hidden shrink-0 max-w-full"
                                   />
+                               
                                   <div className="text-white text-base font-medium leading-6 tracking-normal grow whitespace-nowrap">
-                                    Fund Withdrawn
+                                    {item.__typename == "tokenDeposit" ? "Fund Deposit" : "Fund Withdrawn"}
                                   </div>
                                 </div>
                               </div>
@@ -281,18 +285,7 @@ function convertTimestampToAMPM(timestamp) {
                               <div className="items-stretch flex justify-between gap-2">
                                 <div className="items-stretch hidden md:flex justify-between gap-0.5">
                                   <div className="text-white text-base leading-6 tracking-normal">
-                                    11:26 am
-                                  </div>
-                                </div>
-                                <div className="items-stretch hidden md:flex gap-1 max-md:justify-center">
-                                  <div className="text-white text-base leading-6 tracking-normal">
-                                    24th
-                                  </div>
-                                  <div className="text-white text-base leading-6 tracking-normal">
-                                    November
-                                  </div>
-                                  <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                    2023
+                                    {convertTimestampToAMPM(item.time)}
                                   </div>
                                 </div>
                               </div>
@@ -303,7 +296,7 @@ function convertTimestampToAMPM(timestamp) {
                               <div className="flex w-full items-stretch justify-between gap-5">
                                 <div className="items-stretch flex justify-between gap-1">
                                   <div className="text-white text-base font-medium leading-6 tracking-normal whitespace-nowrap">
-                                    $125
+                                    {(item._amount)/1e18 + " usdt"}
                                   </div>
                                 </div>
                                 <div className="block md:hidden">
@@ -332,6 +325,9 @@ function convertTimestampToAMPM(timestamp) {
                           </div>
                         </div>
                       </div>
+
+                      ))}
+      
                     </div>
                   </div>
 
