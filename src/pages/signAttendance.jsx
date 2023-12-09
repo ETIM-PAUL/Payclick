@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import logo from "../assets/logo.svg"
 import Layout from '../components/Layout'
