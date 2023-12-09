@@ -10,7 +10,7 @@ export const Sidebar = () => {
   const { state } = useContext(GlobalContext);
   
   const copyToClipboard = () => {
-    let copyText = `http://localhost:5173/sign-attendance/${state.childAddress}`;
+    let copyText = `https://payclick-henna.vercel.app/sign-attendance/${state.childAddress}`;
     let isCopy = copy(copyText);
     if (isCopy) {
       toast.success("link copied");
