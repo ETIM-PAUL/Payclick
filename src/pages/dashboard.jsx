@@ -33,6 +33,7 @@ query Getwithdraw($contract: String!) {
   withdrawTokens(where: { _contract: $contract }) {
     _amount
     _contract
+    time
   }
 }
 `;
@@ -42,6 +43,7 @@ const Dashboard = () => {
   const [showFundModal, setShowFundModal] = useState(false)
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
   const {dispatch, state} =useContext(GlobalContext)
+  const [combinedddata, setcombinedData] = useState([])
 
 
 
@@ -87,14 +89,35 @@ const { data, isError, isLoading } = useContractReads({
   ],
 })
 const { data : depositData, fetching: fetchingDeposit, error: depositError } = depositresult;
+const { data : withdrawdata, fetching, error } = withdrawresult;
+
+useEffect(() => {
+  if(depositData != undefined && withdrawdata != undefined){
+    setcombinedData([...(depositData.tokenDeposits), ...(withdrawdata.withdrawTokens)])
+  }
+}, [depositData,withdrawdata])
+
+
 console.log('deposit data here', depositData);
 if (fetchingDeposit) return <p>Loading...</p>;
 if (depositError) return <p>Oh no... {depositError.message}</p>;
 
-const { data : withdrawdata, fetching, error } = withdrawresult;
 console.log('withdraw data here', withdrawdata);
 if (fetching) return <p>Loading...</p>;
 if (error) return <p>Oh no... {error.message}</p>;
+
+function convertTimestampToAMPM(timestamp) {
+  const date = new Date(timestamp * 1000); 
+  const hours = date.getHours();
+  const minutes = "0" + date.getMinutes();
+  const ampm = hours >= 12 ? 'pm' : 'am';
+  const formattedHours = hours % 12 || 12; 
+
+  const formattedTime = `${formattedHours}:${minutes.substr(-2)} ${ampm}`;
+  const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`; 
+
+  return `${formattedDate} ${formattedTime}`;
+}
 
   return (
     <Layout>
@@ -194,20 +217,23 @@ if (error) return <p>Oh no... {error.message}</p>;
                           View all
                         </div>
                       </div>
-                      <div className="w-full mt-0 md:mt-">
+                      {combinedddata?.map((item, index)=>(
+                      <div key={index} className="w-full mt-0 md:mt-">
                         <div className="gap-5 mt-3 md:mt-0 p-3 md:p-0 w-full flex bg-zinc-800 md:bg-transparent rounded-md md:rounded-none items-center max-md:gap-0">
                           <div className="flex flex-col items-stretch w-[29%] max-md:w-full max-md:ml-0">
                             <div className="flex grow flex-col items-stretch md:mt-10">
                               <div className="">
                                 <span className='block w-full text-start md:hidden text-white'>11:26am</span>
                                 <div className='flex gap-2 mt-1 md:mt-0'>
+                                 
                                   <img
                                     loading="lazy"
                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/a104f955-0925-4ef4-8f47-09f0e6402904?"
                                     className="aspect-square object-contain object-center w-6 justify-center items-center overflow-hidden shrink-0 max-w-full"
                                   />
+                               
                                   <div className="text-white text-base font-medium leading-6 tracking-normal grow whitespace-nowrap">
-                                    Fund Withdrawn
+                                    {item.__typename == "tokenDeposit" ? "Fund Deposit" : "Fund Withdrawn"}
                                   </div>
                                 </div>
 
@@ -219,18 +245,7 @@ if (error) return <p>Oh no... {error.message}</p>;
                               <div className="items-stretch flex justify-between gap-2">
                                 <div className="items-stretch hidden md:flex justify-between gap-0.5">
                                   <div className="text-white text-base leading-6 tracking-normal">
-                                    11:26 am
-                                  </div>
-                                </div>
-                                <div className="items-stretch hidden md:flex gap-1 max-md:justify-center">
-                                  <div className="text-white text-base leading-6 tracking-normal">
-                                    24th
-                                  </div>
-                                  <div className="text-white text-base leading-6 tracking-normal">
-                                    November
-                                  </div>
-                                  <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                    2023
+                                    {convertTimestampToAMPM(item.time)}
                                   </div>
                                 </div>
                               </div>
@@ -241,7 +256,7 @@ if (error) return <p>Oh no... {error.message}</p>;
                               <div className="flex w-full items-stretch justify-between gap-5">
                                 <div className="items-stretch flex justify-between gap-1">
                                   <div className="text-white text-base font-medium leading-6 tracking-normal whitespace-nowrap">
-                                    $125
+                                    {(item._amount)/1e18 + " usdt"}
                                   </div>
                                 </div>
                                 <div className='block md:hidden'>
@@ -258,6 +273,9 @@ if (error) return <p>Oh no... {error.message}</p>;
                           </div>
                         </div>
                       </div>
+
+                      ))}
+      
                     </div>
                   </div>
 

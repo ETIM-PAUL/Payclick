@@ -32,7 +32,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const { chains, publicClient } = configureChains(
   [polygonZkEvmTestnet],
   [
-    alchemyProvider({ apiKey: `https://polygonzkevm-testnet.g.alchemy.com/v2/N9cyd27jLeYKazPEzpCexlk3XvPn1GYo` }),
+    alchemyProvider({ apiKey: `https://polygon-mumbai.g.alchemy.com/v2/yrpAusNFJVN45241TJqfwSDpMuSWwOIa` }),
     publicProvider()
   ]
 );

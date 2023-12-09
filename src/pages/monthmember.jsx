@@ -44,12 +44,12 @@ const MonthMember = () => {
             <div className='text-white mt-10 px-4'>
               <div className='inline-grid md:flex gap-4'>
                 <div className='w-full md:w-[40%]'>
-                  <h3 className='text-lg md:text-4xl pb-2'>Ella Roberts</h3>
-                  <p>Ellaroberts34@gmail.com</p>
+                  <h3 className='text-lg md:text-4xl pb-2 break-words'>{data.bestStaffs[0].name}</h3>
+                  {/* <p>Ellaroberts34@gmail.com</p> */}
                   <div className='mt-10 space-y-5'>
                     <div className='flex justify-between'>
                       <span className='text-xs'>Wallet Address</span>
-                      <span>Asd87484jfjffjk</span>
+                      <span className='break-all'>{data.bestStaffs[0].bestStaff}</span>
                     </div>
                     <div className='flex justify-between'>
                       <span className='text-xs'>Position</span>
@@ -60,7 +60,7 @@ const MonthMember = () => {
 
                 </div>
                 <div className='w-full flex justify-end'>
-                  <img src={nft} className="w-[40%" />
+                  <img src={nft} className="w-[60%]" />
 
                 </div>
               </div>
