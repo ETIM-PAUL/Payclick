@@ -111,6 +111,8 @@ const { data:openAtt, isLoading:openLod, write } = useContractWrite({
 const { data : depositData, fetching: fetchingDeposit, error: depositError } = depositresult;
 const { data : withdrawdata, fetching, error } = withdrawresult;
 
+
+
 useEffect(() => {
   if(depositData != undefined && withdrawdata != undefined){
     setcombinedData([...(depositData.tokenDeposits), ...(withdrawdata.withdrawTokens)])
