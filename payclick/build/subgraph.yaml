@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: payclick
@@ -17,11 +17,11 @@ dataSources:
         - AccountCreated
       abis:
         - name: payclick
-          file: ./abis/payclick.json
+          file: payclick/abis/payclick.json
       eventHandlers:
         - event: AccountCreated(indexed address,indexed address)
           handler: handleAccountCreated
-      file: ./src/payclick.ts
+      file: payclick/payclick.wasm
 templates:
   - kind: ethereum
     name: payclickDashboard
@@ -32,12 +32,12 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/payclick.ts
+      file: payclick/payclick.wasm
       entities:
         - tokenDeposit
       abis:
         - name: payclickDashboard
-          file: ./abis/payclickdashboard.json
+          file: payclickDashboard/abis/payclickdashboard.json
       eventHandlers:
         - event: tokenDeposit(address,indexed uint256,uint256)
           handler: handleTokenDeposit
