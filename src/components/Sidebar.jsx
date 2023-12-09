@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import dashboard from "../assets/dashboardicon.svg"
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { GlobalContext } from '../context/GlobalContext'
+import copy from "copy-to-clipboard";
+import { toast } from 'react-toastify'
 
 export const Sidebar = () => {
+  const { state } = useContext(GlobalContext);
+  
+  const copyToClipboard = () => {
+    let copyText = `http://localhost:5173/sign-attendance/${state.childAddress}`;
+    let isCopy = copy(copyText);
+    if (isCopy) {
+      toast.success("link copied");
+    }
+  };
   return (
     <>
-      <div className="hidden overflow-scroll md:flex flex-col items-stretch  max-md:w-full max-md:ml-0">
+      <div className="hidden verflow-y-scroll scrollbar-thin scrollbar-thumb-[#19192E] scrollbar-track-gray-100 scrollbar-thumb-rounded-full scrollbar-track-rounded-full md:flex flex-col items-stretch  max-md:w-full max-md:ml-0">
         <div className="border-r-[color:var(--color-gray-900,#4E4E4E)] bg-stone-950 flex w-full grow flex-col mx-auto pl-11 pr-8 py-12 border-r-2 border-solid max-md:px-5">
-          <div className="items-stretch flex w-[217px] max-w-full gap-5 ml-4 mt-2.5 self-start max-md:ml-2.5">
+          <div className="items-stretch flex w-[250px] max-w-full gap-5 ml-4 mt-2.5 self-start max-md:ml-2.5">
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/f39065ba-b0c5-4e01-8582-24c3a73fd8bf?"
@@ -64,6 +77,19 @@ export const Sidebar = () => {
                 className="aspect-square object-contain object-center w-6 justify-center items-center overflow-hidden shrink-0 max-w-full" />
               <div className="text-base font-medium leading-6 tracking-normal grow whitespace-nowrap">
                 Schedule
+              </div>
+            </NavLink>
+            <NavLink to="/sign-attendance"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "bg-emerald-300 items-stretch self-center flex w-60 max-w-full gap-2 mt-2 pl-8 pr-20 py-3.5 text-black rounded-lg max-md:px-5" : "items-stretch self-center flex w-60 max-w-full gap-2 mt-2 pl-8 pr-20 py-3.5 text-white rounded-lg max-md:px-5"
+              }
+            >
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/23a13eba-9c97-4e69-9980-a2b7690d0d17?"
+                className="aspect-square object-contain object-center w-6 justify-center items-center overflow-hidden shrink-0 max-w-full" />
+              <div className="text-base font-medium leading-6 tracking-normal grow whitespace-nowrap">
+                Sign Attendance
               </div>
             </NavLink>
 
@@ -128,22 +154,22 @@ export const Sidebar = () => {
               Settings
             </div>
           </div>
-          <div className="justify-between items-stretch self-center flex w-[201px] max-w-full gap-5 mt-11 max-md:mt-10">
+          <div onClick={copyToClipboard} className=" cursor-pointer justify-between items-stretch self-center flex w-[201px] max-w-full gap-5 mt-11 max-md:mt-10">
             <div className="text-white text-sm font-medium leading-5 tracking-wide">
-              Attendance div
+              Attendance link
             </div>
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ac0d8f6-1310-42ef-93a8-b35fd8a6b122?"
               className="aspect-square object-contain object-center w-4 justify-center items-center overflow-hidden self-center shrink-0 max-w-full my-auto" />
           </div>
-          <div className="items-stretch bg-zinc-800 self-center flex w-[201px] max-w-full gap-2 mt-7 mb-8 pl-6 pr-6 py-3 rounded-lg max-md:px-5">
-            <img
+          <div className="items-stretch bg-zinc-800 self-center flex w-[201px] max-w-full gap-2 mt-7 mb-8  pr-6 py-3 rounded-lg max-md:px-5">
+            {/* <img
               loading="lazy"
               srcSet="..."
-              className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full rounded-[50%]" />
+              className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full rounded-[50%]" /> */}
             <div className="text-white text-sm leading-5 tracking-wide self-center grow whitespace-nowrap my-auto">
-              ADGJ163738JKJK
+             <ConnectButton accountStatus="address"/>
             </div>
           </div>
         </div>

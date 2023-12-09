@@ -23,11 +23,10 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
   const [err, setErr] = useState("");
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
-
     address: state.childAddress,
     abi: childABI,
     functionName: 'addStaff',
-    args:[groupWallet,groupSalary,groupName,groupPosition,groupMail ],
+    args:[[wallet],[salary],[name],[position],[email]],
     onSuccess(data) {
       setLastStep(true)
       setName('')
@@ -35,6 +34,7 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
       setWallet('')
       setPosition('')
       setSalary('')
+      console.log(data)
       toast.success('Staff Added');
 
     },
@@ -51,15 +51,15 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
     if(name===''||email===''||wallet===''||position===''||salary===''){
      setErr('All fields required')
     }else{
-
-      setGroupName((prevGroup) => [...prevGroup, name]);
-      setGroupMail((prevGroup) => [...prevGroup, email]);
-      setGroupWallet((prevGroup) => [...prevGroup, wallet]);
-      setGroupPosition((prevGroup) => [...prevGroup, position]);
-      setGroupSalary((prevGroup) => [...prevGroup, salary]);
       write?.()
+
+
     }
-  }
+
+
+      // console.log(groupWallet,groupSalary,groupName,groupPosition,groupMail)
+    }
+  
 
   return (
     <Transition

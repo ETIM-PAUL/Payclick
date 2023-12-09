@@ -23,6 +23,9 @@ export default function SignUpComp() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [cert, setCert] = useState(null);
+  const [certName, setCertName] = useState('')
+  const [logoName, setLogoName] = useState('')
+  const [selectedInterval, setSelectedInterval] = useState(0)
 
   const hiddenFileInput = useRef(null);
   const handleCert = useRef(null);
@@ -35,10 +38,12 @@ export default function SignUpComp() {
   };
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    setLogoName(file.name);
     setCert(file);
   };
   const handleCertChange = (event) => {
     const file = event.target.files[0];
+    setCertName(file.name)
     setSelectedFile(file);
   };
 
@@ -83,7 +88,7 @@ export default function SignUpComp() {
     address: FactoryAddr,
     abi: PayClickABI,
     functionName: "createAccount",
-    args: [TestTokenAddr, nftName, nftSymbol, certURI, orgName, logoURI, email],
+    args: [TestTokenAddr, nftName, nftSymbol, certURI, orgName, logoURI, email, selectedInterval],
     onError(error) {
       setErrMsg(error);
       console.log("Error", error);
@@ -118,12 +123,13 @@ export default function SignUpComp() {
     }
   };
   useEffect(()=>{
-    if(address){
-
-      if(readAcct!=='0x0000000000000000000000000000000000000000'){
-       navigate("/dashboard")
-      } 
+    if(address && readAcct!=='0x0000000000000000000000000000000000000000'){
+   
+          navigate("/dashboard")
+         
     }
+
+     
   },[address, readAcct])
 
   return (
@@ -174,6 +180,14 @@ export default function SignUpComp() {
                 />
               </div>
               <div className="mt-6">
+              <label className="text-[12px] leading-5 font-normal tracking-[0.4px] text-[#F1F1F1]">Payment Interval:</label> <br />
+      <select className="text-[12px] font-normal leading-5 tracking-[0.4px] text-[#F1F1F1] border-[1px] outline-[#F1F1F1] rounded-lg border-[#F1F1F1] bg-[black] outline-1 w-[100%] h-[46px] px-[10px]" value={selectedInterval} onChange={(e) => setSelectedInterval(e.target.value)}>
+        <option value="0">Weekly</option>
+        <option value="1">Biweekly</option>
+        <option value="2">Monthly</option>
+      </select>
+              </div>
+              <div className="mt-6">
                 <label className="text-[12px] leading-5 font-normal tracking-[0.4px] text-[#F1F1F1]">
                   Organization Logo
                 </label>{" "}
@@ -189,8 +203,9 @@ export default function SignUpComp() {
                   onClick={handleClick}
                 >
                   <h2 className="text-[12px] font-normal leading-5 tracking-[0.4px] text-[#F1F1F1]">
-                    {" "}
-                    Upload image{" "}
+                  
+                  {logoName !=='' ? logoName :
+                    "Upload image"}
                   </h2>
                   <img
                     src={imgLogo}
@@ -215,8 +230,8 @@ export default function SignUpComp() {
                   onClick={handleCertClick}
                 >
                   <h2 className="text-[12px] font-normal leading-5 tracking-[0.4px] text-[#F1F1F1]">
-                    {" "}
-                    Upload image{" "}
+                  {certName !=='' ? certName:
+                    "Upload image"}
                   </h2>
                   <img
                     src={imgLogo}

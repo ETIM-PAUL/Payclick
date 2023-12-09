@@ -15,8 +15,8 @@ import {
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
   // mainnet,
-  // polygon,
-  polygonZkEvmTestnet,
+  polygonMumbai,
+  // polygonZkEvmTestnet,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -28,9 +28,10 @@ import Payout from "./pages/payout";
 import Attendance from "./pages/attendance";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SignAttendance from "./pages/signAttendance";
 
 const { chains, publicClient } = configureChains(
-  [polygonZkEvmTestnet],
+  [polygonMumbai],
   [
     alchemyProvider({ apiKey: `https://polygon-mumbai.g.alchemy.com/v2/yrpAusNFJVN45241TJqfwSDpMuSWwOIa` }),
     publicProvider()
@@ -69,6 +70,7 @@ function App() {
                 <Route path="/members" element={<Members />} />
                 <Route path="/payouts" element={<Payout />} />
                 <Route path="/attendance" element={<Attendance />} />
+                <Route path="/sign-attendance/:addr" element={<SignAttendance />} />
                 <Route path="/members/monthly_winner" element={<MonthMember />} />
                 <Route path="/signin" element={<Signin />} />
               </Routes>
