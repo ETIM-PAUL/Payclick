@@ -3,11 +3,41 @@ import logo from "../assets/logo.svg"
 import Layout from '../components/Layout'
 import TopNav from '../components/TopNav'
 import { currentDate } from '../utils'
+import { useParams } from 'react-router-dom'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import childABI from "../const/childFact.json";
+import { useContractRead, useContractWrite } from 'wagmi'
 
 const SignAttendance = () => {
+  const {addr} = useParams();
+  const { data, isError, isLoading } = useContractRead({
+    address: addr,
+    abi: childABI,
+    functionName: 'companyDetails',
+  })
+
+  const { data:writeData, isLoading:writeLoading, isSuccess, write } = useContractWrite({
+    address: addr,
+    abi: childABI,
+    functionName: 'markAttendance',
+  })
+  
   return (
-    <Layout>
-      <div className="bg-stone block pb-20">
+    // <Layout>
+      <div className="bg-stone block pb-20 px-10">
+        <div className="flex items-center justify-between mt-6">
+
+         <div className="hidden justify-start text-white items-center md:flex ">
+            <img
+              loading="lazy"
+              srcSet={logo}
+              className="aspect-square object-contain object-center w-9 overflow-hidden shrink-0 max-w-full rounded-[50%]"
+            />
+            <span className='font-bold text-xl'>{data[0]}</span>
+
+          </div>
+            <ConnectButton/>
+        </div>
         <div className="gap-5  max-md:items-stretch max-md:gap-0">
           <div className="flex flex-col items-stretch ml- max-md:w-full max-md:ml-0">
             <div className="flex flex-col items-stretch my-auto max-md:max-w-full max-md:mt-10">
@@ -39,7 +69,7 @@ const SignAttendance = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    // </Layout>
   )
 }
 

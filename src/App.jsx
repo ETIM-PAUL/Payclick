@@ -70,7 +70,7 @@ function App() {
                 <Route path="/members" element={<Members />} />
                 <Route path="/payouts" element={<Payout />} />
                 <Route path="/attendance" element={<Attendance />} />
-                <Route path="/sign-attendance/:address" element={<SignAttendance />} />
+                <Route path="/sign-attendance/:addr" element={<SignAttendance />} />
                 <Route path="/members/monthly_winner" element={<MonthMember />} />
                 <Route path="/signin" element={<Signin />} />
               </Routes>
