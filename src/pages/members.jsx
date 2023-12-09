@@ -89,19 +89,19 @@ const Members = () => {
                   <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
-                        <th scope="co" className="px-6 py-3">
+                        <th scope="co" className="w-[20%] px-6 py-3">
                           Name
                         </th>
-                        <th scope="co" className="px-6 py-3 hidden md:inline-block">
+                        <th scope="co" className="w-[20%] px-6 py-3 hidden md:inline-block">
                           Email
                         </th>
-                        <th scope="co" className="px-6 py-3 hidden md:inline-block">
+                        <th scope="co" className="w-[30%] px-6 py-3 hidden md:inline-block">
                           Wallet Address
                         </th>
-                        <th scope="co" className="px-6 py-3 hidden md:inline-block">
+                        <th scope="co" className="w-[20%] px-6 py-3 hidden md:inline-block">
                           Position
                         </th>
-                        <th scope="co" className="px-6 py-3">
+                        <th scope="co" className="w-[20%] px-6 py-3">
                           Salary
                         </th>
                       </tr>
@@ -118,19 +118,19 @@ const Members = () => {
                       {data?.map((data, index)=>(
 
                       <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td scope="ro" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {data?.myNAme}
+                        <td scope="ro" className="w-[20%] px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {data?.myName}
                         </td>
-                        <td className="px-6 py-4 hidden md:inline-block">
+                        <td className="w-[20%] px-6 py-4 hidden md:inline-block">
                           {data?.email}
                         </td>
-                        <td className="px-6 py-4 hidden md:inline-block">
+                        <td className="w-[30%] px-6 py-4 hidden md:inline-block">
                           {data?.myAddress}
                         </td>
-                        <td className="px-6 py-4 hidden md:inline-block">
+                        <td className="w-[20%] px-6 py-4 hidden md:inline-block">
                           {data?.position}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="w-[20%] px-6 py-4">
                           ${Number(data?.salary)}
                         </td>
                       </tr>
