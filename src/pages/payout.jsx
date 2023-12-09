@@ -1,14 +1,61 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Layout from '../components/Layout'
 import TopNav from '../components/TopNav'
 import { Link } from 'react-router-dom'
 import { MemberModal } from '../components/MemberModal'
+import { gql, useQuery } from 'urql';
+import { GlobalContext } from '../context/GlobalContext';
 
+//withdraw query
+const GET_AMOUNTPAIDOUT = gql`
+query Getamountppaidout($contract: String!) {
+  amountPaidouts(where: { _contract: $contract }) {
+    _contract
+    amount
+    timePaid
+  }
+}
+`;
 
 const Payout = () => {
   const [memberAdd, setMemberAdd] = useState(false)
+  const {dispatch, state} = useContext(GlobalContext)
 
+  const [paidOutResult] = useQuery({
+    query: GET_AMOUNTPAIDOUT,
+    variables: { contract: state.childAddress },
+  });
+
+  const { data : amountPaidData, fetching:paidfetching, error: paiderror } = paidOutResult;
+
+  function convertTimestampToAMPM(timestamp) {
+    const date = new Date(timestamp * 1000); 
+    const hours = date.getHours();
+    const minutes = "0" + date.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    const formattedHours = hours % 12 || 12; 
+
+    const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`; 
+  
+    return `${formattedDate}`;
+  }
+
+  function convertTime(timestamp) {
+    const date = new Date(timestamp * 1000); 
+    const hours = date.getHours();
+    const minutes = "0" + date.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    const formattedHours = hours % 12 || 12; 
+  
+    const formattedTime = `${formattedHours}:${minutes.substr(-2)} ${ampm}`;
+    return `${formattedTime}`;
+  }
+
+
+
+
+  
   return (
     <Layout>
       <div className="bg-stone block pb-20">
@@ -56,114 +103,28 @@ const Payout = () => {
                   </div>
                 </div>
 
-                <div className="items-stretch content-start flex-wrap flex flex-col py-2.5">
+              {amountPaidData.amountPaidouts.map((amount, index)=>(
+                <div key={index} className="items-stretch content-start flex-wrap flex flex-col py-2.5">
                   <div className="w-full max-md:max-w-full">
                     <div className="gap-5 flex max-md:flex-col flex-wrap max-md:items-stretch max-md:gap-0">
                       <div className="flex flex-col grow items-stretch md:w-fit w-full max-md:ml-0">
                         <div className="justify-center items-stretch bg-zinc-800 flex w-full grow flex-col mx-auto px-6 py-3 rounded-lg max-md:mt-6 max-md:px-5">
                           <div className="items-center flex justify-between gap-1">
                             <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                              $125
+                              {(amount.amount)/1e18 + " usdt"}
                             </div>
                           </div>
                           <div className="items-stretch flex justify-between gap-2 mt-16 max-md:mt-10">
                             <div className="items-stretch flex justify-between gap-0.5">
                               <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                11:26am
+                                {convertTime(amount.timePaid)}
                               </div>
                             </div>
                             <div className="items-stretch flex gap-1 max-md:justify-center">
                               <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                24th
+                                {convertTimestampToAMPM(amount.timePaid)}
                               </div>
-                              <div className="text-white text-base leading-6 tracking-normal">
-                                November
-                              </div>
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                2023
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex flex-col grow items-stretch md:w-fit w-full max-md:ml-0">
-                        <div className="justify-center items-stretch bg-zinc-800 flex w-full grow flex-col mx-auto px-6 py-3 rounded-lg max-md:mt-6 max-md:px-5">
-                          <div className="items-center flex justify-between gap-1">
-                            <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                              $125
-                            </div>
-                          </div>
-                          <div className="items-stretch flex justify-between gap-2 mt-16 max-md:mt-10">
-                            <div className="items-stretch flex justify-between gap-0.5">
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                11:26am
-                              </div>
-                            </div>
-                            <div className="items-stretch flex gap-1 max-md:justify-center">
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                24th
-                              </div>
-                              <div className="text-white text-base leading-6 tracking-normal">
-                                November
-                              </div>
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                2023
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col grow items-stretch md:w-fit w-full max-md:ml-0">
-                        <div className="justify-center items-stretch bg-zinc-800 flex w-full grow flex-col mx-auto px-6 py-3 rounded-lg max-md:mt-6 max-md:px-5">
-                          <div className="items-center flex justify-between gap-1">
-                            <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                              $125
-                            </div>
-                          </div>
-                          <div className="items-stretch flex justify-between gap-2 mt-16 max-md:mt-10">
-                            <div className="items-stretch flex justify-between gap-0.5">
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                11:26am
-                              </div>
-                            </div>
-                            <div className="items-stretch flex gap-1 max-md:justify-center">
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                24th
-                              </div>
-                              <div className="text-white text-base leading-6 tracking-normal">
-                                November
-                              </div>
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                2023
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex flex-col grow items-stretch md:w-fit w-full max-md:ml-0">
-                        <div className="justify-center items-stretch bg-zinc-800 flex w-full grow flex-col mx-auto px-6 py-3 rounded-lg max-md:mt-6 max-md:px-5">
-                          <div className="items-center flex justify-between gap-1">
-                            <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                              $125
-                            </div>
-                          </div>
-                          <div className="items-stretch flex justify-between gap-2 mt-16 max-md:mt-10">
-                            <div className="items-stretch flex justify-between gap-0.5">
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                11:26am
-                              </div>
-                            </div>
-                            <div className="items-stretch flex gap-1 max-md:justify-center">
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                24th
-                              </div>
-                              <div className="text-white text-base leading-6 tracking-normal">
-                                November
-                              </div>
-                              <div className="text-white text-base leading-6 tracking-normal whitespace-nowrap">
-                                2023
-                              </div>
+                             
                             </div>
                           </div>
                         </div>
@@ -171,6 +132,8 @@ const Payout = () => {
                     </div>
                   </div>
                 </div>
+              ))}
+     
               </div>
             </div>
           </div>
