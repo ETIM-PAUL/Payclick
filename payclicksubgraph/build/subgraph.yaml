@@ -1,14 +1,14 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
-    name: payclick
-    network: mumbai
+    name: paybox
+    network: sepolia
     source:
-      address: "0x03A39302fea7e39D289E714bCa585E5A7C0f0680"
-      abi: payclick
-      startBlock: 43370208
+      address: "0xF758BE839a31D6C1C701c21F9b211a2c2AD4788B"
+      abi: paybox
+      startBlock: 5127649
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -16,28 +16,28 @@ dataSources:
       entities:
         - AccountCreated
       abis:
-        - name: payclick
-          file: ./abis/payclick.json
+        - name: paybox
+          file: paybox/abis/paybox.json
       eventHandlers:
         - event: AccountCreated(indexed address,indexed address)
           handler: handleAccountCreated
-      file: ./src/payclick.ts
+      file: paybox/paybox.wasm
 templates:
   - kind: ethereum
     name: payclickDashboard
-    network: mumbai
+    network: sepolia
     source:
       abi: payclickDashboard
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/payclick.ts
+      file: paybox/paybox.wasm
       entities:
         - tokenDeposit
       abis:
         - name: payclickDashboard
-          file: ./abis/payclickdashboard.json
+          file: payclickDashboard/abis/payclickdashboard.json
       eventHandlers:
         - event: tokenDeposit(address,indexed uint256,uint256)
           handler: handleTokenDeposit

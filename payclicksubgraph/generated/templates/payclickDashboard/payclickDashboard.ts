@@ -222,6 +222,28 @@ export class bestStaff__Params {
   }
 }
 
+export class borrowGHO extends ethereum.Event {
+  get params(): borrowGHO__Params {
+    return new borrowGHO__Params(this);
+  }
+}
+
+export class borrowGHO__Params {
+  _event: borrowGHO;
+
+  constructor(event: borrowGHO) {
+    this._event = event;
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get onBehalfOf(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class staffRemove extends ethereum.Event {
   get params(): staffRemove__Params {
     return new staffRemove__Params(this);
@@ -320,6 +342,18 @@ export class payclickDashboard__allMembersResultValue0Struct extends ethereum.Tu
   get email(): string {
     return this[4].toString();
   }
+
+  get shareAcquisition(): boolean {
+    return this[5].toBoolean();
+  }
+
+  get sharesPercent(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get sharesBalance(): BigInt {
+    return this[7].toBigInt();
+  }
 }
 
 export class payclickDashboard__companyDetailsResult {
@@ -384,6 +418,25 @@ export class payclickDashboard extends ethereum.SmartContract {
     return new payclickDashboard("payclickDashboard", address);
   }
 
+  aave_contract(): Address {
+    let result = super.call("aave_contract", "aave_contract():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_aave_contract(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "aave_contract",
+      "aave_contract():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   addStaff(
     _staffAdresses: Array<Address>,
     _amount: Array<BigInt>,
@@ -434,7 +487,7 @@ export class payclickDashboard extends ethereum.SmartContract {
   allMembers(): Array<payclickDashboard__allMembersResultValue0Struct> {
     let result = super.call(
       "allMembers",
-      "allMembers():((address,string,string,uint256,string)[])",
+      "allMembers():((address,string,string,uint256,string,bool,uint256,uint256)[])",
       []
     );
 
@@ -448,7 +501,7 @@ export class payclickDashboard extends ethereum.SmartContract {
   > {
     let result = super.tryCall(
       "allMembers",
-      "allMembers():((address,string,string,uint256,string)[])",
+      "allMembers():((address,string,string,uint256,string,bool,uint256,uint256)[])",
       []
     );
     if (result.reverted) {
@@ -472,6 +525,38 @@ export class payclickDashboard extends ethereum.SmartContract {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
       ethereum.Value.fromAddress(owner)
     ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  borrowGHOTokens(_staff: Address, desiredAmount: BigInt): BigInt {
+    let result = super.call(
+      "borrowGHOTokens",
+      "borrowGHOTokens(address,uint256):(uint256)",
+      [
+        ethereum.Value.fromAddress(_staff),
+        ethereum.Value.fromUnsignedBigInt(desiredAmount)
+      ]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_borrowGHOTokens(
+    _staff: Address,
+    desiredAmount: BigInt
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "borrowGHOTokens",
+      "borrowGHOTokens(address,uint256):(uint256)",
+      [
+        ethereum.Value.fromAddress(_staff),
+        ethereum.Value.fromUnsignedBigInt(desiredAmount)
+      ]
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -554,6 +639,63 @@ export class payclickDashboard extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  getChainlinkDataFeedLatestAnswer(): BigInt {
+    let result = super.call(
+      "getChainlinkDataFeedLatestAnswer",
+      "getChainlinkDataFeedLatestAnswer():(int256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_getChainlinkDataFeedLatestAnswer(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "getChainlinkDataFeedLatestAnswer",
+      "getChainlinkDataFeedLatestAnswer():(int256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  ghoPayback(_staff: Address): BigInt {
+    let result = super.call("ghoPayback", "ghoPayback(address):(uint256)", [
+      ethereum.Value.fromAddress(_staff)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_ghoPayback(_staff: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("ghoPayback", "ghoPayback(address):(uint256)", [
+      ethereum.Value.fromAddress(_staff)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  gho_contract(): Address {
+    let result = super.call("gho_contract", "gho_contract():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_gho_contract(): ethereum.CallResult<Address> {
+    let result = super.tryCall("gho_contract", "gho_contract():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   isApprovedForAll(owner: Address, operator: Address): boolean {
     let result = super.call(
       "isApprovedForAll",
@@ -578,6 +720,27 @@ export class payclickDashboard extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  loanBalance(_staff: Address): BigInt {
+    let result = super.call("loanBalance", "loanBalance(address):(uint256)", [
+      ethereum.Value.fromAddress(_staff)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_loanBalance(_staff: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "loanBalance",
+      "loanBalance(address):(uint256)",
+      [ethereum.Value.fromAddress(_staff)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   markAttendance(): boolean {
@@ -642,6 +805,29 @@ export class payclickDashboard extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  previewEstimatedLoan(_staff: Address): BigInt {
+    let result = super.call(
+      "previewEstimatedLoan",
+      "previewEstimatedLoan(address):(uint256)",
+      [ethereum.Value.fromAddress(_staff)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_previewEstimatedLoan(_staff: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "previewEstimatedLoan",
+      "previewEstimatedLoan(address):(uint256)",
+      [ethereum.Value.fromAddress(_staff)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   removeStaff(_staff: Address): boolean {
@@ -798,6 +984,42 @@ export class payclickDashboard extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  totalShares(): BigInt {
+    let result = super.call("totalShares", "totalShares():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_totalShares(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("totalShares", "totalShares():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  vaultBalance(_staff: Address): BigInt {
+    let result = super.call("vaultBalance", "vaultBalance(address):(uint256)", [
+      ethereum.Value.fromAddress(_staff)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_vaultBalance(_staff: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "vaultBalance",
+      "vaultBalance(address):(uint256)",
+      [ethereum.Value.fromAddress(_staff)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   withdrawFund(to: Address, _amount: BigInt): boolean {
     let result = super.call(
       "withdrawFund",
@@ -825,6 +1047,32 @@ export class payclickDashboard extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  withdrawShares(_staff: Address, _asset: Address): BigInt {
+    let result = super.call(
+      "withdrawShares",
+      "withdrawShares(address,address):(uint256)",
+      [ethereum.Value.fromAddress(_staff), ethereum.Value.fromAddress(_asset)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_withdrawShares(
+    _staff: Address,
+    _asset: Address
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "withdrawShares",
+      "withdrawShares(address,address):(uint256)",
+      [ethereum.Value.fromAddress(_staff), ethereum.Value.fromAddress(_asset)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 }
 
@@ -875,6 +1123,10 @@ export class ConstructorCall__Inputs {
 
   get _owner(): Address {
     return this._call.inputValues[7].value.toAddress();
+  }
+
+  get _aave_contract(): Address {
+    return this._call.inputValues[8].value.toAddress();
   }
 }
 
@@ -970,6 +1222,82 @@ export class ApproveCall__Outputs {
   }
 }
 
+export class BorrowGHOTokensCall extends ethereum.Call {
+  get inputs(): BorrowGHOTokensCall__Inputs {
+    return new BorrowGHOTokensCall__Inputs(this);
+  }
+
+  get outputs(): BorrowGHOTokensCall__Outputs {
+    return new BorrowGHOTokensCall__Outputs(this);
+  }
+}
+
+export class BorrowGHOTokensCall__Inputs {
+  _call: BorrowGHOTokensCall;
+
+  constructor(call: BorrowGHOTokensCall) {
+    this._call = call;
+  }
+
+  get _staff(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get desiredAmount(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class BorrowGHOTokensCall__Outputs {
+  _call: BorrowGHOTokensCall;
+
+  constructor(call: BorrowGHOTokensCall) {
+    this._call = call;
+  }
+
+  get value0(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
+  }
+}
+
+export class BuySharesCall extends ethereum.Call {
+  get inputs(): BuySharesCall__Inputs {
+    return new BuySharesCall__Inputs(this);
+  }
+
+  get outputs(): BuySharesCall__Outputs {
+    return new BuySharesCall__Outputs(this);
+  }
+}
+
+export class BuySharesCall__Inputs {
+  _call: BuySharesCall;
+
+  constructor(call: BuySharesCall) {
+    this._call = call;
+  }
+
+  get _staff(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _asset(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+}
+
+export class BuySharesCall__Outputs {
+  _call: BuySharesCall;
+
+  constructor(call: BuySharesCall) {
+    this._call = call;
+  }
+}
+
 export class DepositFundCall extends ethereum.Call {
   get inputs(): DepositFundCall__Inputs {
     return new DepositFundCall__Inputs(this);
@@ -1061,6 +1389,36 @@ export class OpenAttendanceCall__Outputs {
 
   get value0(): boolean {
     return this._call.outputValues[0].value.toBoolean();
+  }
+}
+
+export class PaybackLoanCall extends ethereum.Call {
+  get inputs(): PaybackLoanCall__Inputs {
+    return new PaybackLoanCall__Inputs(this);
+  }
+
+  get outputs(): PaybackLoanCall__Outputs {
+    return new PaybackLoanCall__Outputs(this);
+  }
+}
+
+export class PaybackLoanCall__Inputs {
+  _call: PaybackLoanCall;
+
+  constructor(call: PaybackLoanCall) {
+    this._call = call;
+  }
+
+  get _staff(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class PaybackLoanCall__Outputs {
+  _call: PaybackLoanCall;
+
+  constructor(call: PaybackLoanCall) {
+    this._call = call;
   }
 }
 
@@ -1315,5 +1673,43 @@ export class WithdrawFundCall__Outputs {
 
   get value0(): boolean {
     return this._call.outputValues[0].value.toBoolean();
+  }
+}
+
+export class WithdrawSharesCall extends ethereum.Call {
+  get inputs(): WithdrawSharesCall__Inputs {
+    return new WithdrawSharesCall__Inputs(this);
+  }
+
+  get outputs(): WithdrawSharesCall__Outputs {
+    return new WithdrawSharesCall__Outputs(this);
+  }
+}
+
+export class WithdrawSharesCall__Inputs {
+  _call: WithdrawSharesCall;
+
+  constructor(call: WithdrawSharesCall) {
+    this._call = call;
+  }
+
+  get _staff(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _asset(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class WithdrawSharesCall__Outputs {
+  _call: WithdrawSharesCall;
+
+  constructor(call: WithdrawSharesCall) {
+    this._call = call;
+  }
+
+  get value0(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
   }
 }

@@ -32,9 +32,24 @@ export class AccountCreated__Params {
   }
 }
 
-export class payclick extends ethereum.SmartContract {
-  static bind(address: Address): payclick {
-    return new payclick("payclick", address);
+export class paybox extends ethereum.SmartContract {
+  static bind(address: Address): paybox {
+    return new paybox("paybox", address);
+  }
+
+  GHO_Contract(): Address {
+    let result = super.call("GHO_Contract", "GHO_Contract():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_GHO_Contract(): ethereum.CallResult<Address> {
+    let result = super.tryCall("GHO_Contract", "GHO_Contract():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   createAccount(
@@ -113,6 +128,36 @@ export class payclick extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+}
+
+export class ConstructorCall extends ethereum.Call {
+  get inputs(): ConstructorCall__Inputs {
+    return new ConstructorCall__Inputs(this);
+  }
+
+  get outputs(): ConstructorCall__Outputs {
+    return new ConstructorCall__Outputs(this);
+  }
+}
+
+export class ConstructorCall__Inputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+
+  get _gho_contract(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class ConstructorCall__Outputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
   }
 }
 
