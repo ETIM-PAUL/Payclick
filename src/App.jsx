@@ -15,7 +15,7 @@ import {
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
   // mainnet,
-  polygonMumbai,
+  sepolia,
   // polygonZkEvmTestnet,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
@@ -29,11 +29,13 @@ import Attendance from "./pages/attendance";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SignAttendance from "./pages/signAttendance";
+import MemberVault from "./pages/memberVault";
+import MemberLoan from "./pages/memberLoan";
 
 const { chains, publicClient } = configureChains(
-  [polygonMumbai],
+  [sepolia],
   [
-    alchemyProvider({ apiKey: `https://polygon-mumbai.g.alchemy.com/v2/yrpAusNFJVN45241TJqfwSDpMuSWwOIa` }),
+    alchemyProvider({ apiKey: `https://eth-sepolia.g.alchemy.com/v2/PN7ox_cWivKpFnRnE5YKoJ5Vyp8-Bx5j` }),
     publicProvider()
   ]
 );
@@ -70,7 +72,9 @@ function App() {
                 <Route path="/members" element={<Members />} />
                 <Route path="/payouts" element={<Payout />} />
                 <Route path="/attendance" element={<Attendance />} />
-                <Route path="/sign-attendance/:addr" element={<SignAttendance />} />
+                <Route path="/signAttendance/:addr" element={<SignAttendance />} />
+                <Route path="/member_vault/:addr" element={<MemberVault />} />
+                <Route path="/member_loan/:addr" element={<MemberLoan />} />
                 <Route path="/members/monthly_winner" element={<MonthMember />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/" element={<Signin />} />

@@ -74,8 +74,6 @@ const Dashboard = () => {
     abi: tokenABI,
   };
 
-  console.log(state.childAddress)
-
   const { data, isError, isLoading } = useContractReads({
     contracts: [
       {
@@ -168,7 +166,7 @@ const Dashboard = () => {
                                     }
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
-                                    USDT
+                                    DAI
                                   </div>
                                 </div>
                               </div>
@@ -190,7 +188,7 @@ const Dashboard = () => {
                                 Salary Payouts
                               </div>
                               <div className="text-white text-xs leading-5 tracking-wide self-center whitespace-nowrap mt-2">
-                                For November
+                                For January
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
                                 $

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 
 export const Sidebar = () => {
   const { state } = useContext(GlobalContext);
-  
+
   const copyToClipboard = () => {
     let copyText = `http://localhost:5173/sign-attendance/${state.childAddress}`;
     let isCopy = copy(copyText);
@@ -80,7 +80,7 @@ export const Sidebar = () => {
                 Schedule
               </div>
             </NavLink>
-            <NavLink to="/sign-attendance"
+            <NavLink to={`/signAttendance/${state?.childAddress}`}
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "bg-emerald-300 items-stretch self-center flex w-60 max-w-full gap-2 mt-2 pl-8 pr-20 py-3.5 text-black rounded-lg max-md:px-5" : "items-stretch self-center flex w-60 max-w-full gap-2 mt-2 pl-8 pr-20 py-3.5 text-white rounded-lg max-md:px-5"
               }
@@ -90,7 +90,7 @@ export const Sidebar = () => {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/23a13eba-9c97-4e69-9980-a2b7690d0d17?"
                 className="aspect-square object-contain object-center w-6 justify-center items-center overflow-hidden shrink-0 max-w-full" />
               <div className="text-base font-medium leading-6 tracking-normal grow whitespace-nowrap">
-                Sign Attendance
+                Staff Dashboard Link
               </div>
             </NavLink>
 
@@ -170,7 +170,7 @@ export const Sidebar = () => {
               srcSet="..."
               className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full rounded-[50%]" /> */}
             <div className="text-white text-sm leading-5 tracking-wide self-center grow whitespace-nowrap my-auto">
-             <ConnectButton accountStatus="address"/>
+              <ConnectButton accountStatus="address" />
             </div>
           </div>
         </div>

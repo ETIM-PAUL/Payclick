@@ -20,6 +20,7 @@ export default function SignUpComp() {
   const [certURI, setCertURI] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [myLoading, setMyLoading] = useState(false);
+  const [setUp, setSetup] = useState(false);
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [cert, setCert] = useState(null);
@@ -95,6 +96,7 @@ export default function SignUpComp() {
     },
     onSuccess(data) {
       // console.log("Success", data);
+      setSetup(true)
     },
   });
 
@@ -122,28 +124,28 @@ export default function SignUpComp() {
       setMyLoading(false);
     }
   };
-  useEffect(()=>{
-    if(address && readAcct!=='0x0000000000000000000000000000000000000000'){
-   
-          navigate("/dashboard")
-         
+  useEffect(() => {
+    if (address && readAcct !== '0x0000000000000000000000000000000000000000') {
+
+      navigate("/dashboard")
+
     }
 
-     
-  },[address, readAcct])
+
+  }, [address, readAcct, setUp])
 
   return (
     <main>
       {errMsg !== "" && <h2 className=" w-[36%] bg-[red] text-white text-center text-[16px]  h-[30px] ml-20 mt-10 ">{errMsg}</h2>}
       {myLoading || isLoading && (
-          <div className="flex justify-center items-center w-[36%] mt-[300px] absolute ">
+        <div className="flex justify-center items-center w-[36%] mt-[300px] absolute ">
 
-            <span className="relative flex h-20 w-20">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
-            </span>
-          </div>
-        )}
+          <span className="relative flex h-20 w-20">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
+          </span>
+        </div>
+      )}
       {!next ? (
         <div className="bg-[black] formBackground w-[36%] ml-20 mt-10 rounded-lg pb-10">
           <div className="w-[90%] mx-auto">
@@ -180,12 +182,12 @@ export default function SignUpComp() {
                 />
               </div>
               <div className="mt-6">
-              <label className="text-[12px] leading-5 font-normal tracking-[0.4px] text-[#F1F1F1]">Payment Interval:</label> <br />
-      <select className="text-[12px] font-normal leading-5 tracking-[0.4px] text-[#F1F1F1] border-[1px] outline-[#F1F1F1] rounded-lg border-[#F1F1F1] bg-[black] outline-1 w-[100%] h-[46px] px-[10px]" value={selectedInterval} onChange={(e) => setSelectedInterval(e.target.value)}>
-        <option value="0">Weekly</option>
-        <option value="1">Biweekly</option>
-        <option value="2">Monthly</option>
-      </select>
+                <label className="text-[12px] leading-5 font-normal tracking-[0.4px] text-[#F1F1F1]">Payment Interval:</label> <br />
+                <select className="text-[12px] font-normal leading-5 tracking-[0.4px] text-[#F1F1F1] border-[1px] outline-[#F1F1F1] rounded-lg border-[#F1F1F1] bg-[black] outline-1 w-[100%] h-[46px] px-[10px]" value={selectedInterval} onChange={(e) => setSelectedInterval(e.target.value)}>
+                  <option value="0">Weekly</option>
+                  <option value="1">Biweekly</option>
+                  <option value="2">Monthly</option>
+                </select>
               </div>
               <div className="mt-6">
                 <label className="text-[12px] leading-5 font-normal tracking-[0.4px] text-[#F1F1F1]">
@@ -203,9 +205,9 @@ export default function SignUpComp() {
                   onClick={handleClick}
                 >
                   <h2 className="text-[12px] font-normal leading-5 tracking-[0.4px] text-[#F1F1F1]">
-                  
-                  {logoName !=='' ? logoName :
-                    "Upload image"}
+
+                    {logoName !== '' ? logoName :
+                      "Upload image"}
                   </h2>
                   <img
                     src={imgLogo}
@@ -230,8 +232,8 @@ export default function SignUpComp() {
                   onClick={handleCertClick}
                 >
                   <h2 className="text-[12px] font-normal leading-5 tracking-[0.4px] text-[#F1F1F1]">
-                  {certName !=='' ? certName:
-                    "Upload image"}
+                    {certName !== '' ? certName :
+                      "Upload image"}
                   </h2>
                   <img
                     src={imgLogo}
@@ -252,25 +254,25 @@ export default function SignUpComp() {
                 <h2 className="text-[12px] leading-5 text-[#FEFEFE] font-medium text-center ">
                   Already have an account? Proceed to{" "}
                   <span className="text-[#63D9B9] cursor-pointer">
-                  <WalletButton.Custom wallet="metamask">
-        {({ ready, connect }) => {
-          return (
-            <>
-        
+                    <WalletButton.Custom wallet="metamask">
+                      {({ ready, connect }) => {
+                        return (
+                          <>
 
-            <button
-              type="button"
-              disabled={!ready}
-              onClick={connect}
-              className="cursor-pointer">
-               Connect Wallet
-            </button>
-           
-            </>
-          );
-        }}
-      </WalletButton.Custom>
-                   </span>{" "}
+
+                            <button
+                              type="button"
+                              disabled={!ready}
+                              onClick={connect}
+                              className="cursor-pointer">
+                              Connect Wallet
+                            </button>
+
+                          </>
+                        );
+                      }}
+                    </WalletButton.Custom>
+                  </span>{" "}
                 </h2>
               </div>
             </form>

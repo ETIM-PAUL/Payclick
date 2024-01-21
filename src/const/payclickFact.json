@@ -1,5 +1,16 @@
 [
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_gho_contract",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -19,14 +30,55 @@
     "type": "event"
   },
   {
+    "inputs": [],
+    "name": "GHO_Contract",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
-      { "internalType": "address", "name": "_tokenAddress", "type": "address" },
-      { "internalType": "string", "name": "_nftName", "type": "string" },
-      { "internalType": "string", "name": "_nftSymbol", "type": "string" },
-      { "internalType": "string", "name": "_Nfturi", "type": "string" },
-      { "internalType": "string", "name": "_companyName", "type": "string" },
-      { "internalType": "string", "name": "_companyLogo", "type": "string" },
-      { "internalType": "string", "name": "_email", "type": "string" },
+      {
+        "internalType": "address",
+        "name": "_tokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "_nftName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_nftSymbol",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_Nfturi",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_companyName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_companyLogo",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_email",
+        "type": "string"
+      },
       {
         "internalType": "enum paybox.Interval",
         "name": "_interval",
@@ -34,7 +86,13 @@
       }
     ],
     "name": "createAccount",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -47,10 +105,20 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_owner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      }
     ],
     "name": "showMyAcct",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   }

@@ -9,47 +9,30 @@ import tokenABI from "../const/token.json";
 import { GlobalContext } from "../context/GlobalContext";
 import { TestTokenAddr } from "../const/contract";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
-export function FundModal({ setShowFundModal, showFundModal }) {
-  const { state } = useContext(GlobalContext);
+export function BorrowLoanModal({ setShowDepositModal, showDepositModal }) {
+  const { addr } = useParams();
   const [num, setNum] = useState("");
-  const { address } = useAccount();
   const [err, setErr] = useState("");
+  const { address } = useAccount();
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
-    address: state.childAddress,
+    address: addr,
     abi: childABI,
-    functionName: "depositFund",
-    args: [Number(num) * 1e18],
+    functionName: "borrowGHOTokens",
+    args: [address, Number(num) * 1e18],
     onSuccess(data) {
       console.log("Success", data);
-      setShowFundModal(false)
-      toast.success("Transaction Approved");
+      setShowDepositModal(false)
+      toast.success("GHO Tokens Borrow successfully");
 
     },
     onError() {
-      setErr("Error Occur when calling Deposit");
+      setErr("Error Occur when Borrowing GHO Tokens");
     },
   });
 
-  const {
-    data: approveData,
-    isLoading: approveLoading,
-    isSuccess: approveSuccess,
-    write: approveWrite,
-  } = useContractWrite({
-    address: TestTokenAddr,
-    abi: tokenABI,
-    functionName: "approve",
-    args: [state.childAddress, Number(num) * 1e18],
-    onSuccess(data) {
-      toast.success('Amount Approved');
-      write?.();
-    },
-    onError() {
-      setErr("Error Occur when approving cotract");
-    },
-  });
 
   // const {
   //   data: approveWait,
@@ -65,14 +48,14 @@ export function FundModal({ setShowFundModal, showFundModal }) {
       setErr("INPUT CAN NOT BE EMPTY");
     } else {
       console.log("clicked");
-      approveWrite?.();
+      write?.();
     }
   };
 
   return (
     <Transition appear show={true} as={Fragment}>
       <Dialog
-        open={showFundModal}
+        open={showDepositModal}
         onClose={() => null}
         className="z-10 bg-white"
       >
@@ -101,8 +84,7 @@ export function FundModal({ setShowFundModal, showFundModal }) {
               className="bg-zinc-800 rounded-md text-white p-6"
             >
               <Dialog.Panel>
-                {isLoading ||
-                  approveLoading ? (
+                {isLoading ? (
                   <div className="flex tems-center mt-[200px] absolute ">
                     <span className="relative flex h-20 w-20 ml-[250px]">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
@@ -112,12 +94,8 @@ export function FundModal({ setShowFundModal, showFundModal }) {
                 ) : null}
 
                 <Dialog.Title className="text-start block text-3xl">
-                  Fund Account
+                  Borrow GHO Tokens
                 </Dialog.Title>
-                <Dialog.Description className="text-start block text-base w-[60%] mt-2">
-                  Amount funded into your account will be added directly from
-                  connected wallet
-                </Dialog.Description>
                 {err !== "" && (
                   <h2 className=" w-[100%] bg-[red] text-white text-center text-[16px]  h-[30px]  mt-10 ">
                     {err}
@@ -126,24 +104,19 @@ export function FundModal({ setShowFundModal, showFundModal }) {
 
                 <div className="my-20 w-full mx-auto">
                   <p className="text-center block w-full">
-                    Enter amount to add to your account
+                    Enter amount to borrow from the company
                   </p>
                   <input
                     type="number"
                     onChange={(e) => setNum(e.target.value)}
-                    placeholder="0 DAI"
+                    placeholder="0 GHO"
                     className="bg-transparent focus:outline-non border-white mt-4 text-3xl font-bold appearance-none text-center bg-red-500"
                   />
                 </div>
 
-                <div className="flex justify-between items-center mt-24">
-                  <span>Wallet Address: {address}</span>
-                  <IoCopyOutline className="text-2xl cursor-pointer" />
-                </div>
-
                 <div className="flex w-full items-center gap-3 mt-16">
                   <button
-                    onClick={() => setShowFundModal(false)}
+                    onClick={() => setShowDepositModal(false)}
                     className="w-full bg-zinc-500 text-white p-3 rounded-[8px]"
                   >
                     Cancel
@@ -152,7 +125,7 @@ export function FundModal({ setShowFundModal, showFundModal }) {
                     onClick={handleSubmit}
                     className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]"
                   >
-                    Fund Account
+                    Borrow Loan
                   </button>
                 </div>
               </Dialog.Panel>

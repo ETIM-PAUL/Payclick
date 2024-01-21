@@ -10,25 +10,25 @@ import { GlobalContext } from "../context/GlobalContext";
 import { TestTokenAddr } from "../const/contract";
 import { toast } from "react-toastify";
 
-export function FundModal({ setShowFundModal, showFundModal }) {
+export function DepositVault({ setShowDepositModal, showDepositModal }) {
   const { state } = useContext(GlobalContext);
   const [num, setNum] = useState("");
-  const { address } = useAccount();
   const [err, setErr] = useState("");
+  const { address } = useAccount();
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
     address: state.childAddress,
     abi: childABI,
-    functionName: "depositFund",
-    args: [Number(num) * 1e18],
+    functionName: "buyShares",
+    args: [address, Number(num) * 1e18, TestTokenAddr],
     onSuccess(data) {
       console.log("Success", data);
-      setShowFundModal(false)
-      toast.success("Transaction Approved");
+      setShowDepositModal(false)
+      toast.success("DAI Deposited into Vault Successfully");
 
     },
     onError() {
-      setErr("Error Occur when calling Deposit");
+      setErr("Error Occur when Depositing to Vault");
     },
   });
 
@@ -47,7 +47,7 @@ export function FundModal({ setShowFundModal, showFundModal }) {
       write?.();
     },
     onError() {
-      setErr("Error Occur when approving cotract");
+      setErr("Error Occur when approving contract");
     },
   });
 
@@ -72,7 +72,7 @@ export function FundModal({ setShowFundModal, showFundModal }) {
   return (
     <Transition appear show={true} as={Fragment}>
       <Dialog
-        open={showFundModal}
+        open={showDepositModal}
         onClose={() => null}
         className="z-10 bg-white"
       >
@@ -112,10 +112,10 @@ export function FundModal({ setShowFundModal, showFundModal }) {
                 ) : null}
 
                 <Dialog.Title className="text-start block text-3xl">
-                  Fund Account
+                  Deposit Into Vault
                 </Dialog.Title>
                 <Dialog.Description className="text-start block text-base w-[60%] mt-2">
-                  Amount funded into your account will be added directly from
+                  Amount funded into the vault will be added directly from
                   connected wallet
                 </Dialog.Description>
                 {err !== "" && (
@@ -126,7 +126,7 @@ export function FundModal({ setShowFundModal, showFundModal }) {
 
                 <div className="my-20 w-full mx-auto">
                   <p className="text-center block w-full">
-                    Enter amount to add to your account
+                    Enter amount to add to the vault
                   </p>
                   <input
                     type="number"
@@ -136,14 +136,9 @@ export function FundModal({ setShowFundModal, showFundModal }) {
                   />
                 </div>
 
-                <div className="flex justify-between items-center mt-24">
-                  <span>Wallet Address: {address}</span>
-                  <IoCopyOutline className="text-2xl cursor-pointer" />
-                </div>
-
                 <div className="flex w-full items-center gap-3 mt-16">
                   <button
-                    onClick={() => setShowFundModal(false)}
+                    onClick={() => setShowDepositModal(false)}
                     className="w-full bg-zinc-500 text-white p-3 rounded-[8px]"
                   >
                     Cancel
@@ -152,7 +147,7 @@ export function FundModal({ setShowFundModal, showFundModal }) {
                     onClick={handleSubmit}
                     className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]"
                   >
-                    Fund Account
+                    Vault Deposit
                   </button>
                 </div>
               </Dialog.Panel>

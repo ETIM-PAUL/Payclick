@@ -7,7 +7,7 @@ import childABI from '../const/childFact.json'
 import { toast } from 'react-toastify';
 
 export function MemberModal({ setMemberAdd, memberAdd }) {
-  const {state} =useContext(GlobalContext)
+  const { state } = useContext(GlobalContext)
   const [lastStep, setLastStep] = useState(false);
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -26,7 +26,7 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
     address: state.childAddress,
     abi: childABI,
     functionName: 'addStaff',
-    args:[[wallet],[salary],[name],[position],[email]],
+    args: [[wallet], [salary], [name], [position], [email]],
     onSuccess(data) {
       setLastStep(true)
       setName('')
@@ -38,28 +38,28 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
       toast.success('Staff Added');
 
     },
-   onError() {
+    onError() {
       setErr("Error Occur, Try Again");
     },
   })
 
 
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault()
-    
-    if(name===''||email===''||wallet===''||position===''||salary===''){
-     setErr('All fields required')
-    }else{
+
+    if (name === '' || email === '' || wallet === '' || position === '' || salary === '') {
+      setErr('All fields required')
+    } else {
       write?.()
 
 
     }
 
 
-      // console.log(groupWallet,groupSalary,groupName,groupPosition,groupMail)
-    }
-  
+    // console.log(groupWallet,groupSalary,groupName,groupPosition,groupMail)
+  }
+
 
   return (
     <Transition
@@ -93,14 +93,14 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
               className="bg-zinc-800 rounded-md text-white p-6"
             >
               <Dialog.Panel>
-              {isLoading ? (
-                    <div className="flex tems-center mt-[200px] absolute ">
-                      <span className="relative flex h-20 w-20 ml-[250px]">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
-                      </span>
-                    </div>
-                  ): null}
+                {isLoading ? (
+                  <div className="flex tems-center mt-[200px] absolute ">
+                    <span className="relative flex h-20 w-20 ml-[250px]">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-20 w-20 bg-[#63D9B9]"></span>
+                    </span>
+                  </div>
+                ) : null}
                 <div className='flex justify-between items-center'>
                   <Dialog.Title className="text-start block text-3xl">Add Member</Dialog.Title>
                   <span onClick={() => setMemberAdd(false)} className='font-bold text-right text-xl mb-2 cursor-pointer'>x</span>
@@ -121,19 +121,19 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                         <p className=''>
                           Full Name
                         </p>
-                        <input type="text" onChange={(e)=> setName(e.target.value)} placeholder="Member Name" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="text" onChange={(e) => setName(e.target.value)} placeholder="Member Name" className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                       <div className='mb-2 mt-4 w-full'>
                         <p className=''>
                           Email Address
                         </p>
-                        <input type="email" placeholder="Member Email"  onChange={(e)=> setEmail(e.target.value)}  className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="email" placeholder="Member Email" onChange={(e) => setEmail(e.target.value)} className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                       <div className='mb-2 mt-4 w-full'>
                         <p className=''>
                           Wallet Address
                         </p>
-                        <input type="text" placeholder="Wallet Address"  onChange={(e)=> setWallet(e.target.value)} className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="text" placeholder="Wallet Address" onChange={(e) => setWallet(e.target.value)} className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                     </div>
                     :
@@ -142,13 +142,13 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                         <p className=''>
                           Position
                         </p>
-                        <input type="text" placeholder="Software Developer" value={position}  onChange={(e)=>  setPosition(e.target.value)}  className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="text" placeholder="Software Developer" value={position} onChange={(e) => setPosition(e.target.value)} className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
                       <div className='mb-2 mt-4 w-full'>
                         <p className=''>
                           Salary
                         </p>
-                        <input type="number" placeholder="Salary in Dollars($)" onChange={(e)=> setSalary(e.target.value)}  className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
+                        <input type="number" placeholder="Salary in DAI Tokens" onChange={(e) => setSalary(e.target.value)} className='bg-transparent border rounded-lg mt-2 border-white text-xl p-2 outline-white focus:outline-0 font-bold appearance-none w-full' />
                       </div>
 
                     </div>
@@ -159,11 +159,11 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
                       <button onClick={() => setLastStep(true)} type='button' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Next Step</button>
                       :
                       <>
-                          <button onClick={() => setLastStep(false)} type='button' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Back</button>
-                      <button 
-                      // onClick={() => {setMemberAdd(false)}}
-                      onClick={handleSubmit}
-                       type='submit' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Add Member</button>
+                        <button onClick={() => setLastStep(false)} type='button' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Back</button>
+                        <button
+                          // onClick={() => {setMemberAdd(false)}}
+                          onClick={handleSubmit}
+                          type='submit' className="w-full bg-[#63D9B9] text-black p-3 rounded-[8px]">Add Member</button>
                       </>
                     }
                   </div>
