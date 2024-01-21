@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "paybox": {
+      "address": "0xF758BE839a31D6C1C701c21F9b211a2c2AD4788B",
+      "startBlock": 5127649
+    }
+  }
+}

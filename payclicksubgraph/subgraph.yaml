@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: paybox
+    network: sepolia
+    source:
+      address: "0xF758BE839a31D6C1C701c21F9b211a2c2AD4788B"
+      abi: paybox
+      startBlock: 5127649
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AccountCreated
+      abis:
+        - name: paybox
+          file: ./abis/paybox.json
+      eventHandlers:
+        - event: AccountCreated(indexed address,indexed address)
+          handler: handleAccountCreated
+      file: ./src/paybox.ts
