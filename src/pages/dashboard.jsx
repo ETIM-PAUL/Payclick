@@ -110,21 +110,12 @@ const Dashboard = () => {
   const { data: withdrawdata, fetching, error } = withdrawresult;
 
 
-
+  console.log(data)
   useEffect(() => {
     if (depositData != undefined && withdrawdata != undefined) {
       setcombinedData([...(depositData.tokenDeposits), ...(withdrawdata.withdrawTokens)])
     }
   }, [depositData, withdrawdata])
-
-
-  console.log('deposit data here', depositData);
-  if (fetchingDeposit) return <p>Loading...</p>;
-  if (depositError) return <p>Oh no... {depositError.message}</p>;
-
-  console.log('withdraw data here', withdrawdata);
-  if (fetching) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
 
   function convertTimestampToAMPM(timestamp) {
     const date = new Date(timestamp * 1000);
@@ -162,7 +153,7 @@ const Dashboard = () => {
                                 <div className="justify-between items-stretch flex gap-1 mt-20 max-md:mt-10">
                                   <div className="text-white text-4xl font-medium leading-10">
                                     {state?.childAddress === "" || isLoading || !data || !data[0]
-                                      ? "0.001" : Number(data[0]?.result) / 1e18
+                                      ? "0" : Number(data[0]?.result) / 1e18
                                     }
                                   </div>
                                   <div className="text-white text-2xl font-medium leading-8 self-center whitespace-nowrap my-auto">
@@ -191,10 +182,10 @@ const Dashboard = () => {
                                 For January
                               </div>
                               <div className="text-white text-base font-medium leading-6 tracking-normal self-center whitespace-nowrap mt-2">
-                                $
                                 {state.childAddress === "" || isLoading || !data || !data[1]
-                                  ? "0.00" : Number(data[1]?.result[0])
+                                  ? "0.00 " : data[1]?.result !== undefined && Number(data[1]?.result[0])
                                 }
+                                DAI
                               </div>
                             </div>
                           </div>
@@ -213,9 +204,10 @@ const Dashboard = () => {
                                 Outgoing Payments
                               </div>
                               <div className="text-black text-base font-medium leading-6 tracking-normal whitespace-nowrap mt-2">
-                                $ {state?.childAddress === "" || isLoading || !data || !data[2]
-                                  ? "0.00" : Number(data[2]?.result)
+                                {state?.childAddress === "" || isLoading || !data || !data[2]
+                                  ? "0.00 " : data[2]?.result !== undefined && Number(data[2]?.result)
                                 }
+                                DAI
                               </div>
                             </div>
                           </div>

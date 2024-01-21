@@ -1,16 +1,18 @@
 import { Fragment, useState, useContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoCopyOutline } from "react-icons/io5";
-import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
+import { useAccount, useContractReads, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
 import { GlobalContext } from '../context/GlobalContext';
 import childABI from '../const/childFact.json'
 import { toast } from 'react-toastify';
 import { TestTokenAddr } from '../const/contract';
 import { useParams } from 'react-router-dom';
+import tokenABI from "../const/token.json";
+import { formatUnits } from 'viem';
 
 export function RepayLoan({ setShowWithdrawnModal, showWithdrawnModal }) {
   const { address } = useAccount();
-  const [amount, setAmount] = useState('')
+  const [num, setNum] = useState('')
   const { state } = useContext(GlobalContext)
   const [err, setErr] = useState("");
   const { addr } = useParams();
@@ -27,15 +29,50 @@ export function RepayLoan({ setShowWithdrawnModal, showWithdrawnModal }) {
 
     },
   })
+
+  const { data: daiLoan, isError } = useContractReads({
+    contracts: [
+      {
+        address: addr,
+        abi: childABI,
+        functionName: "ghoPayback",
+        args: [address],
+        onSuccess(data) {
+          toast.success('Amount Approved');
+          setNum(Number(formatUnits(daiLoan[0]?.result, 18)));
+        },
+      },
+    ]
+  });
+
+  const {
+    data: approveData,
+    isLoading: approveLoading,
+    isSuccess: approveSuccess,
+    write: approveWrite,
+  } = useContractWrite({
+    address: TestTokenAddr,
+    abi: tokenABI,
+    functionName: "approve",
+    args: [addr, daiLoan && daiLoan[0]?.result],
+    onSuccess(approveData) {
+      toast.success('Amount Approved');
+      write?.();
+    },
+    onError() {
+      setErr("Error Occur when approving contract");
+    },
+  });
   // const { data, isLoading, isSuccess, write } = useContractWrite(config)
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErr('')
-    write?.()
+    approveWrite?.()
 
   }
   //  onClick={() => setShowWithdrawnModal(false)} 
+  console.log(daiLoan)
   return (
     <Transition
       appear
@@ -78,7 +115,7 @@ export function RepayLoan({ setShowWithdrawnModal, showWithdrawnModal }) {
                 ) : null}
                 <Dialog.Title className="text-start block text-3xl">Repay Loan</Dialog.Title>
                 <Dialog.Description className="text-start block text-base w-[60%] mt-2">
-                  You will paying back the loan in DAI Tokens
+                  You will paying back the loan in DAI Tokens with this amount {daiLoan && formatUnits(daiLoan[0]?.result, 18)}
                 </Dialog.Description>
                 {err !== "" && (
                   <h2 className=" w-[100%] bg-[red] text-white text-center text-[16px]  h-[30px]  mt-10 ">

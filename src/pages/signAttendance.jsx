@@ -53,6 +53,10 @@ const SignAttendance = () => {
       write?.();
     }
   };
+
+  console.log(data)
+
+
   return (
     // <Layout>
     <div className="bg-stone block pb-20 px-10">
@@ -63,7 +67,7 @@ const SignAttendance = () => {
             srcSet={logo}
             className="aspect-square object-contain object-center w-9 overflow-hidden shrink-0 max-w-full rounded-[50%]"
           />
-          <span className="font-bold text-xl">{data[0]}</span>
+          <span className="font-bold text-xl">{data !== undefined && data[0]}</span>
         </div>
         <ConnectButton />
       </div>
@@ -74,7 +78,7 @@ const SignAttendance = () => {
               <TopNav heading="Attendance" />
 
               <div className="flex gap-10">
-                <Link to={`/member_vault/${state?.childAddress}`}
+                <Link to={`/member_vault/${addr}`}
                   className="flex text-emerald-300 text-center text-base font-medium leading-6 tracking-normal whitespace-nowrap justify-center items-center border-emerald-500 border self-center px-5 py-3.5 rounded-lg mt-10 max-md:px-5"
                 >
                   <span>View Vault</span>

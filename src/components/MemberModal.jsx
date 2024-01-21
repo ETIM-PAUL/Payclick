@@ -14,12 +14,6 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
   const [wallet, setWallet] = useState('')
   const [position, setPosition] = useState('')
   const [salary, setSalary] = useState('')
-
-  const [groupName, setGroupName] = useState([])
-  const [groupMail, setGroupMail] = useState([])
-  const [groupWallet, setGroupWallet] = useState([])
-  const [groupPosition, setGroupPosition] = useState([])
-  const [groupSalary, setGroupSalary] = useState([])
   const [err, setErr] = useState("");
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
@@ -34,9 +28,8 @@ export function MemberModal({ setMemberAdd, memberAdd }) {
       setWallet('')
       setPosition('')
       setSalary('')
-      console.log(data)
+      setMemberAdd(false)
       toast.success('Staff Added');
-
     },
     onError() {
       setErr("Error Occur, Try Again");

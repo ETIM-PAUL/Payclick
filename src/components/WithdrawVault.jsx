@@ -23,23 +23,11 @@ export function WithdrawVault({ setShowWithdrawnModal, showWithdrawnModal }) {
     onSuccess(data) {
       console.log('Success', data)
       setShowWithdrawnModal(false)
-      toast.success("Transaction Successful");
+      toast.success("Withdrawal Successful");
 
     },
   })
   // const { data, isLoading, isSuccess, write } = useContractWrite(config);
-
-  const {
-    data: approveWait,
-    isError: approveWaitErr,
-    isLoading: approvewaitLoad,
-  } = useWaitForTransaction({
-    hash: data?.hash,
-    onError() {
-      setErr("Error Occur, Check your balance");
-    },
-
-  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -85,8 +73,7 @@ export function WithdrawVault({ setShowWithdrawnModal, showWithdrawnModal }) {
               className="bg-zinc-800 rounded-md text-white p-6"
             >
               <Dialog.Panel>
-                {isLoading ||
-                  approvewaitLoad ? (
+                {isLoading ? (
                   <div className="flex tems-center mt-[200px] absolute ">
                     <span className="relative flex h-20 w-20 ml-[250px]">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>

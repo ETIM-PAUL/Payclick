@@ -10,14 +10,14 @@ import { GlobalContext } from "../context/GlobalContext";
 import { TestTokenAddr } from "../const/contract";
 import { toast } from "react-toastify";
 
-export function DepositVault({ setShowDepositModal, showDepositModal }) {
+export function DepositVault({ childAddress, setShowDepositModal, showDepositModal }) {
   const { state } = useContext(GlobalContext);
   const [num, setNum] = useState("");
   const [err, setErr] = useState("");
   const { address } = useAccount();
 
   const { data, isLoading, isSuccess, write } = useContractWrite({
-    address: state.childAddress,
+    address: childAddress,
     abi: childABI,
     functionName: "buyShares",
     args: [address, Number(num) * 1e18, TestTokenAddr],
@@ -25,7 +25,6 @@ export function DepositVault({ setShowDepositModal, showDepositModal }) {
       console.log("Success", data);
       setShowDepositModal(false)
       toast.success("DAI Deposited into Vault Successfully");
-
     },
     onError() {
       setErr("Error Occur when Depositing to Vault");
@@ -41,7 +40,7 @@ export function DepositVault({ setShowDepositModal, showDepositModal }) {
     address: TestTokenAddr,
     abi: tokenABI,
     functionName: "approve",
-    args: [state.childAddress, Number(num) * 1e18],
+    args: [childAddress, Number(num) * 1e18],
     onSuccess(data) {
       toast.success('Amount Approved');
       write?.();

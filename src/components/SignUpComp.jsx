@@ -97,6 +97,7 @@ export default function SignUpComp() {
     onSuccess(data) {
       // console.log("Success", data);
       setSetup(true)
+      navigate("/dashboard")
     },
   });
 
@@ -126,9 +127,7 @@ export default function SignUpComp() {
   };
   useEffect(() => {
     if (address && readAcct !== '0x0000000000000000000000000000000000000000') {
-
       navigate("/dashboard")
-
     }
 
 
@@ -147,8 +146,8 @@ export default function SignUpComp() {
         </div>
       )}
       {!next ? (
-        <div className="bg-[black] formBackground w-[36%] ml-20 mt-10 rounded-lg pb-10">
-          <div className="w-[90%] mx-auto">
+        <div className="bg-[black] w-full flex justify-center mx-aut mt-10 rounded-lg pb-10">
+          <div className="w-full md:w-[50%] mx-auto formBackground p-8 rounded-md">
             <h2 className="pt-8 text-[36px] leading-[40px] text-white font-bold">
               Sign Up
             </h2>

@@ -9,57 +9,43 @@ import { currentDate } from "../utils";
 import { useParams } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import childABI from "../const/childFact.json";
-import { useContractRead, useContractWrite } from "wagmi";
+import { useAccount, useContractRead, useContractReads, useContractWrite } from "wagmi";
 import { toast } from "react-toastify";
 import { DepositVault } from "../components/DepositVault";
 import { WithdrawModal } from "../components/WithdrawModal";
 import { WithdrawVault } from "../components/WithdrawVault";
 import { BorrowLoanModal } from "../components/BorrowLoanModal";
 import { RepayLoan } from "../components/RepayLoan";
+import { formatUnits } from "viem";
 
 const MemberLoan = () => {
   const { addr } = useParams();
-  const [isChecked, setIsChecked] = useState(false);
+  const { address } = useAccount();
   const [showDepositModal, setShowDepositModal] = useState(false)
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
 
-  const { data, isError, isLoading } = useContractRead({
-    address: addr,
-    abi: childABI,
-    functionName: "companyDetails",
+  const { data, isError, isLoading } = useContractReads({
+    contracts: [
+      {
+        address: addr,
+        abi: childABI,
+        functionName: "companyDetails",
+      },
+      {
+        address: addr,
+        abi: childABI,
+        functionName: "loanBalance",
+        args: [address],
+      },
+      {
+        address: addr,
+        abi: childABI,
+        functionName: "previewEstimatedLoan",
+        args: [address],
+      },
+    ]
   });
 
-
-  const {
-    data: writeData,
-    isLoading: writeLoading,
-    isSuccess,
-    write,
-  } = useContractWrite({
-    address: addr,
-    abi: childABI,
-    functionName: "buyShares",
-    onSuccess(data) {
-      console.log(data)
-      toast.success("Dai Tokens Deposited successfully");
-    },
-    onError(error) {
-      console.log(error)
-      toast.error("jrpc error");
-    },
-  });
-  const handleCheckboxChange = () => {
-    // Toggle the checkbox state
-    setIsChecked(!isChecked);
-  };
-  const handleAttendance = (e) => {
-    e.preventDefault();
-    if (!isChecked) {
-      toast.error('check the checkbox')
-    } else {
-      write?.();
-    }
-  };
   return (
     // <Layout>
     <div className="bg-stone block pb-20 px-10">
@@ -70,7 +56,7 @@ const MemberLoan = () => {
             srcSet={logo}
             className="aspect-square object-contain object-center w-9 overflow-hidden shrink-0 max-w-full rounded-[50%]"
           />
-          <span className="font-bold text-xl">{data[0]}</span>
+          <span className="font-bold text-xl">{data?.length > 0 && data[0]?.result[0]}</span>
         </div>
         <ConnectButton />
       </div>
@@ -90,7 +76,7 @@ const MemberLoan = () => {
 
                     {/* Please show current date rime in this space */}
                     <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                      100
+                      <span className="font-bold text-xl">{data?.length > 0 && data[2]?.result ? formatUnits(data[2]?.result, 18) : 0} GHO</span>
                     </div>
                   </div>
                 </div>
@@ -102,7 +88,7 @@ const MemberLoan = () => {
 
                     {/* Please show current date rime in this space */}
                     <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                      100
+                      {data?.length > 0 && formatUnits(data[1]?.result, 18)} GHO
                     </div>
                   </div>
                 </div>

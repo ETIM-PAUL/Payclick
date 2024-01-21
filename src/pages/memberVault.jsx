@@ -7,56 +7,33 @@ import TopNav from "../components/TopNav";
 import { Link, useParams } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import childABI from "../const/childFact.json";
-import { useContractRead, useContractWrite } from "wagmi";
-import { toast } from "react-toastify";
+import { useAccount, useContractReads, useContractWrite } from "wagmi";
 import { DepositVault } from "../components/DepositVault";
 import { WithdrawVault } from "../components/WithdrawVault";
-import { GlobalContext } from "../context/GlobalContext";
+import { formatUnits } from "viem";
 
 const MemberVault = () => {
   const { addr } = useParams();
-  const [isChecked, setIsChecked] = useState(false);
-  const { dispatch, state } = useContext(GlobalContext)
+  const { address } = useAccount();
   const [showDepositModal, setShowDepositModal] = useState(false)
   const [showWithdrawnModal, setShowWithdrawnModal] = useState(false)
 
-  const { data, isError, isLoading } = useContractRead({
-    address: addr,
-    abi: childABI,
-    functionName: "companyDetails",
+  const { data, isError, isLoading } = useContractReads({
+    contracts: [
+      {
+        address: addr,
+        abi: childABI,
+        functionName: "companyDetails",
+      },
+      {
+        address: addr,
+        abi: childABI,
+        functionName: "vaultBalance",
+        args: [address],
+      },
+    ]
   });
-
-
-  const {
-    data: writeData,
-    isLoading: writeLoading,
-    isSuccess,
-    write,
-  } = useContractWrite({
-    address: addr,
-    abi: childABI,
-    functionName: "buyShares",
-    onSuccess(data) {
-      console.log(data)
-      toast.success("Dai Tokens Deposited successfully");
-    },
-    onError(error) {
-      console.log(error)
-      toast.error("jrpc error");
-    },
-  });
-  const handleCheckboxChange = () => {
-    // Toggle the checkbox state
-    setIsChecked(!isChecked);
-  };
-  const handleAttendance = (e) => {
-    e.preventDefault();
-    if (!isChecked) {
-      toast.error('check the checkbox')
-    } else {
-      write?.();
-    }
-  };
+  console.log(data)
   return (
     // <Layout>
     <div className="bg-stone block pb-20 px-10">
@@ -67,7 +44,7 @@ const MemberVault = () => {
             srcSet={logo}
             className="aspect-square object-contain object-center w-9 overflow-hidden shrink-0 max-w-full rounded-[50%]"
           />
-          <span className="font-bold text-xl">{data[0]}</span>
+          <span className="font-bold text-xl">{data?.length > 0 && data[0]?.result[0]}</span>
         </div>
         <ConnectButton />
       </div>
@@ -85,11 +62,11 @@ const MemberVault = () => {
 
                   {/* Please show current date rime in this space */}
                   <div className="text-white text-2xl leading-8 self-stretch whitespace-nowrap">
-                    100 DAI
+                    {data?.length > 0 && formatUnits(data[1]?.result, 18)} DAI
                   </div>
                 </div>
 
-                <Link to={`/member_loan/${state?.childAddress}`} className="text-wite flex items-center">
+                <Link to={`/member_loan/${addr}`} className="text-wite flex items-center">
                   <span className="font-bold text-emerald-300">Explore Loan</span>
                   <div>
                     <img
@@ -124,6 +101,7 @@ const MemberVault = () => {
       {/* Fund Modal */}
       {showDepositModal && (
         <DepositVault
+          childAddress={addr}
           setShowDepositModal={setShowDepositModal}
           showDepositModal={showDepositModal}
         />
